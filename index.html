@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#111418">
+  <title>RimWorld：白牡丹 · 前端原型</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">
+  <link rel="stylesheet" href="rimworld-ui.css">
+</head>
+<body>
+  <main id="app" class="app-shell">
+    <section id="screen-menu" class="screen menu-screen is-active" aria-label="游戏主菜单">
+      <div class="star-field star-field-a" aria-hidden="true"></div>
+      <div class="star-field star-field-b" aria-hidden="true"></div>
+      <div class="orbit-glow" aria-hidden="true"></div>
+      <div class="rim-planet" aria-hidden="true">
+        <span class="planet-cloud cloud-a"></span>
+        <span class="planet-cloud cloud-b"></span>
+        <span class="planet-night"></span>
+      </div>
+      <div class="menu-ship" aria-hidden="true">
+        <i class="ship-wing wing-left"></i>
+        <i class="ship-wing wing-right"></i>
+        <i class="ship-core"></i>
+        <i class="ship-flare"></i>
+      </div>
+
+      <div class="menu-interface">
+        <p class="build-label">版本 1.6.4550 · 原型构建 02</p>
+        <div class="menu-keyart" aria-hidden="true">
+          <i class="keyart-hair"></i><i class="keyart-horn horn-a"></i><i class="keyart-horn horn-b"></i>
+          <i class="keyart-face"></i><i class="keyart-body"></i><i class="keyart-blade"></i>
+        </div>
+        <div class="game-logo" aria-label="RimWorld 白牡丹">
+          <span class="logo-kicker">Ludeon-inspired interface study</span>
+          <h1><span>RIM</span>WORLD</h1>
+          <p>白牡丹 · 萌螈坠落</p>
+        </div>
+
+        <nav class="main-menu" aria-label="主菜单">
+          <button class="rim-button" type="button" data-demo="教程模式将在角色卡正式打包时接入。"><span>教程</span><small>TUTORIAL</small></button>
+          <button class="rim-button primary" id="startGame" type="button">
+            <span>新建殖民地</span><small>NEW COLONY</small>
+          </button>
+          <button class="rim-button" type="button" data-demo="当前没有可读取的殖民地存档。"><span>载入游戏</span><small>LOAD GAME</small></button>
+          <button class="rim-button" type="button" data-demo="选项将在正式版中接入。"><span>选项</span><small>OPTIONS</small></button>
+          <button class="rim-button" type="button" data-demo="已启用：萌螈 · 白牡丹剧情模组。"><span>模组</span><small>MODS</small></button>
+          <button class="rim-button" type="button" data-demo="白牡丹企划 · 静态交互原型。"><span>制作人员</span><small>CREDITS</small></button>
+          <button class="rim-button" type="button" data-demo="浏览器原型不会关闭当前页面。"><span>退出至桌面</span><small>QUIT TO OS</small></button>
+        </nav>
+
+        <div class="menu-links">
+          <button type="button" data-demo="当前为离线原型。">更新日志</button>
+          <button type="button" data-demo="故事设定：边缘世界 × 萌螈。">故事背景</button>
+        </div>
+        <p class="menu-hint">选择“新建殖民地”进入序章</p>
+      </div>
+    </section>
+
+    <section id="screen-manga" class="screen manga-screen" aria-label="坠落序章">
+      <header class="manga-header">
+        <div>
+          <span class="chapter-mark">序章</span>
+          <strong>错误航线</strong>
+        </div>
+        <div class="manga-progress" id="mangaProgress" aria-label="漫画进度"></div>
+        <button class="text-button" id="skipManga" type="button">跳过序章</button>
+      </header>
+
+      <div class="manga-viewport" id="mangaViewport">
+        <article class="manga-page is-current" data-page="0">
+          <div class="comic-panel fleet-panel" aria-hidden="true">
+            <div class="fleet-moon"></div>
+            <div class="capital-ship ship-one"><i></i><b></b></div>
+            <div class="capital-ship ship-two"><i></i><b></b></div>
+            <div class="mech-swarm"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="laser laser-a"></div><div class="laser laser-b"></div>
+            <div class="impact-flash"></div>
+          </div>
+          <div class="caption-card">
+            <span>01 / 舰队遇袭</span>
+            <h2>机械族撕开了萌螈舰队的防线。</h2>
+            <p>白牡丹知道，这不是一次普通的伏击。</p>
+          </div>
+        </article>
+
+        <article class="manga-page" data-page="1">
+          <div class="comic-panel corridor-panel" aria-hidden="true">
+            <div class="corridor-lines"></div>
+            <div class="guard guard-a"><i></i><b></b></div>
+            <div class="guard guard-b"><i></i><b></b></div>
+            <div class="peony-runner"><i class="runner-hair"></i><i class="runner-horn left"></i><i class="runner-horn right"></i><b></b></div>
+            <div class="escape-door"><span>ESCAPE POD 07</span></div>
+            <div class="corridor-shot shot-a"></div><div class="corridor-shot shot-b"></div>
+          </div>
+          <div class="caption-card">
+            <span>02 / 紧急撤离</span>
+            <h2>卫队留下阻击，她被迫进入逃生舱。</h2>
+            <p>目标航线已经锁定：萌螈王朝。</p>
+          </div>
+        </article>
+
+        <article class="manga-page" data-page="2">
+          <div class="comic-panel horax-panel" aria-hidden="true">
+            <div class="horax-rings ring-a"></div><div class="horax-rings ring-b"></div><div class="horax-rings ring-c"></div>
+            <div class="horax-eye"><i></i></div>
+            <div class="signal-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="pod-vector"><b></b><i></i></div>
+            <span class="route-old">萌螈王朝</span><span class="route-new">未知边缘世界</span>
+          </div>
+          <div class="caption-card dark-caption">
+            <span>03 / 黑暗干扰</span>
+            <h2>霍拉克斯侵入导航，重写了逃生舱航线。</h2>
+            <p>一个黑暗超凡智能，正注视着她的坠落。</p>
+          </div>
+        </article>
+
+        <article class="manga-page" data-page="3">
+          <div class="comic-panel crash-panel" aria-hidden="true">
+            <div class="dawn-sky"></div>
+            <div class="distant-hill hill-a"></div><div class="distant-hill hill-b"></div>
+            <div class="crash-pod"><i></i><b></b></div>
+            <div class="fire-tail"></div>
+            <div class="colony-hut"><i></i></div>
+            <div class="crash-ground"></div>
+          </div>
+          <div class="caption-card">
+            <span>04 / 殖民地边界</span>
+            <h2>黎明前，逃生舱坠毁在一座新殖民地附近。</h2>
+            <p>这里没有王朝舰队，只有一个刚安顿下来的殖民者。</p>
+          </div>
+        </article>
+
+        <article class="manga-page" data-page="4">
+          <div class="comic-panel rescue-panel" aria-hidden="true">
+            <div class="rescue-light"></div>
+            <div class="open-pod"><i></i><b></b></div>
+            <div class="peony-silhouette"><i class="hair"></i><i class="horn horn-l"></i><i class="horn horn-r"></i><b class="dress"></b><em class="blade"></em></div>
+            <div class="colonist-silhouette"><i></i><b></b></div>
+            <div class="rescue-grass"></div>
+          </div>
+          <div class="caption-card final-caption">
+            <span>05 / 相遇</span>
+            <h2>你在残骸中发现了重伤昏迷的白牡丹。</h2>
+            <p>她的手边，仍紧握着那柄名为“古锭刀”的武器。</p>
+            <button class="enter-colony" id="enterColony" type="button">继续创建殖民地</button>
+          </div>
+        </article>
+
+        <button class="manga-nav prev" id="mangaPrev" type="button" aria-label="上一页">‹</button>
+        <button class="manga-nav next" id="mangaNext" type="button" aria-label="下一页">›</button>
+        <p class="manga-help">点击画面或使用 ← → 翻页</p>
+      </div>
+    </section>
+
+    <section id="screen-scenario" class="screen setup-screen" aria-label="选择剧本">
+      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="rim-page-window scenario-window">
+        <h2>选择剧本</h2>
+        <div class="scenario-layout">
+          <div class="scenario-list" id="scenarioList" role="listbox" aria-label="剧本列表">
+            <button type="button" data-scenario="crashlanded"><b>坠毁</b><span>三名坠毁幸存者——经典的 RimWorld 体验。</span></button>
+            <button type="button" data-scenario="tribe"><b>失落部落</b><span>五名失去家园的部落民尝试重建。困难。</span></button>
+            <button type="button" data-scenario="explorer"><b>富有的探险家</b><span>一名富有探险家独自体验宇宙。极难。</span></button>
+            <button type="button" data-scenario="naked"><b>赤身裸体</b><span>赤裸、孤身且毫无准备。极端困难且不公平。</span></button>
+            <p>自定义</p>
+            <button class="is-selected" type="button" data-scenario="peony"><b>白牡丹：边缘定居者</b><span>一名殖民者刚刚安顿下来，一枚错误航行的逃生舱即将坠落。</span></button>
+          </div>
+          <article class="scenario-detail" id="scenarioDetail"></article>
+        </div>
+        <div class="page-actions">
+          <button type="button" data-setup-back="screen-manga">返回</button>
+          <button type="button" data-demo="剧本编辑器不属于本卡的主要流程。">剧本编辑器</button>
+          <button class="next-action" id="scenarioNext" type="button">下一步</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-storyteller" class="screen setup-screen" aria-label="选择人工智能叙事者">
+      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="rim-page-window storyteller-window">
+        <h2>选择人工智能叙事者</h2>
+        <div class="storyteller-layout">
+          <div class="storyteller-thumbs" id="storytellerThumbs">
+            <button class="is-selected cassandra" type="button" data-storyteller="cassandra"><i></i><span>卡桑德拉·经典</span></button>
+            <button class="phoebe" type="button" data-storyteller="phoebe"><i></i><span>菲比·悠闲</span></button>
+            <button class="randy" type="button" data-storyteller="randy"><i></i><span>兰迪·随机</span></button>
+          </div>
+          <div class="storyteller-copy">
+            <p class="storyteller-help">人工智能叙事者会制造海盗袭击、空投舱和动物袭击等事件。他们的选择会影响殖民地的故事，且可以在设置中更改。</p>
+            <h3 id="storytellerName">卡桑德拉·经典</h3>
+            <p id="storytellerDescription">卡桑德拉按照经典的紧张曲线制造事件。她会施加压力，留下喘息时间，然后再次推动故事。</p>
+            <fieldset class="radio-stack" id="difficultyChoices">
+              <legend>难度</legend>
+              <label><input type="radio" name="difficulty" value="peaceful"><i></i>和平</label>
+              <label><input type="radio" name="difficulty" value="community"><i></i>社区建造者</label>
+              <label><input type="radio" name="difficulty" value="adventure" checked><i></i>冒险故事</label>
+              <label><input type="radio" name="difficulty" value="strive"><i></i>努力求生</label>
+              <label><input type="radio" name="difficulty" value="blood"><i></i>血与尘</label>
+              <label><input type="radio" name="difficulty" value="losing"><i></i>输亦为趣</label>
+              <label><input type="radio" name="difficulty" value="custom"><i></i>自定义……</label>
+            </fieldset>
+            <button class="anomaly-settings-button" type="button" data-demo="异象设置会保留原版开局参数；本原型不改变剧情路线。">异象设置</button>
+            <fieldset class="radio-stack save-mode">
+              <legend>存档模式</legend>
+              <label><input type="radio" name="saveMode" value="reload" checked><i></i>随时读取模式</label>
+              <label><input type="radio" name="saveMode" value="commitment"><i></i>永久承诺模式</label>
+            </fieldset>
+          </div>
+          <div class="storyteller-portrait cassandra-art" id="storytellerPortrait" aria-hidden="true"><i class="portrait-head"></i><i class="portrait-hair"></i><i class="portrait-body"></i><i class="portrait-accent"></i></div>
+        </div>
+        <div class="page-actions">
+          <button type="button" data-setup-back="screen-scenario">返回</button>
+          <span aria-hidden="true"></span>
+          <button class="next-action" id="storytellerNext" type="button">下一步</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-world" class="screen setup-screen" aria-label="创建世界">
+      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="rim-page-window world-window">
+        <h2>创建世界</h2>
+        <div class="world-creation-layout">
+          <form class="world-settings" id="worldSettings">
+            <label class="seed-row"><span>种子</span><input id="worldSeed" type="text" value="white peony"></label>
+            <button class="world-setting-button" id="randomSeed" type="button">随机种子</button>
+            <label><span>星球覆盖率</span><select id="globeCoverage"><option>30%</option><option selected>50%</option><option>100%</option></select></label>
+            <label><span>总体降雨量</span><input type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
+            <label><span>总体温度</span><input type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
+            <label><span>人口密度</span><input type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
+          </form>
+          <aside class="faction-editor" aria-label="派系列表">
+            <header><div><span>派系</span><small>生成世界后仍可查看</small></div><button id="addFaction" type="button" aria-label="添加派系">＋</button></header>
+            <div class="faction-list" id="factionList">
+              <article data-faction="civil"><i class="fac civil"></i><div><b>友善外来者联盟</b><small>文明外来者</small></div><button type="button" aria-label="移除友善外来者联盟">×</button></article>
+              <article data-faction="rough"><i class="fac rough"></i><div><b>粗暴外来者联盟</b><small>粗暴外来者</small></div><button type="button" aria-label="移除粗暴外来者联盟">×</button></article>
+              <article data-faction="gentle-tribe"><i class="fac tribe gentle"></i><div><b>友好部落</b><small>温和部落</small></div><button type="button" aria-label="移除友好部落">×</button></article>
+              <article data-faction="fierce-tribe"><i class="fac tribe fierce"></i><div><b>凶猛部落</b><small>凶猛部落</small></div><button type="button" aria-label="移除凶猛部落">×</button></article>
+              <article data-faction="pirates"><i class="fac pirates"></i><div><b>海盗团</b><small>永久敌对</small></div><button type="button" aria-label="移除海盗团">×</button></article>
+              <article data-faction="empire"><i class="fac empire"></i><div><b>破碎帝国</b><small>王权</small></div><button type="button" aria-label="移除破碎帝国">×</button></article>
+            </div>
+            <button class="reset-factions" id="resetFactions" type="button">重置派系</button>
+          </aside>
+        </div>
+        <div class="page-actions">
+          <button type="button" data-setup-back="screen-storyteller">返回</button>
+          <button type="button" id="resetWorld">全部重置</button>
+          <button class="next-action" id="generateWorld" type="button">生成</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-landing" class="screen landing-screen" aria-label="选择着陆点">
+      <div class="landing-stars" aria-hidden="true"></div>
+      <h2>选择着陆点</h2>
+      <div class="world-globe" id="worldGlobe" aria-label="可选择着陆点的星球">
+        <canvas class="world-globe-canvas" id="worldGlobeCanvas" tabindex="0" aria-label="拖拽旋转星球，滚轮缩放，点击五边形或六边形地域单元选择着陆点"></canvas>
+        <div class="globe-atmosphere" aria-hidden="true"></div>
+        <div class="globe-site-layer" id="globeSiteLayer">
+          <button class="world-site friendly" data-site="forest" data-name="绿谷联盟" data-lat="23" data-lon="-43" type="button" aria-label="温带森林聚落">⌂</button>
+          <button class="world-site hostile" data-site="desert" data-name="赤岩海盗团" data-lat="-18" data-lon="38" type="button" aria-label="干旱灌木地敌对聚落">☠</button>
+          <button class="world-site tribe" data-site="mountain" data-name="灰脊部落" data-lat="34" data-lon="82" type="button" aria-label="山地部落聚落">▲</button>
+          <button class="world-site empire" data-site="forest" data-name="帝国辖地" data-lat="8" data-lon="-112" type="button" aria-label="帝国聚落">♜</button>
+          <button class="world-site friendly" data-site="tundra" data-name="北风联盟" data-lat="62" data-lon="7" type="button" aria-label="苔原聚落">⌂</button>
+          <button class="world-site hostile" data-site="desert" data-name="骸骨湾" data-lat="-31" data-lon="-74" type="button" aria-label="敌对聚落">☠</button>
+          <button class="world-site tribe" data-site="mountain" data-name="石丘部落" data-lat="5" data-lon="131" type="button" aria-label="部落聚落">▲</button>
+          <button class="world-site friendly" data-site="forest" data-name="晨星联盟" data-lat="-7" data-lon="-9" type="button" aria-label="友善聚落">⌂</button>
+          <button class="landing-marker" id="landingMarker" type="button" aria-label="当前着陆点"></button>
+        </div>
+        <p class="globe-controls-hint">拖拽旋转 · 滚轮缩放 · 点击独立地域单元</p>
+        <p class="globe-fallback" id="globeFallback" hidden>当前设备无法启用 WebGL，已切换为简化星球。</p>
+      </div>
+      <aside class="landing-sidebar">
+        <div class="landing-tabs" role="tablist"><button class="is-active" type="button" role="tab">地形</button><button type="button" role="tab" data-demo="星球视图：覆盖率 50%，当前显示派系与聚落。">星球</button></div>
+        <div class="site-info" id="siteInfo">
+          <h3>着陆点信息</h3>
+          <p class="site-biome-copy">选择地表地块以查看详细信息。</p>
+          <dl><dt>地块</dt><dd>尚未选择</dd><dt>地域单元</dt><dd>—</dd><dt>生态区</dt><dd>—</dd><dt>移动难度</dt><dd>—</dd><dt>地形</dt><dd>—</dd><dt>石材类型</dt><dd>—</dd><dt>道路</dt><dd>—</dd><dt>河流</dt><dd>—</dd><dt>平均温度</dt><dd>—</dd><dt>降雨量</dt><dd>—</dd><dt>生长周期</dt><dd>—</dd></dl>
+        </div>
+        <section class="planet-summary"><b>世界</b><span>white peony</span><small>642 个地域单元 · 12 个五边形 + 630 个六边形</small></section>
+      </aside>
+      <div class="landing-compass" aria-hidden="true"><i>N</i><i>E</i><i>S</i><i>W</i></div>
+      <div class="landing-actions">
+        <button type="button" data-setup-back="screen-world">返回</button>
+        <button type="button" data-demo="高级设置：地图尺寸 250×250，起始季节自动。">高级</button>
+        <button type="button" id="randomSite">随机着陆点</button>
+        <button type="button" data-demo="当前世界包含原版派系与破碎帝国。">派系</button>
+        <button class="next-action" id="landingNext" type="button" disabled>下一步</button>
+      </div>
+    </section>
+
+    <section id="screen-colonists" class="screen setup-screen" aria-label="选择起始殖民者">
+      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="rim-page-window colonist-window">
+        <h2>选择你的殖民者</h2>
+        <div class="colonist-creator">
+          <aside class="candidate-list" id="candidateList">
+            <span>已选择</span>
+            <button class="is-selected" data-candidate="lin" type="button"><b>林</b><small>空间站工程师</small></button>
+            <span>未被选择</span>
+            <button data-candidate="mira" type="button"><b>米拉</b><small>乡村医生</small></button>
+            <button data-candidate="grey" type="button"><b>格雷</b><small>佣兵</small></button>
+            <button data-candidate="yan" type="button"><b>燕</b><small>作物学家</small></button>
+            <button data-candidate="sol" type="button"><b>索尔</b><small>矿工</small></button>
+            <button data-candidate="nora" type="button"><b>诺拉</b><small>流浪学者</small></button>
+            <button data-candidate="axel" type="button"><b>阿克塞尔</b><small>商队护卫</small></button>
+            <button data-candidate="mei" type="button"><b>梅</b><small>厨师</small></button>
+          </aside>
+          <article class="candidate-detail">
+            <div class="candidate-topline"><div><input id="candidateFirstName" value="林" aria-label="名字"><input id="candidateNickName" value="林" aria-label="昵称"><input id="candidateLastName" value="" aria-label="姓氏"></div><button id="randomizePawn" type="button">随机</button></div>
+            <p id="candidateSummary">新来者阵营成员，女性，生理年龄 27 岁。</p>
+            <div class="pawn-data-grid">
+              <section><h3>背景</h3><dl id="backstoryData"><dt>童年</dt><dd>轨道贫民</dd><dt>成年</dt><dd>空间站工程师</dd></dl><h3>无法从事</h3><p id="incapableData">无</p><h3>特性</h3><p id="traitData">勤劳<br>坚韧</p></section>
+              <section><h3>技能</h3><div class="skills-list" id="skillsData"></div></section>
+              <section><div class="pawn-preview" id="pawnPreview" aria-hidden="true"><i></i><b></b></div><div class="candidate-view-toggles"><label><input type="checkbox" checked>显示头部装备</label><label><input type="checkbox" checked>显示服装</label></div><h3>健康</h3><p id="healthData">全身：健康</p><h3>关系</h3><p id="relationData">没有关系</p><h3>装备</h3><p id="gearData">简陋自动手枪<br>基础衣物</p></section>
+            </div>
+            <div class="team-skills"><h3>团队技能</h3><div id="teamSkills"></div></div>
+          </article>
+        </div>
+        <div class="page-actions">
+          <button type="button" data-setup-back="screen-landing">返回</button>
+          <button type="button" data-demo="角色编辑器不会改变白牡丹的固定设定。">角色编辑器</button>
+          <button class="next-action" id="startColony" type="button">开始故事</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="loading-curtain" id="loadingCurtain" aria-hidden="true"><div><span></span><p>正在生成世界……</p></div></div>
+  <div class="global-toast" id="globalToast" role="status" aria-live="polite"></div>
+  <script src="rimworld-ui.js"></script>
+</body>
+</html>
