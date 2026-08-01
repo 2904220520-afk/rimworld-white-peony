@@ -257,20 +257,25 @@
       <div class="landing-stars" aria-hidden="true"></div>
       <h2>选择着陆点</h2>
       <div class="world-globe" id="worldGlobe" aria-label="可选择着陆点的星球">
-        <canvas class="world-globe-canvas" id="worldGlobeCanvas" tabindex="0" aria-label="拖拽旋转星球，滚轮缩放，点击五边形或六边形地域单元选择着陆点"></canvas>
+        <canvas class="world-globe-canvas" id="worldGlobeCanvas" tabindex="0" aria-label="拖拽旋转星球，滚轮或双指缩放，点击五边形或六边形地域单元选择着陆点"></canvas>
         <div class="globe-atmosphere" aria-hidden="true"></div>
         <div class="globe-site-layer" id="globeSiteLayer">
           <button class="world-site friendly" data-site="forest" data-name="绿谷联盟" data-lat="23" data-lon="-43" type="button" aria-label="温带森林聚落">⌂</button>
-          <button class="world-site hostile" data-site="desert" data-name="赤岩海盗团" data-lat="-18" data-lon="38" type="button" aria-label="干旱灌木地敌对聚落">☠</button>
+          <button class="world-site hostile" data-site="desert" data-name="赤岩海盗团" data-lat="-18" data-lon="38" type="button" aria-label="干旱灌木原敌对聚落">☠</button>
           <button class="world-site tribe" data-site="mountain" data-name="灰脊部落" data-lat="34" data-lon="82" type="button" aria-label="山地部落聚落">▲</button>
           <button class="world-site empire" data-site="forest" data-name="帝国辖地" data-lat="8" data-lon="-112" type="button" aria-label="帝国聚落">♜</button>
-          <button class="world-site friendly" data-site="tundra" data-name="北风联盟" data-lat="62" data-lon="7" type="button" aria-label="苔原聚落">⌂</button>
+          <button class="world-site friendly" data-site="tundra" data-name="北风联盟" data-lat="62" data-lon="7" type="button" aria-label="冻土苔原聚落">⌂</button>
           <button class="world-site hostile" data-site="desert" data-name="骸骨湾" data-lat="-31" data-lon="-74" type="button" aria-label="敌对聚落">☠</button>
           <button class="world-site tribe" data-site="mountain" data-name="石丘部落" data-lat="5" data-lon="131" type="button" aria-label="部落聚落">▲</button>
           <button class="world-site friendly" data-site="forest" data-name="晨星联盟" data-lat="-7" data-lon="-9" type="button" aria-label="友善聚落">⌂</button>
           <button class="landing-marker" id="landingMarker" type="button" aria-label="当前着陆点"></button>
         </div>
-        <p class="globe-controls-hint">拖拽旋转 · 滚轮缩放 · 点击独立地域单元</p>
+        <div class="globe-zoom-controls" aria-label="星球视角控制">
+          <button id="globeZoomIn" type="button" aria-label="放大星球">＋</button>
+          <button id="globeZoomOut" type="button" aria-label="缩小星球">－</button>
+          <button id="globeResetView" type="button">重置</button>
+        </div>
+        <p class="globe-controls-hint">拖拽旋转 · 滚轮/双指缩放 · 双击拉近 · 点击选择</p>
         <p class="globe-fallback" id="globeFallback" hidden>当前设备无法启用 WebGL，已切换为简化星球。</p>
       </div>
       <aside class="landing-sidebar">
@@ -280,7 +285,7 @@
           <p class="site-biome-copy">选择地表地块以查看详细信息。</p>
           <dl><dt>地块</dt><dd>尚未选择</dd><dt>地域单元</dt><dd>—</dd><dt>生态区</dt><dd>—</dd><dt>移动难度</dt><dd>—</dd><dt>地形</dt><dd>—</dd><dt>石材类型</dt><dd>—</dd><dt>道路</dt><dd>—</dd><dt>河流</dt><dd>—</dd><dt>平均温度</dt><dd>—</dd><dt>降雨量</dt><dd>—</dd><dt>生长周期</dt><dd>—</dd></dl>
         </div>
-        <section class="planet-summary"><b>世界</b><span>white peony</span><small>642 个地域单元 · 12 个五边形 + 630 个六边形</small></section>
+        <section class="planet-summary"><b>世界</b><span>white peony</span><small>1,962 个地域单元 · 12 个五边形 + 1,950 个六边形</small></section>
       </aside>
       <div class="landing-compass" aria-hidden="true"><i>N</i><i>E</i><i>S</i><i>W</i></div>
       <div class="landing-actions">

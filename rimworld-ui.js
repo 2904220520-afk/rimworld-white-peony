@@ -35,19 +35,41 @@
   };
 
   const siteData = {
-    forest: { tile:"阿尔比昂山谷 · 42.16°N", biome:"温带森林", description:"树木繁茂、降雨适中的森林地带，适合长期定居。", movement:"2.2 天", terrain:"大型丘陵", stone:"花岗岩、大理石、石灰岩", elevation:"海拔 486 米", road:"古代沥青路", river:"小河", temperature:"年均 16℃", range:"4℃ 至 29℃", rainfall:"1,240 毫米", growing:"四季生长", forage:"100%", disease:"1.0 / 年" },
-    desert: { tile:"红沙边地 · 18.04°S", biome:"干旱灌木地", description:"炎热干燥的灌木地，植被稀疏但仍能维持农耕。", movement:"1.0 天", terrain:"平原", stone:"砂岩、石灰岩", elevation:"海拔 214 米", road:"无", river:"无", temperature:"年均 28℃", range:"15℃ 至 42℃", rainfall:"310 毫米", growing:"全年生长", forage:"80%", disease:"1.2 / 年" },
-    mountain: { tile:"灰脊山脉 · 35.72°N", biome:"温带森林", description:"岩层密集的山地森林，可用耕地有限，天然防御良好。", movement:"3.5 天", terrain:"山地", stone:"花岗岩、板岩、大理石", elevation:"海拔 1,368 米", road:"土路", river:"无", temperature:"年均 11℃", range:"-3℃ 至 25℃", rainfall:"930 毫米", growing:"40 / 60 天", forage:"90%", disease:"0.8 / 年" },
-    tundra: { tile:"白风原 · 61.22°N", biome:"苔原", description:"寒冷而少树的高纬地带，生长期很短。", movement:"1.5 天", terrain:"小型丘陵", stone:"板岩、花岗岩", elevation:"海拔 392 米", road:"无", river:"小溪", temperature:"年均 -5℃", range:"-28℃ 至 12℃", rainfall:"420 毫米", growing:"20 / 60 天", forage:"50%", disease:"0.3 / 年" }
+    forest: { tile:"阿尔比昂山谷 · 42.16°N", biome:"温带森林", description:"生态群落：温带森林", movement:"2.2 天", terrain:"大型丘陵", stone:"花岗岩、大理石、石灰岩", elevation:"海拔 486 米", road:"古代沥青路", river:"河流", temperature:"年均 16℃", range:"4℃ 至 29℃", rainfall:"1,240 毫米", growing:"四季生长", forage:"100%", disease:"1.0 / 年" },
+    desert: { tile:"红沙边地 · 18.04°S", biome:"干旱灌木原", description:"生态群落：干旱灌木原", movement:"1.0 天", terrain:"平原", stone:"砂岩、石灰岩", elevation:"海拔 214 米", road:"无", river:"无", temperature:"年均 28℃", range:"15℃ 至 42℃", rainfall:"310 毫米", growing:"全年生长", forage:"80%", disease:"1.2 / 年" },
+    mountain: { tile:"灰脊山脉 · 35.72°N", biome:"温带森林", description:"生态群落：温带森林", movement:"3.5 天", terrain:"山地", stone:"花岗岩、板岩、大理石", elevation:"海拔 1,368 米", road:"土路", river:"无", temperature:"年均 11℃", range:"-3℃ 至 25℃", rainfall:"930 毫米", growing:"40 / 60 天", forage:"90%", disease:"0.8 / 年" },
+    tundra: { tile:"白风原 · 61.22°N", biome:"冻土苔原", description:"生态群落：冻土苔原", movement:"1.5 天", terrain:"小型丘陵", stone:"板岩、花岗岩", elevation:"海拔 392 米", road:"无", river:"小溪", temperature:"年均 -5℃", range:"-28℃ 至 12℃", rainfall:"420 毫米", growing:"20 / 60 天", forage:"50%", disease:"0.3 / 年" }
   };
 
   const planetBiomes = [
-    { id:0, key:"ocean", name:"海洋", color:[0.045, 0.145, 0.215] },
-    { id:1, key:"desert", name:"沙漠", color:[0.76, 0.64, 0.30] },
-    { id:2, key:"temperate", name:"温带森林", color:[0.47, 0.64, 0.36] },
-    { id:3, key:"tropical", name:"热带雨林", color:[0.12, 0.34, 0.18] },
-    { id:4, key:"cold", name:"寒带气候", color:[0.64, 0.76, 0.79] },
-    { id:5, key:"ice", name:"冰原", color:[0.39, 0.57, 0.65] }
+    { id:0, key:"ocean", name:"海洋", color:[0.035, 0.115, 0.190] },
+    { id:1, key:"temperateForest", name:"温带森林", color:[0.430, 0.620, 0.310] },
+    { id:2, key:"temperateSwamp", name:"温带沼泽", color:[0.300, 0.470, 0.245] },
+    { id:3, key:"borealForest", name:"寒带森林", color:[0.275, 0.430, 0.345] },
+    { id:4, key:"coldBog", name:"寒带沼泽", color:[0.335, 0.490, 0.455] },
+    { id:5, key:"tropicalRainforest", name:"热带雨林", color:[0.075, 0.295, 0.135] },
+    { id:6, key:"tropicalSwamp", name:"热带沼泽", color:[0.095, 0.235, 0.155] },
+    { id:7, key:"aridShrubland", name:"干旱灌木原", color:[0.625, 0.555, 0.295] },
+    { id:8, key:"desert", name:"沙漠", color:[0.775, 0.650, 0.310] },
+    { id:9, key:"extremeDesert", name:"极端沙漠", color:[0.710, 0.545, 0.250] },
+    { id:10, key:"tundra", name:"冻土苔原", color:[0.475, 0.575, 0.545] },
+    { id:11, key:"iceSheet", name:"冰原", color:[0.465, 0.615, 0.690] },
+    { id:12, key:"seaIce", name:"海洋冰盖", color:[0.675, 0.785, 0.830] }
+  ];
+
+  const roadTypes = [
+    { name:"小径", priority:1, color:[0.46, 0.37, 0.24] },
+    { name:"土路", priority:2, color:[0.61, 0.43, 0.22] },
+    { name:"石路", priority:3, color:[0.58, 0.58, 0.53] },
+    { name:"古代沥青路", priority:4, color:[0.27, 0.29, 0.29] },
+    { name:"古代沥青公路", priority:5, color:[0.39, 0.41, 0.40] }
+  ];
+
+  const riverTypes = [
+    { name:"小溪", priority:1, color:[0.22, 0.54, 0.73] },
+    { name:"河流", priority:2, color:[0.16, 0.47, 0.70] },
+    { name:"大河", priority:3, color:[0.10, 0.39, 0.66] },
+    { name:"巨河", priority:4, color:[0.07, 0.31, 0.59] }
   ];
 
   const fract = (value) => value - Math.floor(value);
@@ -96,17 +118,24 @@
     const broad = planetFbm(center.map((value, index) => value * 1.72 + [2.4, 0.7, 3.8][index]));
     const detail = planetFbm(center.map((value, index) => value * 7.2 + [8.1, 4.3, 1.5][index]));
     const elevation = broad + detail * 0.13 - 0.535;
-    if (elevation < 0) return planetBiomes[0];
     const latitude = Math.abs(center[1]);
     const moisture = planetFbm(center.map((value, index) => value * 3.5 + [9.7, 2.1, 6.3][index]));
-    if (latitude > 0.86) return planetBiomes[5];
-    if (latitude > 0.62) return planetBiomes[4];
-    if (latitude < 0.38 && moisture > 0.52) return planetBiomes[3];
-    if (latitude < 0.48 && moisture < 0.47) return planetBiomes[1];
-    return planetBiomes[2];
+    let biome;
+    if (elevation < 0) biome = latitude > 0.84 ? planetBiomes[12] : planetBiomes[0];
+    else if (latitude > 0.87) biome = planetBiomes[11];
+    else if (latitude > 0.70) biome = planetBiomes[10];
+    else if (latitude > 0.53) biome = moisture > 0.58 ? planetBiomes[4] : planetBiomes[3];
+    else if (latitude < 0.36 && moisture > 0.58) biome = planetBiomes[6];
+    else if (latitude < 0.36 && moisture > 0.50) biome = planetBiomes[5];
+    else if (latitude < 0.40 && moisture < 0.31) biome = planetBiomes[9];
+    else if (latitude < 0.48 && moisture < 0.39) biome = planetBiomes[8];
+    else if (latitude < 0.50 && moisture < 0.48) biome = planetBiomes[7];
+    else if (moisture > 0.64) biome = planetBiomes[2];
+    else biome = planetBiomes[1];
+    return { biome, elevation, moisture, latitude };
   }
 
-  function buildGeodesicCells(subdivisions = 3) {
+  function buildGeodesicCells(frequency = 14) {
     const normalize = (vector) => {
       const length = Math.hypot(vector[0], vector[1], vector[2]) || 1;
       return [vector[0] / length, vector[1] / length, vector[2] / length];
@@ -118,44 +147,52 @@
     ];
     const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
     const goldenRatio = (1 + Math.sqrt(5)) / 2;
-    let vertices = [
+    const baseVertices = [
       [-1,goldenRatio,0],[1,goldenRatio,0],[-1,-goldenRatio,0],[1,-goldenRatio,0],
       [0,-1,goldenRatio],[0,1,goldenRatio],[0,-1,-goldenRatio],[0,1,-goldenRatio],
       [goldenRatio,0,-1],[goldenRatio,0,1],[-goldenRatio,0,-1],[-goldenRatio,0,1]
     ].map(normalize);
-    let faces = [
+    const baseFaces = [
       [0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],
       [1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],
       [3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],
       [4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]
     ];
-
-    for (let level = 0; level < subdivisions; level += 1) {
-      const midpointCache = new Map();
-      const midpointIndex = (first, second) => {
-        const low = Math.min(first, second);
-        const high = Math.max(first, second);
-        const key = `${low}:${high}`;
-        if (midpointCache.has(key)) return midpointCache.get(key);
-        const midpoint = normalize([
-          vertices[first][0] + vertices[second][0],
-          vertices[first][1] + vertices[second][1],
-          vertices[first][2] + vertices[second][2]
-        ]);
-        const index = vertices.length;
-        vertices.push(midpoint);
-        midpointCache.set(key, index);
-        return index;
-      };
-      const nextFaces = [];
-      faces.forEach(([a, b, c]) => {
-        const ab = midpointIndex(a, b);
-        const bc = midpointIndex(b, c);
-        const ca = midpointIndex(c, a);
-        nextFaces.push([a, ab, ca], [b, bc, ab], [c, ca, bc], [ab, bc, ca]);
-      });
-      faces = nextFaces;
-    }
+    const vertices = [];
+    const faces = [];
+    const vertexCache = new Map();
+    const addVertex = (point) => {
+      const normalized = normalize(point);
+      const key = normalized.map((value) => value.toFixed(9)).join(":");
+      if (vertexCache.has(key)) return vertexCache.get(key);
+      const index = vertices.length;
+      vertices.push(normalized);
+      vertexCache.set(key, index);
+      return index;
+    };
+    baseFaces.forEach(([aIndex, bIndex, cIndex]) => {
+      const a = baseVertices[aIndex];
+      const b = baseVertices[bIndex];
+      const c = baseVertices[cIndex];
+      const grid = new Map();
+      const at = (i, j) => grid.get(`${i}:${j}`);
+      for (let i = 0; i <= frequency; i += 1) {
+        for (let j = 0; j <= frequency - i; j += 1) {
+          const aWeight = frequency - i - j;
+          grid.set(`${i}:${j}`, addVertex([
+            (a[0] * aWeight + b[0] * i + c[0] * j) / frequency,
+            (a[1] * aWeight + b[1] * i + c[1] * j) / frequency,
+            (a[2] * aWeight + b[2] * i + c[2] * j) / frequency
+          ]));
+        }
+      }
+      for (let i = 0; i < frequency; i += 1) {
+        for (let j = 0; j < frequency - i; j += 1) {
+          faces.push([at(i, j), at(i + 1, j), at(i, j + 1)]);
+          if (i + j < frequency - 1) faces.push([at(i + 1, j), at(i + 1, j + 1), at(i, j + 1)]);
+        }
+      }
+    });
 
     const faceCenters = faces.map(([a, b, c]) => normalize([
       vertices[a][0] + vertices[b][0] + vertices[c][0],
@@ -164,6 +201,13 @@
     ]));
     const adjacentFaces = vertices.map(() => []);
     faces.forEach((face, faceIndex) => face.forEach((vertexIndex) => adjacentFaces[vertexIndex].push(faceIndex)));
+
+    const neighborSets = vertices.map(() => new Set());
+    faces.forEach(([a, b, c]) => {
+      neighborSets[a].add(b); neighborSets[a].add(c);
+      neighborSets[b].add(a); neighborSets[b].add(c);
+      neighborSets[c].add(a); neighborSets[c].add(b);
+    });
 
     const cells = vertices.map((center, index) => {
       const referenceAxis = Math.abs(center[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0];
@@ -176,7 +220,8 @@
           const secondAngle = Math.atan2(dot(second, tangentY), dot(second, tangentX));
           return firstAngle - secondAngle;
         });
-      const biome = classifyPlanetCell(center);
+      const climate = classifyPlanetCell(center);
+      const biome = climate.biome;
       return {
         id: index + 1,
         key: `tile-${String(index + 1).padStart(4, "0")}`,
@@ -186,6 +231,14 @@
         biomeId: biome.id,
         biomeKey: biome.key,
         biomeName: biome.name,
+        color: biome.color,
+        elevation: climate.elevation,
+        moisture: climate.moisture,
+        neighbors: Array.from(neighborSets[index]),
+        roadLinks: [],
+        riverLinks: [],
+        roadName: "无",
+        riverName: "无",
         lat: Math.asin(Math.max(-1, Math.min(1, center[1]))) * 180 / Math.PI,
         lon: Math.atan2(center[0], center[2]) * 180 / Math.PI
       };
@@ -211,6 +264,210 @@
     });
 
     return { cells, surfacePositions, surfaceSides, wirePositions, wireSides };
+  }
+
+  function buildPlanetRoutes(cells, preferredHubs = []) {
+    const edgeKey = (a, b) => a < b ? `${a}:${b}` : `${b}:${a}`;
+    const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    const normalize = (point) => {
+      const length = Math.hypot(...point) || 1;
+      return point.map((value) => value / length);
+    };
+    const routeHash = (cell, salt) => planetHash(cell.center.map((value, index) => value * (salt + index * 2.71) + salt));
+    const riverEdges = new Map();
+    const roadEdges = new Map();
+
+    const coastDistance = new Int32Array(cells.length);
+    coastDistance.fill(2147483647);
+    const queue = [];
+    cells.forEach((cell, index) => {
+      if (cell.biomeKey === "ocean") {
+        coastDistance[index] = 0;
+        queue.push(index);
+      }
+    });
+    for (let head = 0; head < queue.length; head += 1) {
+      const index = queue[head];
+      const nextDistance = coastDistance[index] + 1;
+      cells[index].neighbors.forEach((neighborIndex) => {
+        if (nextDistance >= coastDistance[neighborIndex]) return;
+        coastDistance[neighborIndex] = nextDistance;
+        queue.push(neighborIndex);
+      });
+    }
+
+    const sourceCandidates = cells
+      .map((cell, index) => ({ cell, index, score:cell.elevation * 1.3 + cell.moisture * 0.8 + routeHash(cell, 5) * 0.18 }))
+      .filter(({ cell, index }) => cell.biomeKey !== "ocean" && cell.biomeKey !== "seaIce" && cell.elevation > 0.035 && cell.moisture > 0.50 && coastDistance[index] > 4)
+      .sort((a, b) => b.score - a.score);
+    const riverSources = [];
+    for (const candidate of sourceCandidates) {
+      if (riverSources.every((source) => dot(source.cell.center, candidate.cell.center) < 0.965)) riverSources.push(candidate);
+      if (riverSources.length >= 24) break;
+    }
+    riverSources.forEach(({ index:sourceIndex }) => {
+      let currentIndex = sourceIndex;
+      const visited = new Set([currentIndex]);
+      for (let step = 0; step < 80 && coastDistance[currentIndex] > 0; step += 1) {
+        const current = cells[currentIndex];
+        const candidates = current.neighbors.filter((neighborIndex) => coastDistance[neighborIndex] < coastDistance[currentIndex] && !visited.has(neighborIndex));
+        if (!candidates.length) break;
+        let nextIndex = candidates[0];
+        let bestScore = Infinity;
+        candidates.forEach((neighborIndex) => {
+          const neighbor = cells[neighborIndex];
+          const existing = riverEdges.get(edgeKey(currentIndex, neighborIndex));
+          const score = coastDistance[neighborIndex] * 2.4 + Math.max(0, neighbor.elevation) * 0.85 + routeHash(neighbor, 9) * 0.16 - (existing?.flow || 0) * 0.72;
+          if (score < bestScore) {
+            bestScore = score;
+            nextIndex = neighborIndex;
+          }
+        });
+        const key = edgeKey(currentIndex, nextIndex);
+        const record = riverEdges.get(key) || { a:currentIndex, b:nextIndex, flow:0, progress:0 };
+        record.flow += 1;
+        record.progress = Math.max(record.progress, step);
+        riverEdges.set(key, record);
+        currentIndex = nextIndex;
+        visited.add(currentIndex);
+      }
+    });
+
+    const landCells = cells.filter((cell) => cell.biomeKey !== "ocean" && cell.biomeKey !== "seaIce");
+    const hubs = [];
+    preferredHubs.forEach((cell) => {
+      if (cell && cell.biomeKey !== "ocean" && !hubs.includes(cell)) hubs.push(cell);
+    });
+    [...landCells]
+      .sort((a, b) => routeHash(b, 13) - routeHash(a, 13))
+      .forEach((candidate) => {
+        if (hubs.length >= 24) return;
+        if (hubs.every((hub) => dot(hub.center, candidate.center) < 0.955)) hubs.push(candidate);
+      });
+
+    function findRoadPath(startIndex, endIndex) {
+      const distanceScores = new Float64Array(cells.length);
+      distanceScores.fill(Infinity);
+      const previous = new Int32Array(cells.length);
+      previous.fill(-1);
+      const heap = [];
+      const push = (item) => {
+        heap.push(item);
+        let index = heap.length - 1;
+        while (index > 0) {
+          const parent = (index - 1) >> 1;
+          if (heap[parent][0] <= item[0]) break;
+          heap[index] = heap[parent];
+          index = parent;
+        }
+        heap[index] = item;
+      };
+      const pop = () => {
+        const root = heap[0];
+        const tail = heap.pop();
+        if (heap.length && tail) {
+          let index = 0;
+          while (true) {
+            const left = index * 2 + 1;
+            const right = left + 1;
+            if (left >= heap.length) break;
+            const child = right < heap.length && heap[right][0] < heap[left][0] ? right : left;
+            if (heap[child][0] >= tail[0]) break;
+            heap[index] = heap[child];
+            index = child;
+          }
+          heap[index] = tail;
+        }
+        return root;
+      };
+      const biomePenalty = {
+        temperateSwamp:0.65, coldBog:0.75, tropicalSwamp:0.85,
+        tropicalRainforest:0.35, desert:0.28, extremeDesert:0.62,
+        tundra:0.35, iceSheet:1.4
+      };
+      distanceScores[startIndex] = 0;
+      push([0, startIndex]);
+      while (heap.length) {
+        const [, currentIndex] = pop();
+        if (currentIndex === endIndex) break;
+        const currentScore = distanceScores[currentIndex];
+        cells[currentIndex].neighbors.forEach((neighborIndex) => {
+          const neighbor = cells[neighborIndex];
+          if (neighbor.biomeKey === "ocean" || neighbor.biomeKey === "seaIce") return;
+          const penalty = biomePenalty[neighbor.biomeKey] || 0;
+          const tentative = currentScore + 1 + penalty + Math.max(0, neighbor.elevation) * 0.16;
+          if (tentative >= distanceScores[neighborIndex]) return;
+          distanceScores[neighborIndex] = tentative;
+          previous[neighborIndex] = currentIndex;
+          const heuristic = Math.acos(Math.max(-1, Math.min(1, dot(neighbor.center, cells[endIndex].center)))) * 14;
+          push([tentative + heuristic, neighborIndex]);
+        });
+      }
+      if (previous[endIndex] < 0) return [];
+      const path = [endIndex];
+      let cursor = endIndex;
+      while (cursor !== startIndex && path.length < cells.length) {
+        cursor = previous[cursor];
+        if (cursor < 0) return [];
+        path.push(cursor);
+      }
+      return path.reverse();
+    }
+
+    const roadPairs = new Set();
+    hubs.forEach((hub, hubIndex) => {
+      const nearest = hubs
+        .map((candidate, candidateIndex) => ({ candidate, candidateIndex, score:dot(hub.center, candidate.center) }))
+        .filter(({ candidateIndex }) => candidateIndex !== hubIndex)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 2);
+      nearest.forEach(({ candidateIndex }) => roadPairs.add(edgeKey(hubIndex, candidateIndex)));
+    });
+    roadPairs.forEach((pair) => {
+      const [firstHubIndex, secondHubIndex] = pair.split(":").map(Number);
+      const startIndex = hubs[firstHubIndex].id - 1;
+      const endIndex = hubs[secondHubIndex].id - 1;
+      const path = findRoadPath(startIndex, endIndex);
+      const typeRoll = routeHash(hubs[firstHubIndex], secondHubIndex + 17);
+      const type = typeRoll < 0.13 ? roadTypes[4] : typeRoll < 0.29 ? roadTypes[3] : typeRoll < 0.51 ? roadTypes[2] : typeRoll < 0.80 ? roadTypes[1] : roadTypes[0];
+      for (let index = 0; index < path.length - 1; index += 1) {
+        const a = path[index];
+        const b = path[index + 1];
+        const key = edgeKey(a, b);
+        const existing = roadEdges.get(key);
+        if (!existing || existing.type.priority < type.priority) roadEdges.set(key, { a, b, type });
+      }
+    });
+
+    riverEdges.forEach((record) => {
+      const strength = record.flow + Math.min(3.2, record.progress / 6);
+      record.type = strength >= 6.5 ? riverTypes[3] : strength >= 4.2 ? riverTypes[2] : strength >= 2.4 ? riverTypes[1] : riverTypes[0];
+      cells[record.a].riverLinks.push({ neighbor:record.b, type:record.type });
+      cells[record.b].riverLinks.push({ neighbor:record.a, type:record.type });
+    });
+    roadEdges.forEach((record) => {
+      cells[record.a].roadLinks.push({ neighbor:record.b, type:record.type });
+      cells[record.b].roadLinks.push({ neighbor:record.a, type:record.type });
+    });
+    cells.forEach((cell) => {
+      if (cell.roadLinks.length) cell.roadName = cell.roadLinks.reduce((best, link) => link.type.priority > best.priority ? link.type : best, cell.roadLinks[0].type).name;
+      if (cell.riverLinks.length) cell.riverName = cell.riverLinks.reduce((best, link) => link.type.priority > best.priority ? link.type : best, cell.riverLinks[0].type).name;
+    });
+
+    const roadPositions = [];
+    const roadColors = [];
+    const riverPositions = [];
+    const riverColors = [];
+    const pushArc = (positionTarget, colorTarget, record) => {
+      const start = cells[record.a].center;
+      const end = cells[record.b].center;
+      const middle = normalize([start[0] + end[0], start[1] + end[1], start[2] + end[2]]);
+      positionTarget.push(...start, ...middle, ...middle, ...end);
+      for (let index = 0; index < 4; index += 1) colorTarget.push(...record.type.color);
+    };
+    riverEdges.forEach((record) => pushArc(riverPositions, riverColors, record));
+    roadEdges.forEach((record) => pushArc(roadPositions, roadColors, record));
+    return { roadPositions, roadColors, riverPositions, riverColors, roadCount:roadEdges.size, riverCount:riverEdges.size };
   }
 
   function createPlanetRenderer(options) {
@@ -245,8 +502,10 @@
         },
         focusLocation() {},
         getCell(lat, lon) {
-          return { id: 1, key: "tile-0001", sides: 6, lat, lon, biomeId:2, biomeKey:"temperate", biomeName:"温带森林" };
+          return { id: 1, key: "tile-0001", sides: 6, lat, lon, biomeId:1, biomeKey:"temperateForest", biomeName:"温带森林", roadName:"无", riverName:"无" };
         },
+        zoomBy() {},
+        resetView() {},
         getStats() {
           return { cells: 0, pentagons: 0, hexagons: 0 };
         }
@@ -258,14 +517,14 @@
     const vertexSource = `
       attribute vec3 aPosition;
       attribute float aCellSides;
-      attribute float aCellBiome;
+      attribute vec3 aColor;
       uniform float uYaw;
       uniform float uPitch;
       uniform float uAspect;
       uniform float uDistance;
       uniform float uRadius;
       varying float vCellSides;
-      varying float vCellBiome;
+      varying vec3 vColor;
       void main() {
         float cy = cos(uYaw), sy = sin(uYaw);
         float cp = cos(uPitch), sp = sin(uPitch);
@@ -279,29 +538,31 @@
         float clipZ = ((far + near) / (near - far)) * view.z + ((2.0 * far * near) / (near - far));
         gl_Position = vec4(view.x * focal / uAspect, view.y * focal, clipZ, -view.z);
         vCellSides = aCellSides;
-        vCellBiome = aCellBiome;
+        vColor = aColor;
       }
     `;
     const fragmentSource = `
       precision mediump float;
-      uniform float uWire;
+      uniform float uLayer;
       uniform float uSelected;
       varying float vCellSides;
-      varying float vCellBiome;
+      varying vec3 vColor;
       void main() {
-        if (uWire > 0.5) {
+        if (uLayer > 2.5) {
+          gl_FragColor = vec4(vColor, 0.96);
+          return;
+        }
+        if (uLayer > 1.5) {
+          gl_FragColor = vec4(vColor, 0.94);
+          return;
+        }
+        if (uLayer > 0.5) {
           vec3 edgeColor = uSelected > 0.5 ? vec3(1.0, 0.76, 0.20) : vCellSides < 5.5 ? vec3(0.88, 0.68, 0.31) : vec3(0.66, 0.70, 0.66);
           float edgeAlpha = uSelected > 0.5 ? 0.96 : vCellSides < 5.5 ? 0.34 : 0.16;
           gl_FragColor = vec4(edgeColor, edgeAlpha);
           return;
         }
-        vec3 color = vec3(${planetBiomes[0].color.join(", ")});
-        if (vCellBiome > 4.5) color = vec3(${planetBiomes[5].color.join(", ")});
-        else if (vCellBiome > 3.5) color = vec3(${planetBiomes[4].color.join(", ")});
-        else if (vCellBiome > 2.5) color = vec3(${planetBiomes[3].color.join(", ")});
-        else if (vCellBiome > 1.5) color = vec3(${planetBiomes[2].color.join(", ")});
-        else if (vCellBiome > 0.5) color = vec3(${planetBiomes[1].color.join(", ")});
-        gl_FragColor = vec4(color, 1.0);
+        gl_FragColor = vec4(vColor, 1.0);
       }
     `;
 
@@ -327,23 +588,30 @@
       return fallback();
     }
 
-    const geodesic = buildGeodesicCells(3);
+    const geodesic = buildGeodesicCells(14);
     const { cells, surfacePositions, surfaceSides, wirePositions, wireSides } = geodesic;
-    const forcedSiteBiomes = { forest:2, desert:1, mountain:2, tundra:4 };
+    const forcedSiteBiomes = { forest:1, desert:7, mountain:1, tundra:10 };
+    const preferredHubs = [];
     siteButtons.forEach((button) => {
-      const biome = planetBiomes[forcedSiteBiomes[button.dataset.site] ?? 2];
+      const biome = planetBiomes[forcedSiteBiomes[button.dataset.site] ?? 1];
       const cell = getCell(Number(button.dataset.lat), Number(button.dataset.lon));
       cell.biomeId = biome.id;
       cell.biomeKey = biome.key;
       cell.biomeName = biome.name;
+      cell.color = biome.color;
+      preferredHubs.push(cell);
     });
-    const surfaceBiomes = [];
-    cells.forEach((cell) => cell.corners.forEach(() => surfaceBiomes.push(cell.biomeId, cell.biomeId, cell.biomeId)));
+    const routeGeometry = buildPlanetRoutes(cells, preferredHubs);
+    const { roadPositions, roadColors, riverPositions, riverColors } = routeGeometry;
+    const surfaceColors = [];
+    cells.forEach((cell) => cell.corners.forEach(() => surfaceColors.push(...cell.color, ...cell.color, ...cell.color)));
     const biomeCounts = Object.fromEntries(planetBiomes.map((biome) => [biome.key, cells.filter((cell) => cell.biomeId === biome.id).length]));
     container.dataset.cellCount = String(cells.length);
     container.dataset.pentagonCount = String(cells.filter((cell) => cell.sides === 5).length);
     container.dataset.hexagonCount = String(cells.filter((cell) => cell.sides === 6).length);
     container.dataset.biomeCounts = JSON.stringify(biomeCounts);
+    container.dataset.roadSegmentCount = String(routeGeometry.roadCount);
+    container.dataset.riverSegmentCount = String(routeGeometry.riverCount);
 
     function createBuffer(data) {
       const buffer = gl.createBuffer();
@@ -353,22 +621,26 @@
     }
     const surfacePositionBuffer = createBuffer(surfacePositions);
     const surfaceSidesBuffer = createBuffer(surfaceSides);
-    const surfaceBiomeBuffer = createBuffer(surfaceBiomes);
+    const surfaceColorBuffer = createBuffer(surfaceColors);
     const wirePositionBuffer = createBuffer(wirePositions);
     const wireSidesBuffer = createBuffer(wireSides);
+    const roadPositionBuffer = createBuffer(roadPositions);
+    const roadColorBuffer = createBuffer(roadColors);
+    const riverPositionBuffer = createBuffer(riverPositions);
+    const riverColorBuffer = createBuffer(riverColors);
     const selectedWirePositionBuffer = createBuffer([]);
     const selectedWireSidesBuffer = createBuffer([]);
     let selectedWireVertexCount = 0;
     const positionLocation = gl.getAttribLocation(program, "aPosition");
     const cellSidesLocation = gl.getAttribLocation(program, "aCellSides");
-    const cellBiomeLocation = gl.getAttribLocation(program, "aCellBiome");
+    const colorLocation = gl.getAttribLocation(program, "aColor");
     const uniforms = {
       yaw: gl.getUniformLocation(program, "uYaw"),
       pitch: gl.getUniformLocation(program, "uPitch"),
       aspect: gl.getUniformLocation(program, "uAspect"),
       distance: gl.getUniformLocation(program, "uDistance"),
       radius: gl.getUniformLocation(program, "uRadius"),
-      wire: gl.getUniformLocation(program, "uWire"),
+      layer: gl.getUniformLocation(program, "uLayer"),
       selected: gl.getUniformLocation(program, "uSelected")
     };
 
@@ -486,29 +758,51 @@
       gl.bindBuffer(gl.ARRAY_BUFFER, surfaceSidesBuffer);
       gl.enableVertexAttribArray(cellSidesLocation);
       gl.vertexAttribPointer(cellSidesLocation, 1, gl.FLOAT, false, 0, 0);
-      gl.bindBuffer(gl.ARRAY_BUFFER, surfaceBiomeBuffer);
-      gl.enableVertexAttribArray(cellBiomeLocation);
-      gl.vertexAttribPointer(cellBiomeLocation, 1, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, surfaceColorBuffer);
+      gl.enableVertexAttribArray(colorLocation);
+      gl.vertexAttribPointer(colorLocation, 3, gl.FLOAT, false, 0, 0);
       gl.uniform1f(uniforms.radius, 1);
-      gl.uniform1f(uniforms.wire, 0);
+      gl.uniform1f(uniforms.layer, 0);
       gl.drawArrays(gl.TRIANGLES, 0, surfacePositions.length / 3);
 
       gl.bindBuffer(gl.ARRAY_BUFFER, wirePositionBuffer);
       gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
       gl.bindBuffer(gl.ARRAY_BUFFER, wireSidesBuffer);
       gl.vertexAttribPointer(cellSidesLocation, 1, gl.FLOAT, false, 0, 0);
-      gl.disableVertexAttribArray(cellBiomeLocation);
-      gl.vertexAttrib1f(cellBiomeLocation, 0);
+      gl.disableVertexAttribArray(colorLocation);
+      gl.vertexAttrib3f(colorLocation, 0, 0, 0);
       gl.uniform1f(uniforms.radius, 1.0025);
-      gl.uniform1f(uniforms.wire, 1);
+      gl.uniform1f(uniforms.layer, 1);
       gl.drawArrays(gl.LINES, 0, wirePositions.length / 3);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, riverPositionBuffer);
+      gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, riverColorBuffer);
+      gl.enableVertexAttribArray(colorLocation);
+      gl.vertexAttribPointer(colorLocation, 3, gl.FLOAT, false, 0, 0);
+      gl.uniform1f(uniforms.radius, 1.007);
+      gl.uniform1f(uniforms.layer, 3);
+      gl.lineWidth(2);
+      gl.drawArrays(gl.LINES, 0, riverPositions.length / 3);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, roadPositionBuffer);
+      gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, roadColorBuffer);
+      gl.vertexAttribPointer(colorLocation, 3, gl.FLOAT, false, 0, 0);
+      gl.uniform1f(uniforms.radius, 1.010);
+      gl.uniform1f(uniforms.layer, 2);
+      gl.lineWidth(1);
+      gl.drawArrays(gl.LINES, 0, roadPositions.length / 3);
 
       if (selectedWireVertexCount) {
         gl.bindBuffer(gl.ARRAY_BUFFER, selectedWirePositionBuffer);
         gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, selectedWireSidesBuffer);
         gl.vertexAttribPointer(cellSidesLocation, 1, gl.FLOAT, false, 0, 0);
-        gl.uniform1f(uniforms.radius, 1.007);
+        gl.disableVertexAttribArray(colorLocation);
+        gl.vertexAttrib3f(colorLocation, 0, 0, 0);
+        gl.uniform1f(uniforms.radius, 1.014);
+        gl.uniform1f(uniforms.layer, 1);
         gl.uniform1f(uniforms.selected, 1);
         gl.drawArrays(gl.LINES, 0, selectedWireVertexCount);
       }
@@ -547,14 +841,38 @@
     let lastX = 0;
     let lastY = 0;
     let dragged = false;
+    let pinching = false;
+    let pinchStartSpan = 0;
+    let pinchStartDistance = distance;
+    const activePointers = new Map();
+    const clampDistance = (value) => Math.max(1.65, Math.min(5.2, value));
     canvas.addEventListener("pointerdown", (event) => {
+      activePointers.set(event.pointerId, { x:event.clientX, y:event.clientY });
       pointerId = event.pointerId;
       startX = lastX = event.clientX;
       startY = lastY = event.clientY;
       dragged = false;
       canvas.setPointerCapture(pointerId);
+      if (activePointers.size === 2) {
+        const [first, second] = Array.from(activePointers.values());
+        pinchStartSpan = Math.hypot(second.x - first.x, second.y - first.y);
+        pinchStartDistance = distance;
+        pinching = true;
+        dragged = true;
+      }
     });
     canvas.addEventListener("pointermove", (event) => {
+      if (!activePointers.has(event.pointerId)) return;
+      activePointers.set(event.pointerId, { x:event.clientX, y:event.clientY });
+      if (activePointers.size >= 2) {
+        const [first, second] = Array.from(activePointers.values());
+        const span = Math.max(20, Math.hypot(second.x - first.x, second.y - first.y));
+        distance = clampDistance(pinchStartDistance * pinchStartSpan / span);
+        pinching = true;
+        dragged = true;
+        render();
+        return;
+      }
       if (event.pointerId !== pointerId) return;
       const dx = event.clientX - lastX;
       const dy = event.clientY - lastY;
@@ -566,19 +884,46 @@
       render();
     });
     canvas.addEventListener("pointerup", (event) => {
-      if (event.pointerId !== pointerId) return;
-      canvas.releasePointerCapture(pointerId);
-      pointerId = null;
+      const wasPinching = pinching;
+      activePointers.delete(event.pointerId);
+      if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+      if (activePointers.size === 1) {
+        const [remainingId, remaining] = Array.from(activePointers.entries())[0];
+        pointerId = remainingId;
+        startX = lastX = remaining.x;
+        startY = lastY = remaining.y;
+        dragged = true;
+      } else if (activePointers.size === 0) {
+        pointerId = null;
+        pinching = false;
+      }
+      if (wasPinching) return;
       if (dragged) return;
       const cell = surfacePointFromEvent(event);
       if (cell) onSurfacePick(cell.lat, cell.lon, cell);
     });
-    canvas.addEventListener("pointercancel", () => { pointerId = null; });
+    canvas.addEventListener("pointercancel", (event) => {
+      activePointers.delete(event.pointerId);
+      if (!activePointers.size) {
+        pointerId = null;
+        pinching = false;
+      }
+    });
     canvas.addEventListener("wheel", (event) => {
       event.preventDefault();
-      distance = Math.max(3.38, Math.min(5, distance + event.deltaY * 0.002));
+      distance = clampDistance(distance + event.deltaY * 0.0025);
       render();
     }, { passive: false });
+    canvas.addEventListener("dblclick", (event) => {
+      event.preventDefault();
+      const cell = surfacePointFromEvent(event);
+      if (!cell) return;
+      yaw = -cell.lon * Math.PI / 180;
+      pitch = Math.max(-1.18, Math.min(1.18, cell.lat * Math.PI / 180));
+      distance = 2.05;
+      onSurfacePick(cell.lat, cell.lon, cell);
+      render();
+    });
     canvas.addEventListener("keydown", (event) => {
       const keys = ["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","+","-","="];
       if (!keys.includes(event.key)) return;
@@ -587,8 +932,8 @@
       if (event.key === "ArrowRight") yaw += 0.12;
       if (event.key === "ArrowUp") pitch = Math.max(-1.22, pitch - 0.1);
       if (event.key === "ArrowDown") pitch = Math.min(1.22, pitch + 0.1);
-      if (event.key === "+" || event.key === "=") distance = Math.max(3.38, distance - 0.16);
-      if (event.key === "-") distance = Math.min(5, distance + 0.16);
+      if (event.key === "+" || event.key === "=") distance = clampDistance(distance - 0.22);
+      if (event.key === "-") distance = clampDistance(distance + 0.22);
       render();
     });
     window.addEventListener("resize", render);
@@ -612,6 +957,16 @@
         pitch = Math.max(-1.18, Math.min(1.18, cell.lat * Math.PI / 180));
         render();
         return cell;
+      },
+      zoomBy(amount) {
+        distance = clampDistance(distance + amount);
+        render();
+      },
+      resetView() {
+        yaw = 0;
+        pitch = 0.12;
+        distance = 3.55;
+        render();
       },
       getCell,
       getStats() {
@@ -792,32 +1147,23 @@
     const absoluteLatitude = Math.abs(lat);
     const moisture = locationNoise(lat, lon, 1);
     const roughness = locationNoise(lat, lon, 2);
-    const roadNoise = locationNoise(lat, lon, 3);
-    const riverNoise = locationNoise(lat, lon, 5);
     const biome = cell.biomeName;
     const terrain = roughness > 0.83 ? "山地" : roughness > 0.57 ? "大型丘陵" : roughness > 0.3 ? "小型丘陵" : "平原";
-    const road = roadNoise > 0.9 ? "古代沥青路" : roadNoise > 0.78 ? "土路" : "无";
-    const river = riverNoise > 0.92 ? "大河" : riverNoise > 0.78 ? "小河" : "无";
+    const road = cell.roadName || "无";
+    const river = cell.riverName || "无";
     const temperature = Math.round(30 - absoluteLatitude * 0.53 + (moisture - 0.5) * 6);
     const lowTemperature = temperature - Math.round(8 + absoluteLatitude * 0.12);
     const highTemperature = temperature + Math.round(9 + (1 - moisture) * 5);
     const growingDays = temperature > 18 ? "全年生长" : temperature > 7 ? `${Math.max(20, Math.round(60 - absoluteLatitude * 0.55))} / 60 天` : temperature > -8 ? "20 / 60 天" : "无法生长";
     const stoneSets = ["花岗岩、石灰岩", "砂岩、板岩", "大理石、花岗岩", "板岩、大理石、石灰岩"];
-    const descriptionByBiome = {
-      "温带森林":"树木与野生动物丰富，温度适中，是较稳妥的定居地。",
-      "寒带气候":"寒冷、少树且土壤贫瘠，生长期较短。",
-      "冰原":"几乎没有植被的极寒地带，长期生存十分困难。",
-      "沙漠":"极端干燥、植被稀少，温度昼夜变化明显。",
-      "热带雨林":"全年温暖多雨，植被浓密且疾病频繁。",
-      "海洋":"被深海覆盖的地域，无法作为殖民地着陆点。"
-    };
+    const biomeLabel = biome === "海洋" ? "深海水域，不可选择为着陆点。" : `生态群落：${biome}`;
     const movementByTerrain = { "平原":"1.0 天", "小型丘陵":"1.5 天", "大型丘陵":"2.2 天", "山地":"3.5 天" };
     if (cell.biomeKey === "ocean") {
       return {
         tile:`第 ${cell.id} 地块 · ${coordinateLabel(lat, "N", "S")} ${coordinateLabel(lon, "E", "W")}`,
         region:`${cell.key} · ${cell.sides === 5 ? "五边形" : "六边形"}`,
         biome,
-        description:descriptionByBiome[biome],
+        description:biomeLabel,
         movement:"不可通行",
         terrain:"深海",
         stone:"—",
@@ -837,7 +1183,7 @@
       tile:`第 ${cell.id} 地块 · ${coordinateLabel(lat, "N", "S")} ${coordinateLabel(lon, "E", "W")}`,
       region:`${cell.key} · ${cell.sides === 5 ? "五边形" : "六边形"}`,
       biome,
-      description:descriptionByBiome[biome],
+      description:biomeLabel,
       movement:movementByTerrain[terrain],
       terrain,
       stone:stoneSets[Math.floor(locationNoise(lat, lon, 6) * stoneSets.length)],
@@ -849,7 +1195,7 @@
       rainfall:`${Math.round(180 + moisture * 1820)} 毫米`,
       growing:growingDays,
       forage:`${Math.round(45 + moisture * 55)}%`,
-      disease:`${biome === "热带雨林" ? "2.4" : biome === "冰原" || biome === "寒带气候" ? "0.3" : "1.0"} / 年`,
+      disease:`${biome === "热带雨林" || biome === "热带沼泽" ? "2.4" : biome === "冰原" || biome === "海洋冰盖" || biome === "冻土苔原" ? "0.3" : "1.0"} / 年`,
       landingAllowed:true
     };
   }
@@ -871,6 +1217,9 @@
       tile:`${data.tile.split(" · ")[0]} · 第 ${cell.id} 地块 · ${coordinateLabel(cell.lat, "N", "S")} ${coordinateLabel(cell.lon, "E", "W")}`,
       region:`${cell.key} · ${cell.sides === 5 ? "五边形" : "六边形"}`,
       biome:cell.biomeName,
+      description:`生态群落：${cell.biomeName}`,
+      road:cell.roadName || "无",
+      river:cell.riverName || "无",
       landingAllowed:true
     });
   }
@@ -889,6 +1238,9 @@
     marker: landingMarker,
     onSurfacePick: chooseSurfaceSite
   });
+  document.getElementById("globeZoomIn").addEventListener("click", () => planetController.zoomBy(-0.35));
+  document.getElementById("globeZoomOut").addEventListener("click", () => planetController.zoomBy(0.35));
+  document.getElementById("globeResetView").addEventListener("click", () => planetController.resetView());
 
   worldSiteButtons.forEach((button) => button.addEventListener("click", () => chooseSite(button)));
   document.getElementById("randomSite").addEventListener("click", () => {
