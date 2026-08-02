@@ -10,6 +10,18 @@
   <link rel="stylesheet" href="rimworld-ui.css">
 </head>
 <body>
+  <section class="asset-loader" id="assetLoader" aria-labelledby="assetLoaderTitle" aria-live="polite">
+    <div class="asset-loader-card">
+      <p class="asset-loader-kicker">WHITE PEONY · RESOURCE CHECK</p>
+      <h2 id="assetLoaderTitle">正在检查开局资源</h2>
+      <p class="asset-loader-copy">载入界面所需 URL，并记录成功、失败与尚未配置的插图占位。</p>
+      <progress id="assetProgress" max="100" value="0">0%</progress>
+      <div class="asset-loader-meta"><span id="assetLoaderStatus">准备连接……</span><b id="assetLoaderCounter">0 / 0</b></div>
+      <ul class="asset-loader-list" id="assetLoaderList"></ul>
+      <button class="asset-loader-skip" id="assetLoaderSkip" type="button">跳过等待</button>
+    </div>
+  </section>
+
   <main id="app" class="app-shell">
     <section id="screen-menu" class="screen menu-screen is-active" aria-label="游戏主菜单">
       <div class="star-field star-field-a" aria-hidden="true"></div>
@@ -40,22 +52,43 @@
         </div>
 
         <nav class="main-menu" aria-label="主菜单">
-          <button class="rim-button" type="button" data-demo="教程模式将在角色卡正式打包时接入。"><span>教程</span><small>TUTORIAL</small></button>
           <button class="rim-button primary" id="startGame" type="button">
             <span>新建殖民地</span><small>NEW COLONY</small>
           </button>
-          <button class="rim-button" type="button" data-demo="当前没有可读取的殖民地存档。"><span>载入游戏</span><small>LOAD GAME</small></button>
-          <button class="rim-button" type="button" data-demo="选项将在正式版中接入。"><span>选项</span><small>OPTIONS</small></button>
-          <button class="rim-button" type="button" data-demo="已启用：萌螈 · 白牡丹剧情模组。"><span>模组</span><small>MODS</small></button>
-          <button class="rim-button" type="button" data-demo="白牡丹企划 · 静态交互原型。"><span>制作人员</span><small>CREDITS</small></button>
-          <button class="rim-button" type="button" data-demo="浏览器原型不会关闭当前页面。"><span>退出至桌面</span><small>QUIT TO OS</small></button>
+          <button class="rim-button" type="button" data-info-target="author"><span>作者的话</span><small>AUTHOR'S NOTE</small></button>
+          <button class="rim-button" type="button" data-info-target="background"><span>背景讲解</span><small>BACKGROUND</small></button>
+          <button class="rim-button" type="button" data-info-target="gallery"><span>CG画廊</span><small>CG GALLERY</small></button>
         </nav>
 
-        <div class="menu-links">
-          <button type="button" data-demo="当前为离线原型。">更新日志</button>
-          <button type="button" data-demo="故事设定：边缘世界 × 萌螈。">故事背景</button>
-        </div>
         <p class="menu-hint">选择“新建殖民地”进入序章</p>
+      </div>
+    </section>
+
+    <section id="screen-info" class="screen setup-screen info-screen" aria-label="附加内容">
+      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="rim-page-window info-window">
+        <h2 id="infoTitle">附加内容</h2>
+        <div class="info-content">
+          <article data-info-panel="author" hidden>
+            <h3>作者的话</h3>
+            <p>本作以白牡丹为唯一女主角，结合边缘殖民生活、恋爱、毒舌喜剧与三条可选冒险主线。</p>
+            <p>开局前端只负责确定玩家、世界与着陆点；实际故事由角色卡继续推进。后续插图、表情与 CG URL 会在资源完成后统一接入。</p>
+          </article>
+          <article data-info-panel="background" hidden>
+            <h3>背景讲解</h3>
+            <p>玩家已经在边缘世界生活了一段时间，并在选定区块建成带有基本设施的简易住所。</p>
+            <p>与此同时，机械族袭击白牡丹所在的萌螈舰队。她在卫队掩护下进入逃生舱，却被黑暗超凡智能霍拉克斯改写航线，最终坠落在玩家的领地附近。</p>
+          </article>
+          <article data-info-panel="gallery" hidden>
+            <h3>CG画廊</h3>
+            <div class="cg-gallery">
+              <div class="cg-placeholder"><span>CG 01</span><small>832 × 1216 插图占位</small></div>
+              <div class="cg-placeholder"><span>CG 02</span><small>832 × 1216 插图占位</small></div>
+              <div class="cg-placeholder"><span>CG 03</span><small>832 × 1216 插图占位</small></div>
+            </div>
+          </article>
+        </div>
+        <div class="page-actions"><button type="button" id="infoBack">返回主菜单</button><span></span><span></span></div>
       </div>
     </section>
 
@@ -70,88 +103,44 @@
       </header>
 
       <div class="manga-viewport" id="mangaViewport">
-        <article class="manga-page is-current" data-page="0">
-          <div class="comic-panel fleet-panel" aria-hidden="true">
-            <div class="fleet-moon"></div>
-            <div class="capital-ship ship-one"><i></i><b></b></div>
-            <div class="capital-ship ship-two"><i></i><b></b></div>
-            <div class="mech-swarm"><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="laser laser-a"></div><div class="laser laser-b"></div>
-            <div class="impact-flash"></div>
-          </div>
-          <div class="caption-card">
-            <span>01 / 舰队遇袭</span>
-            <h2>机械族撕开了萌螈舰队的防线。</h2>
-            <p>白牡丹知道，这不是一次普通的伏击。</p>
+        <article class="manga-page is-current" data-page="0" data-title="舰队遇袭">
+          <div class="comic-sheet two-frames">
+            <section class="story-frame revealable">
+              <div class="comic-panel fleet-panel" aria-hidden="true"><div class="fleet-moon"></div><div class="capital-ship ship-one"><i></i><b></b></div><div class="capital-ship ship-two"><i></i><b></b></div><div class="mech-swarm"><i></i><i></i><i></i><i></i><i></i></div><div class="laser laser-a"></div><div class="laser laser-b"></div><div class="impact-flash"></div></div>
+              <div class="caption-card"><span>01 / 舰队遇袭</span><h2>机械族撕开了萌螈舰队的防线。</h2><p>白牡丹知道，这不是一次普通的伏击。</p></div>
+            </section>
+            <section class="story-frame revealable">
+              <div class="comic-panel corridor-panel" aria-hidden="true"><div class="corridor-lines"></div><div class="guard guard-a"><i></i><b></b></div><div class="guard guard-b"><i></i><b></b></div><div class="peony-runner"><i class="runner-hair"></i><i class="runner-horn left"></i><i class="runner-horn right"></i><b></b></div><div class="escape-door"><span>ESCAPE POD 07</span></div><div class="corridor-shot shot-a"></div><div class="corridor-shot shot-b"></div></div>
+              <div class="caption-card"><span>02 / 紧急撤离</span><h2>卫队留下阻击，她被迫进入逃生舱。</h2><p>目标航线已经锁定：萌螈王朝。</p></div>
+            </section>
           </div>
         </article>
 
-        <article class="manga-page" data-page="1">
-          <div class="comic-panel corridor-panel" aria-hidden="true">
-            <div class="corridor-lines"></div>
-            <div class="guard guard-a"><i></i><b></b></div>
-            <div class="guard guard-b"><i></i><b></b></div>
-            <div class="peony-runner"><i class="runner-hair"></i><i class="runner-horn left"></i><i class="runner-horn right"></i><b></b></div>
-            <div class="escape-door"><span>ESCAPE POD 07</span></div>
-            <div class="corridor-shot shot-a"></div><div class="corridor-shot shot-b"></div>
-          </div>
-          <div class="caption-card">
-            <span>02 / 紧急撤离</span>
-            <h2>卫队留下阻击，她被迫进入逃生舱。</h2>
-            <p>目标航线已经锁定：萌螈王朝。</p>
+        <article class="manga-page" data-page="1" data-title="黑暗干扰">
+          <div class="comic-sheet one-frame">
+            <section class="story-frame revealable featured-frame">
+              <div class="comic-panel horax-panel" aria-hidden="true"><div class="horax-rings ring-a"></div><div class="horax-rings ring-b"></div><div class="horax-rings ring-c"></div><div class="horax-eye"><i></i></div><div class="signal-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="pod-vector"><b></b><i></i></div><span class="route-old">萌螈王朝</span><span class="route-new">未知边缘世界</span></div>
+              <div class="caption-card dark-caption"><span>03 / 黑暗干扰</span><h2>霍拉克斯侵入导航，重写了逃生舱航线。</h2><p>一个黑暗超凡智能，正注视着她的坠落。</p></div>
+            </section>
           </div>
         </article>
 
-        <article class="manga-page" data-page="2">
-          <div class="comic-panel horax-panel" aria-hidden="true">
-            <div class="horax-rings ring-a"></div><div class="horax-rings ring-b"></div><div class="horax-rings ring-c"></div>
-            <div class="horax-eye"><i></i></div>
-            <div class="signal-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="pod-vector"><b></b><i></i></div>
-            <span class="route-old">萌螈王朝</span><span class="route-new">未知边缘世界</span>
-          </div>
-          <div class="caption-card dark-caption">
-            <span>03 / 黑暗干扰</span>
-            <h2>霍拉克斯侵入导航，重写了逃生舱航线。</h2>
-            <p>一个黑暗超凡智能，正注视着她的坠落。</p>
-          </div>
-        </article>
-
-        <article class="manga-page" data-page="3">
-          <div class="comic-panel crash-panel" aria-hidden="true">
-            <div class="dawn-sky"></div>
-            <div class="distant-hill hill-a"></div><div class="distant-hill hill-b"></div>
-            <div class="crash-pod"><i></i><b></b></div>
-            <div class="fire-tail"></div>
-            <div class="colony-hut"><i></i></div>
-            <div class="crash-ground"></div>
-          </div>
-          <div class="caption-card">
-            <span>04 / 殖民地边界</span>
-            <h2>黎明前，逃生舱坠毁在一座新殖民地附近。</h2>
-            <p>这里没有王朝舰队，只有一个刚安顿下来的殖民者。</p>
-          </div>
-        </article>
-
-        <article class="manga-page" data-page="4">
-          <div class="comic-panel rescue-panel" aria-hidden="true">
-            <div class="rescue-light"></div>
-            <div class="open-pod"><i></i><b></b></div>
-            <div class="peony-silhouette"><i class="hair"></i><i class="horn horn-l"></i><i class="horn horn-r"></i><b class="dress"></b><em class="blade"></em></div>
-            <div class="colonist-silhouette"><i></i><b></b></div>
-            <div class="rescue-grass"></div>
-          </div>
-          <div class="caption-card final-caption">
-            <span>05 / 相遇</span>
-            <h2>你在残骸中发现了重伤昏迷的白牡丹。</h2>
-            <p>她的手边，仍紧握着那柄名为“古锭刀”的武器。</p>
-            <button class="enter-colony" id="enterColony" type="button">继续创建殖民地</button>
+        <article class="manga-page" data-page="2" data-title="坠落与相遇">
+          <div class="comic-sheet two-frames">
+            <section class="story-frame revealable">
+              <div class="comic-panel crash-panel" aria-hidden="true"><div class="dawn-sky"></div><div class="distant-hill hill-a"></div><div class="distant-hill hill-b"></div><div class="crash-pod"><i></i><b></b></div><div class="fire-tail"></div><div class="colony-hut"><i></i></div><div class="crash-ground"></div></div>
+              <div class="caption-card"><span>04 / 殖民地边界</span><h2>黎明前，逃生舱坠毁在玩家领地附近。</h2><p>这里没有王朝舰队，只有一位已经在当地生活了一段时间的殖民者。</p></div>
+            </section>
+            <section class="story-frame revealable">
+              <div class="comic-panel rescue-panel" aria-hidden="true"><div class="rescue-light"></div><div class="open-pod"><i></i><b></b></div><div class="peony-silhouette"><i class="hair"></i><i class="horn horn-l"></i><i class="horn horn-r"></i><b class="dress"></b><em class="blade"></em></div><div class="colonist-silhouette"><i></i><b></b></div><div class="rescue-grass"></div></div>
+              <div class="caption-card final-caption"><span>05 / 相遇</span><h2>你在残骸中发现了重伤昏迷的白牡丹。</h2><p>她的手边，仍紧握着那柄名为“古锭刀”的武器。</p><button class="enter-colony" id="enterColony" type="button">继续创建殖民地</button></div>
+            </section>
           </div>
         </article>
 
         <button class="manga-nav prev" id="mangaPrev" type="button" aria-label="上一页">‹</button>
         <button class="manga-nav next" id="mangaNext" type="button" aria-label="下一页">›</button>
-        <p class="manga-help">点击画面或使用 ← → 翻页</p>
+        <p class="manga-help">点击画面逐格显示；一页完成后继续点击翻页</p>
       </div>
     </section>
 
@@ -161,7 +150,7 @@
         <h2>选择剧本</h2>
         <div class="scenario-layout">
           <div class="scenario-list" id="scenarioList" role="listbox" aria-label="剧本列表">
-            <button class="is-selected" type="button" data-scenario="peony"><b>白牡丹：边缘定居者</b><span>一名殖民者刚刚安顿下来，一枚错误航行的逃生舱即将坠落。</span></button>
+            <button class="is-selected" type="button" data-scenario="peony"><b>白牡丹：边缘定居者</b><span>一名已在当地建立简易住所的殖民者，即将遇到一枚错误航行的逃生舱。</span></button>
           </div>
           <article class="scenario-detail" id="scenarioDetail"></article>
         </div>
@@ -179,14 +168,12 @@
         <h2>选择人工智能叙事者</h2>
         <div class="storyteller-layout">
           <div class="storyteller-thumbs" id="storytellerThumbs">
-            <button class="is-selected cassandra" type="button" data-storyteller="cassandra"><i></i><span>卡桑德拉·经典</span></button>
-            <button class="phoebe" type="button" data-storyteller="phoebe"><i></i><span>菲比·悠闲</span></button>
-            <button class="randy" type="button" data-storyteller="randy"><i></i><span>兰迪·随机</span></button>
+            <button class="is-selected peony" type="button" data-storyteller="peony"><i class="storyteller-thumb-placeholder">插图</i><span>白牡丹</span></button>
           </div>
           <div class="storyteller-copy">
-            <p class="storyteller-help">人工智能叙事者会安排袭击、资源压力与休整时间。他们的选择会影响殖民地故事的节奏，且可以在设置中更改。</p>
-            <h3 id="storytellerName">卡桑德拉·经典</h3>
-            <p id="storytellerDescription">卡桑德拉按照经典的紧张曲线制造事件。她会施加压力，留下喘息时间，然后再次推动故事。</p>
+            <p class="storyteller-help">叙事者负责安排袭击、资源压力、休整与主线事件，并根据当前殖民地状态调整故事节奏。</p>
+            <h3 id="storytellerName">白牡丹</h3>
+            <p id="storytellerDescription">以白牡丹为主题的专属叙事节奏：在殖民生活、毒舌喜剧与冒险压力之间交替推进。</p>
             <fieldset class="radio-stack" id="difficultyChoices">
               <legend>难度</legend>
               <label><input type="radio" name="difficulty" value="peaceful"><i></i>和平休闲</label>
@@ -204,7 +191,7 @@
               <label><input type="radio" name="saveMode" value="commitment"><i></i>硬核模式</label>
             </fieldset>
           </div>
-          <div class="storyteller-portrait cassandra-art" id="storytellerPortrait" aria-hidden="true"><i class="portrait-head"></i><i class="portrait-hair"></i><i class="portrait-body"></i><i class="portrait-accent"></i></div>
+          <div class="storyteller-portrait peony-art" id="storytellerPortrait"><div class="storyteller-image-placeholder"><span>白牡丹叙事者插图占位</span><small>建议使用透明背景竖版立绘</small></div></div>
         </div>
         <div class="page-actions">
           <button type="button" data-setup-back="screen-scenario">返回</button>
@@ -298,8 +285,7 @@
         <h2>选择你的殖民者</h2>
         <div class="colonist-creator">
           <article class="candidate-detail">
-            <div class="candidate-topline"><div><input id="candidateFirstName" value="林" aria-label="名字"><input id="candidateNickName" value="林" aria-label="昵称"><input id="candidateLastName" value="" aria-label="姓氏"></div><button id="randomizePawn" type="button">随机角色</button></div>
-            <p id="candidateSummary">新来者阵营成员，女性，生理年龄 27 岁。</p>
+            <div class="candidate-topline"><div class="name-fields"><label><span>姓</span><input id="candidateSurname" value="林" aria-label="姓"></label><label><span>名</span><input id="candidateGivenName" value="岚" aria-label="名"></label></div><button id="randomizePawn" type="button">随机角色</button></div>
             <div class="pawn-editor-strip">
               <label><span>性别</span><select id="candidateGender"><option>女性</option><option>男性</option><option>其他</option></select></label>
               <label><span>年龄</span><input id="candidateAge" type="number" min="18" max="90" value="27"></label>
@@ -308,7 +294,7 @@
             <div class="pawn-data-grid">
               <section><h3>背景</h3><div class="backstory-editor"><div class="backstory-row"><label><span>童年经历</span><input id="candidateChildhood" value="轨道贫民"></label><div class="field-actions"><button id="randomizeChildhood" type="button">随机</button><button id="customizeChildhood" type="button">自定义</button></div></div><div class="backstory-row"><label><span>成年经历</span><input id="candidateAdulthood" value="空间站工程师"></label><div class="field-actions"><button id="randomizeAdulthood" type="button">随机</button><button id="customizeAdulthood" type="button">自定义</button></div></div></div><h3>无法从事</h3><input class="single-line-editor" id="incapableData" value="无"><div class="editor-title-row"><h3>特性</h3><button id="randomizeTraits" type="button">随机</button><button id="customizeTraits" type="button">自定义</button></div><textarea id="traitData" rows="3" placeholder="每行或使用逗号分隔一个特性">勤劳&#10;坚韧</textarea></section>
               <section><div class="editor-title-row"><h3>技能</h3><button id="randomizeSkills" type="button">随机技能</button></div><div class="skills-list" id="skillsData"></div></section>
-              <section><div class="pawn-preview" id="pawnPreview" aria-hidden="true"><i></i><b></b></div><div class="candidate-view-toggles"><label><input type="checkbox" checked>显示头部装备</label><label><input type="checkbox" checked>显示服装</label></div><h3>健康</h3><p id="healthData">全身：健康</p><h3>关系</h3><p id="relationData">没有关系</p><h3>装备</h3><p id="gearData">简陋自动手枪<br>基础衣物</p></section>
+              <section class="condition-editor"><h3>健康</h3><textarea id="healthData" rows="4" placeholder="填写身体状况、伤病或义体；健康时填写“全身：健康”">全身：健康</textarea><h3>装备</h3><textarea id="gearData" rows="5" placeholder="每行填写一件当前装备">简陋自动手枪&#10;基础衣物</textarea></section>
             </div>
             <div class="team-skills"><h3>团队技能</h3><div id="teamSkills"></div></div>
           </article>
@@ -324,19 +310,20 @@
     <section id="screen-transfer" class="screen setup-screen" aria-label="复制开局提示词">
       <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
       <div class="rim-page-window transfer-window">
-        <h2>开局数据交接</h2>
+        <h2>复制开局信息</h2>
         <div class="transfer-layout">
           <section class="transfer-copy-panel">
-            <p>“开始故事”已把剧本、人物、技能、世界、着陆点与初始剧情状态整理并复制为角色卡能够直接读取的首轮提示词。</p>
+            <p>下方窗口包含完整着陆点地理信息，以及殖民者生成界面的姓名、性别、年龄、外貌、经历、特性、限制、技能、兴趣、健康和装备。</p>
             <textarea id="startupPrompt" readonly aria-label="首轮提示词"></textarea>
           </section>
           <aside class="transfer-summary" id="startupSummary" aria-label="开局摘要"></aside>
         </div>
-        <p class="transfer-help">回到 AI风月，将已复制的整段文本作为你的第一条消息发送。若浏览器阻止自动复制，可使用右侧按钮重试或在文本框中手动复制。</p>
+        <p class="transfer-help">点击“全选开局信息”后按 Ctrl+C，或使用“复制开局信息”。复制完成后回到 AI风月，把整段内容作为第一条玩家消息发送。</p>
         <div class="page-actions">
           <button type="button" id="transferBack">返回修改</button>
           <button type="button" id="regeneratePrompt">重新生成</button>
-          <button class="next-action" id="copyStartupPrompt" type="button">复制首轮提示词</button>
+          <button type="button" id="selectStartupPrompt">全选开局信息</button>
+          <button class="next-action" id="copyStartupPrompt" type="button">复制开局信息</button>
         </div>
       </div>
     </section>
