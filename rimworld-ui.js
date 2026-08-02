@@ -21,11 +21,17 @@
   window.addEventListener("resize", updateUiScale);
 
   const scenarioData = {
-    crashlanded: { title: "坠毁", intro: "你们三人在警报与金属撕裂声中从冷冻休眠舱醒来，勉强赶在飞船解体前进入逃生舱。片刻之后，你们降落在一个陌生的边缘世界。", faction: "新来者", people: "3 人", items: ["白银 ×800","包装生存食品 ×50","药品 ×30","零部件 ×30","栓动步枪、左轮手枪、塑钢小刀","钢铁 ×450、木材 ×300"] },
-    tribe: { title: "失落部落", intro: "神明派来的钢铁血肉摧毁了你的部落。五个人成功逃脱，现在必须建立一个新家园。", faction: "新部落", people: "5 人", items: ["白银 ×200","干肉饼 ×400","草药 ×20","部落武器","木材 ×500"] },
-    explorer: { title: "富有的探险家", intro: "所有人都说离开闪耀世界的家园去探索宇宙是疯了，但你仍然踏上了旅程。现在，冷冻休眠结束了。", faction: "新来者", people: "1 人", items: ["白银 ×2000","包装生存食品 ×40","闪耀世界药物 ×30","冲锋步枪","钢铁 ×450、木材 ×300"] },
-    naked: { title: "赤身裸体", intro: "一次小手术的麻醉后，你却在一枚坠向遥远星球的空投舱中醒来。赤裸、孤身且毫无准备。", faction: "新来者", people: "1 人", items: ["没有物资","没有武器","没有衣物"] },
-    peony: { title: "白牡丹：边缘定居者", intro: "你独自来到边缘世界，并刚刚搭起最基本的住处。黎明之前，一枚遭到未知信号干扰的逃生舱将坠落在你的领地。", faction: "新来者", people: "1 人", items: ["白银 ×400","包装生存食品 ×20","药品 ×10","简陋自动手枪","钢铁 ×180、木材 ×250","剧情物品：古锭刀（随逃生舱出现）"], note: "白牡丹不占用起始殖民者名额；她会以重伤昏迷状态作为剧情坠落者出现。" }
+    peony: {
+      title: "白牡丹：边缘定居者",
+      intro: "你独自来到边缘世界，并刚刚搭起最基本的住处。黎明之前，一枚遭到未知信号干扰的逃生舱将坠落在你的领地。",
+      faction: "新来者",
+      people: "1 人",
+      items: ["白银 ×400","包装生存食品 ×20","医药 ×10","简陋自动手枪","钢铁 ×180、木材 ×250","剧情物品：古锭刀（随逃生舱出现）"],
+      inventory: { "白银":400, "包装生存食品":20, "医药":10, "钢铁":180, "木材":250 },
+      facilities: ["炉灶", "屠宰台", "石块切割台", "缝制台"],
+      equipment: ["简陋自动手枪", "基础衣物"],
+      note: "白牡丹不占用起始殖民者名额；她会以重伤昏迷状态作为剧情坠落者出现。"
+    }
   };
 
   const storytellerData = {
@@ -980,14 +986,14 @@
   }
 
   const candidateData = {
-    lin: { name:"林", job:"空间站工程师", summary:"新来者阵营成员，女性，生理年龄 27 岁。", childhood:"轨道贫民", adulthood:"空间站工程师", incapable:"无", traits:"勤劳<br>坚韧", health:"全身：健康", relations:"没有关系", skills:[6,3,9,5,4,5,2,6,7,1,4,3] },
-    mira: { name:"米拉", job:"乡村医生", summary:"新来者阵营成员，女性，生理年龄 34 岁。", childhood:"农场孩子", adulthood:"乡村医生", incapable:"暴力", traits:"乐观<br>善良", health:"左眼：视力减弱", relations:"没有关系", skills:[1,1,4,2,6,5,4,2,3,10,7,5] },
-    grey: { name:"格雷", job:"佣兵", summary:"新来者阵营成员，男性，生理年龄 41 岁。", childhood:"街头顽童", adulthood:"佣兵", incapable:"照料", traits:"冷静<br>好斗", health:"躯干：旧枪伤", relations:"没有关系", skills:[11,9,3,2,2,1,1,5,6,2,4,1] },
-    yan: { name:"燕", job:"作物学家", summary:"新来者阵营成员，女性，生理年龄 30 岁。", childhood:"温室学生", adulthood:"作物学家", incapable:"采矿", traits:"神经质<br>快步", health:"全身：健康", relations:"没有关系", skills:[4,2,5,1,4,12,6,4,2,3,3,7] },
-    sol: { name:"索尔", job:"矿工", summary:"新来者阵营成员，男性，生理年龄 38 岁。", childhood:"矿镇少年", adulthood:"深层矿工", incapable:"艺术", traits:"地下居民<br>坚韧", health:"右腿：旧伤", relations:"没有关系", skills:[4,6,5,12,3,2,1,7,4,2,2,1] },
-    nora: { name:"诺拉", job:"流浪学者", summary:"新来者阵营成员，女性，生理年龄 45 岁。", childhood:"书库助手", adulthood:"流浪学者", incapable:"搬运", traits:"过目不忘<br>悲观", health:"全身：健康", relations:"没有关系", skills:[2,1,2,1,4,3,2,4,6,5,8,13] },
-    axel: { name:"阿克塞尔", job:"商队护卫", summary:"新来者阵营成员，男性，生理年龄 29 岁。", childhood:"商队孩子", adulthood:"商队护卫", incapable:"研究", traits:"漂亮<br>谨慎射手", health:"全身：健康", relations:"没有关系", skills:[10,5,4,2,2,3,6,5,3,2,9,0] },
-    mei: { name:"梅", job:"厨师", summary:"新来者阵营成员，女性，生理年龄 25 岁。", childhood:"餐馆学徒", adulthood:"厨师", incapable:"无", traits:"嗜睡<br>美食家", health:"全身：健康", relations:"没有关系", skills:[3,2,3,1,12,5,2,6,4,2,5,3] }
+    lin: { name:"林", job:"空间站工程师", gender:"女性", age:27, appearance:"黑色短发，灰色眼睛，体型匀称。", childhood:"轨道贫民", adulthood:"空间站工程师", incapable:"无", traits:["勤劳","坚韧"], health:"全身：健康", relations:"没有关系", skills:[6,3,9,5,4,5,2,6,7,1,4,3], focus:[2,7,11] },
+    mira: { name:"米拉", job:"乡村医生", gender:"女性", age:34, appearance:"棕色长发，神情温和，身形纤细。", childhood:"农场孩子", adulthood:"乡村医生", incapable:"暴力", traits:["乐观","善良"], health:"左眼：视力减弱", relations:"没有关系", skills:[1,1,4,2,6,5,4,2,3,10,7,5], focus:[4,9,10] },
+    grey: { name:"格雷", job:"佣兵", gender:"男性", age:41, appearance:"灰色短发，面部有旧伤，体格结实。", childhood:"街头顽童", adulthood:"佣兵", incapable:"照料", traits:["冷静","好斗"], health:"躯干：旧枪伤", relations:"没有关系", skills:[11,9,3,2,2,1,1,5,6,2,4,1], focus:[0,1,7] },
+    yan: { name:"燕", job:"作物学家", gender:"女性", age:30, appearance:"深棕发，绿色眼睛，常带着田间劳作留下的晒痕。", childhood:"温室学生", adulthood:"作物学家", incapable:"采矿", traits:["神经质","快步"], health:"全身：健康", relations:"没有关系", skills:[4,2,5,1,4,12,6,4,2,3,3,7], focus:[5,6,11] },
+    sol: { name:"索尔", job:"矿工", gender:"男性", age:38, appearance:"深色卷发，肩背宽厚，双手布满老茧。", childhood:"矿镇少年", adulthood:"深层矿工", incapable:"艺术", traits:["地下居民","坚韧"], health:"右腿：旧伤", relations:"没有关系", skills:[4,6,5,12,3,2,1,7,4,2,2,1], focus:[1,3,7] },
+    nora: { name:"诺拉", job:"流浪学者", gender:"女性", age:45, appearance:"银灰长发，戴着旧眼镜，身形清瘦。", childhood:"书库助手", adulthood:"流浪学者", incapable:"搬运", traits:["过目不忘","悲观"], health:"全身：健康", relations:"没有关系", skills:[2,1,2,1,4,3,2,4,6,5,8,13], focus:[8,10,11] },
+    axel: { name:"阿克塞尔", job:"商队护卫", gender:"男性", age:29, appearance:"金色短发，五官端正，习惯观察远处。", childhood:"商队孩子", adulthood:"商队护卫", incapable:"研究", traits:["漂亮","谨慎射手"], health:"全身：健康", relations:"没有关系", skills:[10,5,4,2,2,3,6,5,3,2,9,0], focus:[0,6,10] },
+    mei: { name:"梅", job:"厨师", gender:"女性", age:25, appearance:"黑色长发束在脑后，脸颊略圆，动作利落。", childhood:"餐馆学徒", adulthood:"厨师", incapable:"无", traits:["嗜睡","美食家"], health:"全身：健康", relations:"没有关系", skills:[3,2,3,1,12,5,2,6,4,2,5,3], focus:[4,5,7] }
   };
 
   function showToast(message) {
@@ -1085,7 +1091,9 @@
       renderScenario();
     });
   });
-  document.getElementById("scenarioNext").addEventListener("click", () => showScreen("screen-storyteller"));
+  document.getElementById("scenarioNext").addEventListener("click", () => {
+    showScreen("screen-storyteller");
+  });
 
   let selectedStoryteller = "cassandra";
   function renderStoryteller() {
@@ -1128,6 +1136,7 @@
   });
 
   let selectedSite = "";
+  let selectedSiteData = null;
   const siteInfo = document.getElementById("siteInfo");
   const landingMarker = document.getElementById("landingMarker");
   const worldGlobe = document.getElementById("worldGlobe");
@@ -1201,6 +1210,7 @@
   }
 
   function renderSiteInfo(data) {
+    selectedSiteData = data.landingAllowed === false ? null : { ...data };
     siteInfo.innerHTML = `<h3>着陆点信息</h3><p class="site-biome-copy">${data.description}</p><dl><dt>地块</dt><dd>${data.tile}</dd><dt>地域单元</dt><dd>${data.region}</dd><dt>生态区</dt><dd>${data.biome}</dd><dt>移动难度</dt><dd>${data.movement}</dd><dt>地形</dt><dd>${data.terrain}</dd><dt>石材类型</dt><dd>${data.stone}</dd><dt>海拔</dt><dd>${data.elevation}</dd><dt>道路</dt><dd>${data.road}</dd><dt>河流</dt><dd>${data.river}</dd><dt>平均温度</dt><dd>${data.temperature}</dd><dt>温度范围</dt><dd>${data.range}</dd><dt>降雨量</dt><dd>${data.rainfall}</dd><dt>生长周期</dt><dd>${data.growing}</dd><dt>觅食性</dt><dd>${data.forage}</dd><dt>疾病频率</dt><dd>${data.disease}</dd></dl>`;
     document.getElementById("landingNext").disabled = data.landingAllowed === false;
   }
@@ -1258,49 +1268,353 @@
   document.getElementById("landingNext").addEventListener("click", () => showScreen("screen-colonists"));
 
   const skillNames = ["射击","格斗","建造","采矿","烹饪","种植","驯兽","制作","艺术","医疗","社交","智识"];
+  const skillKeys = ["shooting","melee","construction","mining","cooking","plants","animals","crafting","artistic","medical","social","intellectual"];
   const passionData = {
     lin: { 2:2, 7:1, 11:1 }, mira: { 4:1, 9:2, 10:1 }, grey: { 0:2, 1:1, 7:1 }, yan: { 5:2, 6:1, 11:1 },
     sol: { 1:1, 3:2, 7:1 }, nora: { 8:1, 10:1, 11:2 }, axel: { 0:2, 6:1, 10:1 }, mei: { 4:2, 5:1, 10:1 }
   };
+  const traitPool = ["勤劳","懒惰","坚韧","乐观","悲观","神经质","钢铁意志","精神敏感","精神迟钝","嗜血","好斗","快步","慢步","地下居民","夜猫子","漂亮","丑陋","谨慎射手","亢奋射手","善良","心理变态","苦行者","嗜睡","美食家","过目不忘"];
+  const traitConflicts = [
+    ["勤劳","懒惰"], ["乐观","悲观"], ["钢铁意志","神经质"], ["精神敏感","精神迟钝"],
+    ["快步","慢步"], ["漂亮","丑陋"], ["谨慎射手","亢奋射手"], ["善良","心理变态"]
+  ];
+  const namePools = {
+    女性:["林","米拉","燕","诺拉","梅","艾琳","塞拉","伊芙","罗莎","青禾"],
+    男性:["格雷","索尔","阿克塞尔","凯恩","雷欧","伊森","罗伊","莫里斯","陆","陈"],
+    其他:["岚","星","零","灰","澄","安","弥","秋"]
+  };
+  const childhoodPool = ["轨道贫民","农场孩子","街头顽童","温室学生","矿镇少年","书库助手","商队孩子","餐馆学徒","空间站孤儿","工业城学徒"];
+  const adulthoodPool = ["空间站工程师","乡村医生","佣兵","作物学家","深层矿工","流浪学者","商队护卫","厨师","机械维修师","边境拓荒者"];
+  const appearancePool = [
+    "黑色短发，深色眼睛，体型匀称。", "棕色长发，神情温和，身形纤细。", "灰色短发，面部留有浅色旧伤。",
+    "深棕发，绿色眼睛，有明显的户外晒痕。", "浅金短发，肩背宽厚，动作沉稳。", "银灰长发，戴着旧眼镜，身形清瘦。"
+  ];
   let selectedCandidate = "lin";
+  let currentSkills = [];
+  let currentPassions = [];
+
+  function clampSkill(value) {
+    return Math.max(0, Math.min(20, Math.round(Number(value) || 0)));
+  }
+
+  function traitsFromEditor() {
+    return document.getElementById("traitData").value.split(/[\n,，、;；]+/).map((item) => item.trim()).filter(Boolean);
+  }
+
+  function setTraitEditor(traits) {
+    document.getElementById("traitData").value = traits.join("\n");
+  }
+
+  function hasTraitConflict(selected, candidate) {
+    return traitConflicts.some((pair) => pair.includes(candidate) && pair.some((item) => item !== candidate && selected.includes(item)));
+  }
+
+  function randomTraitList() {
+    const desired = Math.random() < 0.38 ? 3 : 2;
+    const shuffled = [...traitPool].sort(() => Math.random() - 0.5);
+    const selected = [];
+    for (const trait of shuffled) {
+      if (!hasTraitConflict(selected, trait)) selected.push(trait);
+      if (selected.length >= desired) break;
+    }
+    return selected;
+  }
+
+  function randomFrom(pool) {
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  function randomizeTextField(inputId, pool) {
+    const input = document.getElementById(inputId);
+    input.value = randomFrom(pool);
+    input.classList.remove("is-custom");
+    input.dataset.mode = "random";
+  }
+
+  function enableCustomField(inputId, label) {
+    const input = document.getElementById(inputId);
+    input.classList.add("is-custom");
+    input.dataset.mode = "custom";
+    input.focus();
+    input.select();
+    showToast(`${label}已切换为自定义填写。`);
+  }
+
+  function updateCandidateSummary() {
+    const gender = document.getElementById("candidateGender").value;
+    const age = Math.max(18, Math.min(90, Number(document.getElementById("candidateAge").value) || 18));
+    document.getElementById("candidateAge").value = String(age);
+    document.getElementById("candidateSummary").textContent = `新来者阵营成员，${gender}，生理年龄 ${age} 岁。所有资料均可继续手动修改。`;
+  }
+
+  function passionLabel(value) {
+    return value === 2 ? "强烈兴趣" : value === 1 ? "兴趣" : "无兴趣";
+  }
+
+  function renderSkills() {
+    document.getElementById("skillsData").innerHTML = currentSkills.map((level,index) => {
+      const passion = currentPassions[index] || 0;
+      const passionClass = passion === 2 ? "major" : passion === 1 ? "minor" : "none";
+      return `<div class="skill-row" data-skill-index="${index}"><span>${skillNames[index]}</span><input class="skill-level" type="number" min="0" max="20" value="${clampSkill(level)}" aria-label="${skillNames[index]}等级"><button class="passion ${passionClass}" type="button" title="${passionLabel(passion)}" aria-label="切换${skillNames[index]}兴趣"></button><i style="width:${Math.min(100, clampSkill(level) / 20 * 100)}%"></i></div>`;
+    }).join("");
+    document.getElementById("teamSkills").innerHTML = currentSkills.map((level,index) => `<span>${skillNames[index]} <b>${clampSkill(level)}</b></span>`).join("");
+  }
+
   function renderCandidate() {
     const data = candidateData[selectedCandidate];
     document.getElementById("candidateFirstName").value = data.name;
     document.getElementById("candidateNickName").value = data.name;
     document.getElementById("candidateLastName").value = "";
-    document.getElementById("candidateSummary").textContent = data.summary;
-    document.getElementById("backstoryData").innerHTML = `<dt>童年</dt><dd>${data.childhood}</dd><dt>成年</dt><dd>${data.adulthood}</dd>`;
-    document.getElementById("incapableData").textContent = data.incapable;
-    document.getElementById("traitData").innerHTML = data.traits;
+    document.getElementById("candidateGender").value = data.gender;
+    document.getElementById("candidateAge").value = String(data.age);
+    document.getElementById("candidateAppearance").value = data.appearance;
+    document.getElementById("candidateChildhood").value = data.childhood;
+    document.getElementById("candidateAdulthood").value = data.adulthood;
+    document.getElementById("incapableData").value = data.incapable;
+    setTraitEditor(data.traits);
     document.getElementById("healthData").textContent = data.health;
     document.getElementById("relationData").textContent = data.relations;
-    document.getElementById("skillsData").innerHTML = data.skills.map((level,index) => {
-      const passion = passionData[selectedCandidate][index] || 0;
-      const passionClass = passion === 2 ? "major" : passion === 1 ? "minor" : "none";
-      const passionLabel = passion === 2 ? "强烈兴趣" : passion === 1 ? "兴趣" : "无兴趣";
-      return `<div class="skill-row"><span>${skillNames[index]}</span><b>${level}</b><em class="passion ${passionClass}" title="${passionLabel}" aria-label="${passionLabel}"></em><i style="width:${Math.min(100, level / 15 * 100)}%"></i></div>`;
-    }).join("");
-    document.getElementById("teamSkills").innerHTML = data.skills.map((level,index) => `<span>${skillNames[index]} <b>${level}</b></span>`).join("");
+    document.getElementById("gearData").innerHTML = "简陋自动手枪<br>基础衣物";
+    currentSkills = data.skills.slice();
+    currentPassions = skillNames.map((_, index) => passionData[selectedCandidate][index] || 0);
+    updateCandidateSummary();
+    renderSkills();
   }
-  document.querySelectorAll("[data-candidate]").forEach((button) => {
-    button.addEventListener("click", () => {
-      selectedCandidate = button.dataset.candidate;
-      document.querySelectorAll("[data-candidate]").forEach((item) => item.classList.toggle("is-selected", item === button));
-      renderCandidate();
+
+  function generateSkills() {
+    const data = candidateData[selectedCandidate];
+    const age = Number(document.getElementById("candidateAge").value) || data.age;
+    const focus = new Set(data.focus || []);
+    const experience = Math.max(0, Math.min(3, Math.floor((age - 18) / 13)));
+    currentSkills = skillNames.map((_, index) => {
+      const base = Math.floor((Math.random() + Math.random() + Math.random()) * 2.15);
+      const focusBonus = focus.has(index) ? 4 + Math.floor(Math.random() * 6) : 0;
+      return clampSkill(base + experience + focusBonus);
     });
-  });
+    currentPassions = Array(skillNames.length).fill(0);
+    const weighted = skillNames.map((_, index) => ({ index, score:Math.random() + (focus.has(index) ? 0.8 : 0) })).sort((a,b) => b.score - a.score);
+    const passionCount = 3 + Math.floor(Math.random() * 3);
+    weighted.slice(0, passionCount).forEach(({ index }, order) => { currentPassions[index] = order < 2 && Math.random() < 0.7 ? 2 : 1; });
+    renderSkills();
+  }
+
+  function randomizePawn() {
+    const selectedGender = document.getElementById("candidateGender").value;
+    const keys = Object.keys(candidateData);
+    selectedCandidate = keys[Math.floor(Math.random() * keys.length)];
+    const age = 18 + Math.floor(Math.random() * 43);
+    const names = namePools[selectedGender] || namePools.其他;
+    const name = randomFrom(names);
+    document.getElementById("candidateAge").value = String(age);
+    document.getElementById("candidateFirstName").value = name;
+    document.getElementById("candidateNickName").value = name;
+    document.getElementById("candidateLastName").value = "";
+    randomizeTextField("candidateChildhood", childhoodPool);
+    randomizeTextField("candidateAdulthood", adulthoodPool);
+    document.getElementById("candidateAppearance").value = randomFrom(appearancePool);
+    document.getElementById("incapableData").value = Math.random() < 0.72 ? "无" : randomFrom(["暴力","照料","采矿","艺术","研究"]);
+    document.getElementById("healthData").textContent = "全身：健康";
+    setTraitEditor(randomTraitList());
+    document.getElementById("traitData").classList.remove("is-custom");
+    document.getElementById("traitData").dataset.mode = "random";
+    updateCandidateSummary();
+    generateSkills();
+  }
   document.getElementById("randomizePawn").addEventListener("click", () => {
-    const candidates = Array.from(document.querySelectorAll("[data-candidate]"));
-    candidates[Math.floor(Math.random() * candidates.length)].click();
+    randomizePawn();
   });
+  document.getElementById("randomizeChildhood").addEventListener("click", () => randomizeTextField("candidateChildhood", childhoodPool));
+  document.getElementById("customizeChildhood").addEventListener("click", () => enableCustomField("candidateChildhood", "童年经历"));
+  document.getElementById("randomizeAdulthood").addEventListener("click", () => randomizeTextField("candidateAdulthood", adulthoodPool));
+  document.getElementById("customizeAdulthood").addEventListener("click", () => enableCustomField("candidateAdulthood", "成年经历"));
+  document.getElementById("randomizeTraits").addEventListener("click", () => {
+    setTraitEditor(randomTraitList());
+    document.getElementById("traitData").classList.remove("is-custom");
+    document.getElementById("traitData").dataset.mode = "random";
+  });
+  document.getElementById("customizeTraits").addEventListener("click", () => enableCustomField("traitData", "特性"));
+  document.getElementById("randomizeSkills").addEventListener("click", generateSkills);
+  document.getElementById("candidateGender").addEventListener("change", updateCandidateSummary);
+  document.getElementById("candidateAge").addEventListener("input", updateCandidateSummary);
+  document.getElementById("candidateFirstName").addEventListener("input", updateCandidateSummary);
+  document.getElementById("skillsData").addEventListener("input", (event) => {
+    const input = event.target.closest(".skill-level");
+    if (!input) return;
+    const row = input.closest(".skill-row");
+    const index = Number(row.dataset.skillIndex);
+    const level = clampSkill(input.value);
+    currentSkills[index] = level;
+    row.querySelector("i").style.width = `${Math.min(100, level / 20 * 100)}%`;
+    const summaryValue = document.querySelector(`#teamSkills span:nth-child(${index + 1}) b`);
+    if (summaryValue) summaryValue.textContent = level;
+  });
+  document.getElementById("skillsData").addEventListener("change", (event) => {
+    const input = event.target.closest(".skill-level");
+    if (!input) return;
+    input.value = clampSkill(input.value);
+  });
+  document.getElementById("skillsData").addEventListener("click", (event) => {
+    const button = event.target.closest(".passion");
+    if (!button) return;
+    const index = Number(button.closest(".skill-row").dataset.skillIndex);
+    currentPassions[index] = ((currentPassions[index] || 0) + 1) % 3;
+    renderSkills();
+  });
+
+  const difficultyNames = { peaceful:"和平休闲", community:"开拓建设", adventure:"孤星探险", strive:"荒野求生", blood:"残暴狂飙", losing:"冷酷无情", custom:"自定义" };
+  const saveModeNames = { reload:"普通模式", commitment:"硬核模式" };
+  const settingNames = ["极低","较低","正常","较高","极高"];
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>'"]/g, (character) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" })[character]);
+  }
+
+  function collectPlayer() {
+    const firstName = document.getElementById("candidateFirstName").value.trim();
+    const nickname = document.getElementById("candidateNickName").value.trim();
+    const lastName = document.getElementById("candidateLastName").value.trim();
+    const displayName = nickname || firstName || "无名殖民者";
+    const fullName = `${lastName}${firstName}`.trim() || displayName;
+    const skills = Object.fromEntries(skillKeys.map((key,index) => [key, clampSkill(currentSkills[index])]));
+    const passions = Object.fromEntries(skillKeys.map((key,index) => [key, passionLabel(currentPassions[index] || 0)]));
+    return {
+      name:displayName,
+      full_name:fullName,
+      gender:document.getElementById("candidateGender").value,
+      age:Number(document.getElementById("candidateAge").value) || 18,
+      appearance:document.getElementById("candidateAppearance").value.trim() || "未填写",
+      childhood:document.getElementById("candidateChildhood").value.trim() || "未填写",
+      adulthood:document.getElementById("candidateAdulthood").value.trim() || "未填写",
+      incapable:document.getElementById("incapableData").value.trim() || "无",
+      traits:traitsFromEditor(),
+      skills,
+      passions,
+      condition:document.getElementById("healthData").textContent.trim() || "正常",
+      equipment:["简陋自动手枪","基础衣物"]
+    };
+  }
+
+  function collectLandingSite() {
+    if (!selectedSiteData) throw new Error("尚未选择有效着陆点");
+    const { landingAllowed, description, ...site } = selectedSiteData;
+    return site;
+  }
+
+  function buildStartupData() {
+    const player = collectPlayer();
+    const site = collectLandingSite();
+    const scenario = scenarioData.peony;
+    const difficultyValue = document.querySelector("input[name='difficulty']:checked")?.value || "adventure";
+    const saveModeValue = document.querySelector("input[name='saveMode']:checked")?.value || "reload";
+    const activeFactions = Array.from(document.querySelectorAll("#factionList article:not(.is-disabled) b")).map((node) => node.textContent.trim());
+    const worldSettings = {
+      seed:document.getElementById("worldSeed").value.trim() || "white peony",
+      coverage:document.getElementById("globeCoverage").value,
+      rainfall:settingNames[Number(document.getElementById("rainfallSetting").value)] || "正常",
+      temperature:settingNames[Number(document.getElementById("temperatureSetting").value)] || "正常",
+      population:settingNames[Number(document.getElementById("populationSetting").value)] || "正常",
+      active_factions:activeFactions
+    };
+    return {
+      contract:"white-peony-start-v1",
+      setup:{
+        scenario:{
+          id:"white-peony-settler",
+          title:scenario.title,
+          premise:scenario.intro,
+          faction:scenario.faction,
+          starting_colonists:1,
+          starting_items:scenario.items.slice(),
+          starting_inventory:{ ...scenario.inventory },
+          starting_facilities:scenario.facilities.slice(),
+          starting_equipment:scenario.equipment.slice(),
+          special_rule:scenario.note,
+          scripted_arrival:{
+            character:"白牡丹",
+            condition:"重伤昏迷",
+            arrival:"逃生舱坠毁在玩家所选着陆区块附近",
+            carried_item:"古锭刀"
+          }
+        },
+        storyteller:storytellerData[selectedStoryteller].name,
+        difficulty:difficultyNames[difficultyValue],
+        save_mode:saveModeNames[saveModeValue],
+        world:worldSettings
+      },
+      landing_site:site,
+      player,
+      initial_state:{
+        schema_version:1,
+        turn:0,
+        world:{ day:1, time_period:"清晨", weather:"晴朗", scene_location:"逃生舱坠毁地点", active_event:"一枚严重受损的逃生舱坠毁在殖民地附近", storyteller:storytellerData[selectedStoryteller].name, difficulty:difficultyNames[difficultyValue] },
+        landing_site:site,
+        player:{ ...player, background:`童年：${player.childhood}；成年：${player.adulthood}` },
+        bai_mudan:{
+          condition:"重伤昏迷", emotion:"昏迷", affection:0, relationship_stage:"戒备", outfit:"常用旗袍", weapon:"古锭刀",
+          skills:{ shooting:7, melee:18, construction:2, mining:4, cooking:1, plants:5, animals:6, crafting:8, artistic:7, medical:2, social:17, intellectual:2 },
+          portrait_key:"default", expression_keys:[]
+        },
+        colony:{ facilities:scenario.facilities.slice(), inventory:{ ...scenario.inventory }, companions:[player.name] },
+        plot:{ route:"NONE", route_locked:false, current_node:"OPEN", node_status:"active", completed_nodes:[], objective:"决定如何处理逃生舱中的幸存者", route_data:{} },
+        scene:{ intimacy:"none", sex_asset_variant:"none", sex_pose_keys:[] },
+        knowledge:{
+          player_knows:["逃生舱坠毁在殖民地附近","舱内有一名重伤昏迷的成年萌螈女性","舱内存在一柄造型特殊的弯刃武器"],
+          bai_mudan_knows:["萌螈王朝舰队遭到机械族入侵","卫队掩护她进入逃生舱","逃生舱原定航向萌螈王朝","霍拉克斯干扰并改写了逃生舱航线"]
+        },
+        continuity:{ last_major_event:"逃生舱坠毁", unresolved_matters:["幸存者尚未苏醒","逃生舱偏航原因不明"], established_facts:[] }
+      }
+    };
+  }
+
+  function buildStartupPrompt(data = buildStartupData()) {
+    return `[白牡丹边缘世界·首轮初始化]\n\n这是由开局前端生成的首轮数据。请将 <startup-data> 中的内容作为本次游戏唯一初始状态，并以其中的 initial_state 生成最新 <game-state>。不要复述数据清单，不要重新随机人物或着陆点。\n\n<startup-data>\n${JSON.stringify(data, null, 2)}\n</startup-data>\n\n从第1天清晨的 OPEN 节点开始：玩家刚在所选区块安顿下来，一枚严重受损的逃生舱坠毁在殖民地附近。玩家目前只能观察到一名重伤昏迷的成年萌螈女性和一柄造型特殊的弯刃武器，不知道她的姓名、身份、原定目的地或霍拉克斯。\n\n请直接续写当前场景，并按角色卡固定契约输出：叙事正文；存在有效对白时输出1—3条对白；最新状态栏；五个行动选项。不得替玩家决定如何处理幸存者。`;
+  }
+
+  function renderTransfer() {
+    const data = buildStartupData();
+    const prompt = buildStartupPrompt(data);
+    document.getElementById("startupPrompt").value = prompt;
+    document.getElementById("startupSummary").innerHTML = `<h3>开局摘要</h3><dl><dt>剧本</dt><dd>${escapeHtml(data.setup.scenario.title)}</dd><dt>殖民者</dt><dd>${escapeHtml(data.player.name)} · ${escapeHtml(data.player.gender)} · ${data.player.age}岁</dd><dt>背景</dt><dd>${escapeHtml(data.player.childhood)} / ${escapeHtml(data.player.adulthood)}</dd><dt>特性</dt><dd>${escapeHtml(data.player.traits.join("、") || "无")}</dd><dt>叙事者</dt><dd>${escapeHtml(data.setup.storyteller)}</dd><dt>难度 / 存档</dt><dd>${escapeHtml(data.setup.difficulty)} / ${escapeHtml(data.setup.save_mode)}</dd><dt>地块</dt><dd>${escapeHtml(data.landing_site.tile)}</dd><dt>生态</dt><dd>${escapeHtml(data.landing_site.biome)}</dd><dt>地形</dt><dd>${escapeHtml(data.landing_site.terrain)}</dd><dt>道路 / 河流</dt><dd>${escapeHtml(data.landing_site.road)} / ${escapeHtml(data.landing_site.river)}</dd></dl>`;
+    return prompt;
+  }
+
+  async function copyStartupPrompt({ automatic = false } = {}) {
+    const text = document.getElementById("startupPrompt").value;
+    try {
+      if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+      else {
+        const area = document.getElementById("startupPrompt");
+        area.focus();
+        area.select();
+        if (!document.execCommand("copy")) throw new Error("copy failed");
+      }
+      showToast(automatic ? "开局信息已生成并复制。" : "首轮提示词已复制。现在可以回到 AI风月开始游戏。");
+      document.getElementById("copyStartupPrompt").textContent = "已复制";
+      return true;
+    } catch (error) {
+      showToast("浏览器未允许自动复制，请在文本框中全选后手动复制。");
+      return false;
+    }
+  }
+
   document.querySelectorAll("[data-setup-back]").forEach((button) => {
     button.addEventListener("click", () => showScreen(button.dataset.setupBack));
   });
-  document.getElementById("startColony").addEventListener("click", () => {
-    withLoading("正在确认开局设置……", () => {
-      showToast("开局设置完成。第一天的剧情将由角色卡正文接管。");
+  document.getElementById("startColony").addEventListener("click", async () => {
+    renderTransfer();
+    await copyStartupPrompt({ automatic:true });
+    withLoading("正在生成并复制开局信息……", () => {
+      renderTransfer();
+      showScreen("screen-transfer");
     });
   });
+  document.getElementById("transferBack").addEventListener("click", () => showScreen("screen-colonists"));
+  document.getElementById("regeneratePrompt").addEventListener("click", () => {
+    renderTransfer();
+    document.getElementById("copyStartupPrompt").textContent = "复制首轮提示词";
+    showToast("已按当前设置重新生成。");
+  });
+  document.getElementById("copyStartupPrompt").addEventListener("click", copyStartupPrompt);
 
   document.addEventListener("keydown", (event) => {
     const mangaActive = document.getElementById("screen-manga").classList.contains("is-active");

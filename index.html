@@ -161,18 +161,13 @@
         <h2>选择剧本</h2>
         <div class="scenario-layout">
           <div class="scenario-list" id="scenarioList" role="listbox" aria-label="剧本列表">
-            <button type="button" data-scenario="crashlanded"><b>坠毁</b><span>三名坠毁幸存者——经典的 RimWorld 体验。</span></button>
-            <button type="button" data-scenario="tribe"><b>失落部落</b><span>五名失去家园的部落民尝试重建。困难。</span></button>
-            <button type="button" data-scenario="explorer"><b>富有的探险家</b><span>一名富有探险家独自体验宇宙。极难。</span></button>
-            <button type="button" data-scenario="naked"><b>赤身裸体</b><span>赤裸、孤身且毫无准备。极端困难且不公平。</span></button>
-            <p>自定义</p>
             <button class="is-selected" type="button" data-scenario="peony"><b>白牡丹：边缘定居者</b><span>一名殖民者刚刚安顿下来，一枚错误航行的逃生舱即将坠落。</span></button>
           </div>
           <article class="scenario-detail" id="scenarioDetail"></article>
         </div>
         <div class="page-actions">
           <button type="button" data-setup-back="screen-manga">返回</button>
-          <button type="button" data-demo="剧本编辑器不属于本卡的主要流程。">剧本编辑器</button>
+          <span aria-hidden="true"></span>
           <button class="next-action" id="scenarioNext" type="button">下一步</button>
         </div>
       </div>
@@ -189,24 +184,24 @@
             <button class="randy" type="button" data-storyteller="randy"><i></i><span>兰迪·随机</span></button>
           </div>
           <div class="storyteller-copy">
-            <p class="storyteller-help">人工智能叙事者会制造海盗袭击、空投舱和动物袭击等事件。他们的选择会影响殖民地的故事，且可以在设置中更改。</p>
+            <p class="storyteller-help">人工智能叙事者会安排袭击、资源压力与休整时间。他们的选择会影响殖民地故事的节奏，且可以在设置中更改。</p>
             <h3 id="storytellerName">卡桑德拉·经典</h3>
             <p id="storytellerDescription">卡桑德拉按照经典的紧张曲线制造事件。她会施加压力，留下喘息时间，然后再次推动故事。</p>
             <fieldset class="radio-stack" id="difficultyChoices">
               <legend>难度</legend>
-              <label><input type="radio" name="difficulty" value="peaceful"><i></i>和平</label>
-              <label><input type="radio" name="difficulty" value="community"><i></i>社区建造者</label>
-              <label><input type="radio" name="difficulty" value="adventure" checked><i></i>冒险故事</label>
-              <label><input type="radio" name="difficulty" value="strive"><i></i>努力求生</label>
-              <label><input type="radio" name="difficulty" value="blood"><i></i>血与尘</label>
-              <label><input type="radio" name="difficulty" value="losing"><i></i>输亦为趣</label>
+              <label><input type="radio" name="difficulty" value="peaceful"><i></i>和平休闲</label>
+              <label><input type="radio" name="difficulty" value="community"><i></i>开拓建设</label>
+              <label><input type="radio" name="difficulty" value="adventure" checked><i></i>孤星探险</label>
+              <label><input type="radio" name="difficulty" value="strive"><i></i>荒野求生</label>
+              <label><input type="radio" name="difficulty" value="blood"><i></i>残暴狂飙</label>
+              <label><input type="radio" name="difficulty" value="losing"><i></i>冷酷无情</label>
               <label><input type="radio" name="difficulty" value="custom"><i></i>自定义……</label>
             </fieldset>
             <button class="anomaly-settings-button" type="button" data-demo="异象设置会保留原版开局参数；本原型不改变剧情路线。">异象设置</button>
             <fieldset class="radio-stack save-mode">
               <legend>存档模式</legend>
-              <label><input type="radio" name="saveMode" value="reload" checked><i></i>随时读取模式</label>
-              <label><input type="radio" name="saveMode" value="commitment"><i></i>永久承诺模式</label>
+              <label><input type="radio" name="saveMode" value="reload" checked><i></i>普通模式</label>
+              <label><input type="radio" name="saveMode" value="commitment"><i></i>硬核模式</label>
             </fieldset>
           </div>
           <div class="storyteller-portrait cassandra-art" id="storytellerPortrait" aria-hidden="true"><i class="portrait-head"></i><i class="portrait-hair"></i><i class="portrait-body"></i><i class="portrait-accent"></i></div>
@@ -228,9 +223,9 @@
             <label class="seed-row"><span>种子</span><input id="worldSeed" type="text" value="white peony"></label>
             <button class="world-setting-button" id="randomSeed" type="button">随机种子</button>
             <label><span>星球覆盖率</span><select id="globeCoverage"><option>30%</option><option selected>50%</option><option>100%</option></select></label>
-            <label><span>总体降雨量</span><input type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
-            <label><span>总体温度</span><input type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
-            <label><span>人口密度</span><input type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
+            <label><span>总体降雨量</span><input id="rainfallSetting" type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
+            <label><span>总体温度</span><input id="temperatureSetting" type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
+            <label><span>人口密度</span><input id="populationSetting" type="range" min="0" max="4" value="2"><small><i>较低</i><i>正常</i><i>较高</i></small></label>
           </form>
           <aside class="faction-editor" aria-label="派系列表">
             <header><div><span>派系</span><small>生成世界后仍可查看</small></div><button id="addFaction" type="button" aria-label="添加派系">＋</button></header>
@@ -302,24 +297,17 @@
       <div class="rim-page-window colonist-window">
         <h2>选择你的殖民者</h2>
         <div class="colonist-creator">
-          <aside class="candidate-list" id="candidateList">
-            <span>已选择</span>
-            <button class="is-selected" data-candidate="lin" type="button"><b>林</b><small>空间站工程师</small></button>
-            <span>未被选择</span>
-            <button data-candidate="mira" type="button"><b>米拉</b><small>乡村医生</small></button>
-            <button data-candidate="grey" type="button"><b>格雷</b><small>佣兵</small></button>
-            <button data-candidate="yan" type="button"><b>燕</b><small>作物学家</small></button>
-            <button data-candidate="sol" type="button"><b>索尔</b><small>矿工</small></button>
-            <button data-candidate="nora" type="button"><b>诺拉</b><small>流浪学者</small></button>
-            <button data-candidate="axel" type="button"><b>阿克塞尔</b><small>商队护卫</small></button>
-            <button data-candidate="mei" type="button"><b>梅</b><small>厨师</small></button>
-          </aside>
           <article class="candidate-detail">
-            <div class="candidate-topline"><div><input id="candidateFirstName" value="林" aria-label="名字"><input id="candidateNickName" value="林" aria-label="昵称"><input id="candidateLastName" value="" aria-label="姓氏"></div><button id="randomizePawn" type="button">随机</button></div>
+            <div class="candidate-topline"><div><input id="candidateFirstName" value="林" aria-label="名字"><input id="candidateNickName" value="林" aria-label="昵称"><input id="candidateLastName" value="" aria-label="姓氏"></div><button id="randomizePawn" type="button">随机角色</button></div>
             <p id="candidateSummary">新来者阵营成员，女性，生理年龄 27 岁。</p>
+            <div class="pawn-editor-strip">
+              <label><span>性别</span><select id="candidateGender"><option>女性</option><option>男性</option><option>其他</option></select></label>
+              <label><span>年龄</span><input id="candidateAge" type="number" min="18" max="90" value="27"></label>
+              <label class="pawn-editor-wide"><span>外貌</span><input id="candidateAppearance" value="由玩家自行填写" placeholder="发色、眼睛、体型、显著特征等"></label>
+            </div>
             <div class="pawn-data-grid">
-              <section><h3>背景</h3><dl id="backstoryData"><dt>童年</dt><dd>轨道贫民</dd><dt>成年</dt><dd>空间站工程师</dd></dl><h3>无法从事</h3><p id="incapableData">无</p><h3>特性</h3><p id="traitData">勤劳<br>坚韧</p></section>
-              <section><h3>技能</h3><div class="skills-list" id="skillsData"></div></section>
+              <section><h3>背景</h3><div class="backstory-editor"><div class="backstory-row"><label><span>童年经历</span><input id="candidateChildhood" value="轨道贫民"></label><div class="field-actions"><button id="randomizeChildhood" type="button">随机</button><button id="customizeChildhood" type="button">自定义</button></div></div><div class="backstory-row"><label><span>成年经历</span><input id="candidateAdulthood" value="空间站工程师"></label><div class="field-actions"><button id="randomizeAdulthood" type="button">随机</button><button id="customizeAdulthood" type="button">自定义</button></div></div></div><h3>无法从事</h3><input class="single-line-editor" id="incapableData" value="无"><div class="editor-title-row"><h3>特性</h3><button id="randomizeTraits" type="button">随机</button><button id="customizeTraits" type="button">自定义</button></div><textarea id="traitData" rows="3" placeholder="每行或使用逗号分隔一个特性">勤劳&#10;坚韧</textarea></section>
+              <section><div class="editor-title-row"><h3>技能</h3><button id="randomizeSkills" type="button">随机技能</button></div><div class="skills-list" id="skillsData"></div></section>
               <section><div class="pawn-preview" id="pawnPreview" aria-hidden="true"><i></i><b></b></div><div class="candidate-view-toggles"><label><input type="checkbox" checked>显示头部装备</label><label><input type="checkbox" checked>显示服装</label></div><h3>健康</h3><p id="healthData">全身：健康</p><h3>关系</h3><p id="relationData">没有关系</p><h3>装备</h3><p id="gearData">简陋自动手枪<br>基础衣物</p></section>
             </div>
             <div class="team-skills"><h3>团队技能</h3><div id="teamSkills"></div></div>
@@ -327,8 +315,28 @@
         </div>
         <div class="page-actions">
           <button type="button" data-setup-back="screen-landing">返回</button>
-          <button type="button" data-demo="角色编辑器不会改变白牡丹的固定设定。">角色编辑器</button>
+          <span>本剧本仅生成一位玩家殖民者</span>
           <button class="next-action" id="startColony" type="button">开始故事</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-transfer" class="screen setup-screen" aria-label="复制开局提示词">
+      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="rim-page-window transfer-window">
+        <h2>开局数据交接</h2>
+        <div class="transfer-layout">
+          <section class="transfer-copy-panel">
+            <p>“开始故事”已把剧本、人物、技能、世界、着陆点与初始剧情状态整理并复制为角色卡能够直接读取的首轮提示词。</p>
+            <textarea id="startupPrompt" readonly aria-label="首轮提示词"></textarea>
+          </section>
+          <aside class="transfer-summary" id="startupSummary" aria-label="开局摘要"></aside>
+        </div>
+        <p class="transfer-help">回到 AI风月，将已复制的整段文本作为你的第一条消息发送。若浏览器阻止自动复制，可使用右侧按钮重试或在文本框中手动复制。</p>
+        <div class="page-actions">
+          <button type="button" id="transferBack">返回修改</button>
+          <button type="button" id="regeneratePrompt">重新生成</button>
+          <button class="next-action" id="copyStartupPrompt" type="button">复制首轮提示词</button>
         </div>
       </div>
     </section>
