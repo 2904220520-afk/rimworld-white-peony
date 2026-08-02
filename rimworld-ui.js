@@ -4,18 +4,38 @@
   const screens = Array.from(document.querySelectorAll(".screen"));
   const toast = document.getElementById("globalToast");
   const loadingCurtain = document.getElementById("loadingCurtain");
+  const assetLoader = document.getElementById("assetLoader");
+  const assetProgress = document.getElementById("assetProgress");
+  const assetLoaderStatus = document.getElementById("assetLoaderStatus");
+  const assetLoaderCounter = document.getElementById("assetLoaderCounter");
+  const assetLoaderList = document.getElementById("assetLoaderList");
   const mangaPages = Array.from(document.querySelectorAll(".manga-page"));
   const mangaProgress = document.getElementById("mangaProgress");
   const mangaPrev = document.getElementById("mangaPrev");
   const mangaNext = document.getElementById("mangaNext");
   let currentMangaPage = 0;
+  let revealedMangaFrames = 0;
+  let mangaTurning = false;
   let toastTimer = 0;
   let touchStartX = 0;
   let planetController = null;
+  const assetManifest = [
+    { id:"stylesheet", label:"界面样式", url:"rimworld-ui.css" },
+    { id:"script", label:"交互脚本", url:"rimworld-ui.js" },
+    { id:"storyteller", label:"白牡丹叙事者插图", url:"" },
+    { id:"comic", label:"漫画分镜插图", url:"" }
+  ];
 
   function updateUiScale() {
-    const scale = window.innerWidth <= 600 ? 1 : Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-    document.documentElement.style.setProperty("--rim-ui-scale", String(Math.max(0.25, scale)));
+    if (window.innerWidth <= 600) {
+      document.documentElement.style.setProperty("--rim-ui-scale", "1");
+      document.documentElement.style.setProperty("--rim-menu-scale", "1");
+      return;
+    }
+    const setupScale = Math.min(1, (window.innerWidth - 24) / 1320, (window.innerHeight - 24) / 860);
+    const menuScale = Math.min(1, window.innerWidth / 1920, window.innerHeight / 1080);
+    document.documentElement.style.setProperty("--rim-ui-scale", String(Math.max(0.45, setupScale)));
+    document.documentElement.style.setProperty("--rim-menu-scale", String(Math.max(0.35, menuScale)));
   }
   updateUiScale();
   window.addEventListener("resize", updateUiScale);
@@ -23,7 +43,7 @@
   const scenarioData = {
     peony: {
       title: "白牡丹：边缘定居者",
-      intro: "你独自来到边缘世界，并刚刚搭起最基本的住处。黎明之前，一枚遭到未知信号干扰的逃生舱将坠落在你的领地。",
+      intro: "你已经在边缘世界生活了一段时间，并在所选区块建成带有基本设施的简易住所。黎明之前，一枚遭到未知信号干扰的逃生舱将坠落在你的领地。",
       faction: "新来者",
       people: "1 人",
       items: ["白银 ×400","包装生存食品 ×20","医药 ×10","简陋自动手枪","钢铁 ×180、木材 ×250","剧情物品：古锭刀（随逃生舱出现）"],
@@ -35,9 +55,7 @@
   };
 
   const storytellerData = {
-    cassandra: { name: "卡桑德拉·经典", description: "卡桑德拉按照经典的紧张曲线制造事件。她会施加压力，留下喘息时间，然后再次推动故事。", art: "cassandra-art" },
-    phoebe: { name: "菲比·悠闲", description: "菲比会在灾难之间留下较长的建设时间，但在较高难度下，她造成的打击仍然十分强烈。", art: "phoebe-art" },
-    randy: { name: "兰迪·随机", description: "兰迪不遵循固定规则。他制造随机事件，也不在乎这些事件最终带来胜利还是绝望。", art: "randy-art" }
+    peony: { name: "白牡丹", description: "以白牡丹为主题的专属叙事节奏：在殖民生活、毒舌喜剧与冒险压力之间交替推进。", art: "peony-art" }
   };
 
   const siteData = {
@@ -1003,6 +1021,56 @@
     toastTimer = window.setTimeout(() => toast.classList.remove("is-show"), 2200);
   }
 
+  function hideAssetLoader() {
+    assetLoader?.classList.add("is-hidden");
+    window.setTimeout(() => assetLoader?.setAttribute("hidden", ""), 360);
+  }
+
+  async function checkAsset(item, row) {
+    if (!item.url) {
+      row.classList.add("is-placeholder");
+      row.querySelector("span:last-child").textContent = "待配置";
+      return "placeholder";
+    }
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+    try {
+      const response = await fetch(item.url, { cache:"force-cache", signal:controller.signal });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await response.arrayBuffer();
+      row.classList.add("is-loaded");
+      row.querySelector("span:last-child").textContent = "已加载";
+      return "loaded";
+    } catch (error) {
+      row.classList.add("is-failed");
+      row.querySelector("span:last-child").textContent = "加载失败";
+      return "failed";
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  }
+
+  async function startAssetLoading() {
+    if (!assetLoader || !assetLoaderList) return;
+    assetLoaderList.innerHTML = assetManifest.map((item) => `<li data-asset-id="${item.id}"><span>${item.label}</span><span>等待中</span></li>`).join("");
+    const loadable = assetManifest.filter((item) => item.url);
+    let completed = 0;
+    assetLoaderCounter.textContent = `0 / ${loadable.length}`;
+    assetProgress.value = 0;
+    for (const item of assetManifest) {
+      const row = assetLoaderList.querySelector(`[data-asset-id="${item.id}"]`);
+      const status = await checkAsset(item, row);
+      if (status !== "placeholder") {
+        completed += 1;
+        assetLoaderCounter.textContent = `${completed} / ${loadable.length}`;
+        assetProgress.value = loadable.length ? completed / loadable.length * 100 : 100;
+      }
+    }
+    const failed = assetLoaderList.querySelectorAll(".is-failed").length;
+    assetLoaderStatus.textContent = failed ? "基础页面可用，部分资源加载失败" : "基础资源检查完成";
+    window.setTimeout(hideAssetLoader, failed ? 1100 : 600);
+  }
+
   function showScreen(id) {
     screens.forEach((screen) => screen.classList.toggle("is-active", screen.id === id));
     if (id === "screen-landing") window.requestAnimationFrame(() => planetController?.activate());
@@ -1021,6 +1089,18 @@
     button.addEventListener("click", () => showToast(button.dataset.demo));
   });
 
+  const infoTitles = { author:"作者的话", background:"背景讲解", gallery:"CG画廊" };
+  document.querySelectorAll("[data-info-target]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.infoTarget;
+      document.getElementById("infoTitle").textContent = infoTitles[target] || "附加内容";
+      document.querySelectorAll("[data-info-panel]").forEach((panel) => panel.toggleAttribute("hidden", panel.dataset.infoPanel !== target));
+      showScreen("screen-info");
+    });
+  });
+  document.getElementById("infoBack")?.addEventListener("click", () => showScreen("screen-menu"));
+  document.getElementById("assetLoaderSkip")?.addEventListener("click", hideAssetLoader);
+
   document.getElementById("startGame").addEventListener("click", () => {
     withLoading("正在创建新的边缘世界……", () => {
       currentMangaPage = 0;
@@ -1035,33 +1115,88 @@
     dot.setAttribute("aria-label", `前往漫画第 ${index + 1} 页`);
     dot.addEventListener("click", (event) => {
       event.stopPropagation();
-      showMangaPage(index);
+      if (index !== currentMangaPage) turnMangaPage(index);
     });
     mangaProgress.appendChild(dot);
   });
 
-  function showMangaPage(index) {
+  function framesOf(index) {
+    return Array.from(mangaPages[index]?.querySelectorAll(".revealable") || []);
+  }
+
+  function prepareMangaPage(index, revealAll = false, revealFirst = true) {
+    const frames = framesOf(index);
+    frames.forEach((frame, frameIndex) => frame.classList.toggle("is-revealed", revealAll || (revealFirst && frameIndex === 0)));
+    revealedMangaFrames = revealAll ? frames.length : revealFirst && frames.length ? 1 : 0;
+  }
+
+  function updateMangaControls() {
+    const frames = framesOf(currentMangaPage);
+    const allRevealed = revealedMangaFrames >= frames.length;
+    mangaPrev.disabled = mangaTurning || currentMangaPage === 0;
+    mangaNext.disabled = mangaTurning;
+    if (!allRevealed) mangaNext.textContent = "下一格 ›";
+    else if (currentMangaPage < mangaPages.length - 1) mangaNext.textContent = "翻页 ›";
+    else mangaNext.textContent = "继续 ›";
+  }
+
+  function showMangaPage(index, revealAll = false) {
     currentMangaPage = Math.max(0, Math.min(mangaPages.length - 1, index));
     mangaPages.forEach((page, pageIndex) => page.classList.toggle("is-current", pageIndex === currentMangaPage));
+    mangaPages.forEach((page) => page.classList.remove("page-exit-forward", "page-enter-forward", "page-exit-back", "page-enter-back"));
+    prepareMangaPage(currentMangaPage, revealAll, !revealAll);
     Array.from(mangaProgress.children).forEach((dot, dotIndex) => dot.classList.toggle("is-current", dotIndex === currentMangaPage));
-    mangaPrev.disabled = currentMangaPage === 0;
-    mangaNext.disabled = currentMangaPage === mangaPages.length - 1;
+    updateMangaControls();
+  }
+
+  function turnMangaPage(targetIndex) {
+    const boundedTarget = Math.max(0, Math.min(mangaPages.length - 1, targetIndex));
+    if (mangaTurning || boundedTarget === currentMangaPage) return;
+    mangaTurning = true;
+    updateMangaControls();
+    const oldPage = mangaPages[currentMangaPage];
+    const newPage = mangaPages[boundedTarget];
+    const forward = boundedTarget > currentMangaPage;
+    oldPage.classList.add(forward ? "page-exit-forward" : "page-exit-back");
+    newPage.classList.add("is-current", forward ? "page-enter-forward" : "page-enter-back");
+    window.setTimeout(() => {
+      oldPage.classList.remove("is-current", "page-exit-forward", "page-exit-back");
+      newPage.classList.remove("page-enter-forward", "page-enter-back");
+      currentMangaPage = boundedTarget;
+      prepareMangaPage(currentMangaPage, !forward, forward);
+      Array.from(mangaProgress.children).forEach((dot, dotIndex) => dot.classList.toggle("is-current", dotIndex === currentMangaPage));
+      mangaTurning = false;
+      updateMangaControls();
+    }, 620);
   }
 
   function nextManga() {
-    if (currentMangaPage < mangaPages.length - 1) showMangaPage(currentMangaPage + 1);
+    if (mangaTurning) return;
+    const frames = framesOf(currentMangaPage);
+    if (revealedMangaFrames < frames.length) {
+      frames[revealedMangaFrames].classList.add("is-revealed");
+      revealedMangaFrames += 1;
+      updateMangaControls();
+      return;
+    }
+    if (currentMangaPage < mangaPages.length - 1) turnMangaPage(currentMangaPage + 1);
+    else continueToScenario();
+  }
+
+  function previousManga() {
+    if (!mangaTurning && currentMangaPage > 0) turnMangaPage(currentMangaPage - 1);
   }
 
   mangaPrev.addEventListener("click", (event) => {
     event.stopPropagation();
-    showMangaPage(currentMangaPage - 1);
+    previousManga();
   });
   mangaNext.addEventListener("click", (event) => {
     event.stopPropagation();
     nextManga();
   });
   document.getElementById("mangaViewport").addEventListener("click", (event) => {
-    if (!event.target.closest("button") && currentMangaPage < mangaPages.length - 1) nextManga();
+    if (!event.target.closest("button")) nextManga();
   });
   document.getElementById("mangaViewport").addEventListener("pointerdown", (event) => {
     touchStartX = event.clientX;
@@ -1070,7 +1205,7 @@
     const distance = event.clientX - touchStartX;
     if (Math.abs(distance) < 55) return;
     if (distance < 0) nextManga();
-    else showMangaPage(currentMangaPage - 1);
+    else previousManga();
   });
 
   function continueToScenario() {
@@ -1095,7 +1230,7 @@
     showScreen("screen-storyteller");
   });
 
-  let selectedStoryteller = "cassandra";
+  let selectedStoryteller = "peony";
   function renderStoryteller() {
     const data = storytellerData[selectedStoryteller];
     document.getElementById("storytellerName").textContent = data.name;
@@ -1278,9 +1413,10 @@
     ["勤劳","懒惰"], ["乐观","悲观"], ["钢铁意志","神经质"], ["精神敏感","精神迟钝"],
     ["快步","慢步"], ["漂亮","丑陋"], ["谨慎射手","亢奋射手"], ["善良","心理变态"]
   ];
-  const namePools = {
-    女性:["林","米拉","燕","诺拉","梅","艾琳","塞拉","伊芙","罗莎","青禾"],
-    男性:["格雷","索尔","阿克塞尔","凯恩","雷欧","伊森","罗伊","莫里斯","陆","陈"],
+  const surnamePool = ["林","陆","陈","沈","白","周","许","顾","叶","苏"];
+  const givenNamePools = {
+    女性:["岚","米拉","燕","诺拉","梅","艾琳","塞拉","伊芙","罗莎","青禾"],
+    男性:["格雷","索尔","阿克塞尔","凯恩","雷欧","伊森","罗伊","莫里斯","衡","川"],
     其他:["岚","星","零","灰","澄","安","弥","秋"]
   };
   const childhoodPool = ["轨道贫民","农场孩子","街头顽童","温室学生","矿镇少年","书库助手","商队孩子","餐馆学徒","空间站孤儿","工业城学徒"];
@@ -1340,11 +1476,9 @@
     showToast(`${label}已切换为自定义填写。`);
   }
 
-  function updateCandidateSummary() {
-    const gender = document.getElementById("candidateGender").value;
+  function normalizeCandidateAge() {
     const age = Math.max(18, Math.min(90, Number(document.getElementById("candidateAge").value) || 18));
     document.getElementById("candidateAge").value = String(age);
-    document.getElementById("candidateSummary").textContent = `新来者阵营成员，${gender}，生理年龄 ${age} 岁。所有资料均可继续手动修改。`;
   }
 
   function passionLabel(value) {
@@ -1362,9 +1496,6 @@
 
   function renderCandidate() {
     const data = candidateData[selectedCandidate];
-    document.getElementById("candidateFirstName").value = data.name;
-    document.getElementById("candidateNickName").value = data.name;
-    document.getElementById("candidateLastName").value = "";
     document.getElementById("candidateGender").value = data.gender;
     document.getElementById("candidateAge").value = String(data.age);
     document.getElementById("candidateAppearance").value = data.appearance;
@@ -1372,12 +1503,10 @@
     document.getElementById("candidateAdulthood").value = data.adulthood;
     document.getElementById("incapableData").value = data.incapable;
     setTraitEditor(data.traits);
-    document.getElementById("healthData").textContent = data.health;
-    document.getElementById("relationData").textContent = data.relations;
-    document.getElementById("gearData").innerHTML = "简陋自动手枪<br>基础衣物";
+    document.getElementById("healthData").value = data.health;
+    document.getElementById("gearData").value = "简陋自动手枪\n基础衣物";
     currentSkills = data.skills.slice();
     currentPassions = skillNames.map((_, index) => passionData[selectedCandidate][index] || 0);
-    updateCandidateSummary();
     renderSkills();
   }
 
@@ -1403,21 +1532,19 @@
     const keys = Object.keys(candidateData);
     selectedCandidate = keys[Math.floor(Math.random() * keys.length)];
     const age = 18 + Math.floor(Math.random() * 43);
-    const names = namePools[selectedGender] || namePools.其他;
-    const name = randomFrom(names);
+    const names = givenNamePools[selectedGender] || givenNamePools.其他;
     document.getElementById("candidateAge").value = String(age);
-    document.getElementById("candidateFirstName").value = name;
-    document.getElementById("candidateNickName").value = name;
-    document.getElementById("candidateLastName").value = "";
+    document.getElementById("candidateSurname").value = randomFrom(surnamePool);
+    document.getElementById("candidateGivenName").value = randomFrom(names);
     randomizeTextField("candidateChildhood", childhoodPool);
     randomizeTextField("candidateAdulthood", adulthoodPool);
     document.getElementById("candidateAppearance").value = randomFrom(appearancePool);
     document.getElementById("incapableData").value = Math.random() < 0.72 ? "无" : randomFrom(["暴力","照料","采矿","艺术","研究"]);
-    document.getElementById("healthData").textContent = "全身：健康";
+    document.getElementById("healthData").value = "全身：健康";
+    document.getElementById("gearData").value = "简陋自动手枪\n基础衣物";
     setTraitEditor(randomTraitList());
     document.getElementById("traitData").classList.remove("is-custom");
     document.getElementById("traitData").dataset.mode = "random";
-    updateCandidateSummary();
     generateSkills();
   }
   document.getElementById("randomizePawn").addEventListener("click", () => {
@@ -1434,9 +1561,7 @@
   });
   document.getElementById("customizeTraits").addEventListener("click", () => enableCustomField("traitData", "特性"));
   document.getElementById("randomizeSkills").addEventListener("click", generateSkills);
-  document.getElementById("candidateGender").addEventListener("change", updateCandidateSummary);
-  document.getElementById("candidateAge").addEventListener("input", updateCandidateSummary);
-  document.getElementById("candidateFirstName").addEventListener("input", updateCandidateSummary);
+  document.getElementById("candidateAge").addEventListener("change", normalizeCandidateAge);
   document.getElementById("skillsData").addEventListener("input", (event) => {
     const input = event.target.closest(".skill-level");
     if (!input) return;
@@ -1470,15 +1595,18 @@
   }
 
   function collectPlayer() {
-    const firstName = document.getElementById("candidateFirstName").value.trim();
-    const nickname = document.getElementById("candidateNickName").value.trim();
-    const lastName = document.getElementById("candidateLastName").value.trim();
-    const displayName = nickname || firstName || "无名殖民者";
-    const fullName = `${lastName}${firstName}`.trim() || displayName;
+    normalizeCandidateAge();
+    const surname = document.getElementById("candidateSurname").value.trim();
+    const givenName = document.getElementById("candidateGivenName").value.trim();
+    const fullName = `${surname}${givenName}`.trim() || "无名殖民者";
     const skills = Object.fromEntries(skillKeys.map((key,index) => [key, clampSkill(currentSkills[index])]));
     const passions = Object.fromEntries(skillKeys.map((key,index) => [key, passionLabel(currentPassions[index] || 0)]));
+    const health = document.getElementById("healthData").value.trim() || "全身：健康";
+    const equipment = document.getElementById("gearData").value.split(/[\n,，、;；]+/).map((item) => item.trim()).filter(Boolean);
     return {
-      name:displayName,
+      name:fullName,
+      surname,
+      given_name:givenName,
       full_name:fullName,
       gender:document.getElementById("candidateGender").value,
       age:Number(document.getElementById("candidateAge").value) || 18,
@@ -1489,8 +1617,9 @@
       traits:traitsFromEditor(),
       skills,
       passions,
-      condition:document.getElementById("healthData").textContent.trim() || "正常",
-      equipment:["简陋自动手枪","基础衣物"]
+      health,
+      condition:health,
+      equipment
     };
   }
 
@@ -1528,6 +1657,8 @@
           starting_inventory:{ ...scenario.inventory },
           starting_facilities:scenario.facilities.slice(),
           starting_equipment:scenario.equipment.slice(),
+          residency:"玩家已经在所选区块生活了一段时间",
+          shelter:"已建成可居住的简易住所",
           special_rule:scenario.note,
           scripted_arrival:{
             character:"白牡丹",
@@ -1546,7 +1677,7 @@
       initial_state:{
         schema_version:1,
         turn:0,
-        world:{ day:1, time_period:"清晨", weather:"晴朗", scene_location:"逃生舱坠毁地点", active_event:"一枚严重受损的逃生舱坠毁在殖民地附近", storyteller:storytellerData[selectedStoryteller].name, difficulty:difficultyNames[difficultyValue] },
+        world:{ day:1, day_basis:"故事开始后的第1天，并非玩家抵达边缘世界的第一天", residency:"玩家已在当地生活一段时间", time_period:"清晨", weather:"晴朗", scene_location:"逃生舱坠毁地点", active_event:"一枚严重受损的逃生舱坠毁在殖民地附近", storyteller:storytellerData[selectedStoryteller].name, difficulty:difficultyNames[difficultyValue] },
         landing_site:site,
         player:{ ...player, background:`童年：${player.childhood}；成年：${player.adulthood}` },
         bai_mudan:{
@@ -1554,7 +1685,7 @@
           skills:{ shooting:7, melee:18, construction:2, mining:4, cooking:1, plants:5, animals:6, crafting:8, artistic:7, medical:2, social:17, intellectual:2 },
           portrait_key:"default", expression_keys:[]
         },
-        colony:{ facilities:scenario.facilities.slice(), inventory:{ ...scenario.inventory }, companions:[player.name] },
+        colony:{ shelter:"简易住所（已建成）", facilities:scenario.facilities.slice(), inventory:{ ...scenario.inventory }, companions:[player.name] },
         plot:{ route:"NONE", route_locked:false, current_node:"OPEN", node_status:"active", completed_nodes:[], objective:"决定如何处理逃生舱中的幸存者", route_data:{} },
         scene:{ intimacy:"none", sex_asset_variant:"none", sex_pose_keys:[] },
         knowledge:{
@@ -1567,62 +1698,82 @@
   }
 
   function buildStartupPrompt(data = buildStartupData()) {
-    return `[白牡丹边缘世界·首轮初始化]\n\n这是由开局前端生成的首轮数据。请将 <startup-data> 中的内容作为本次游戏唯一初始状态，并以其中的 initial_state 生成最新 <game-state>。不要复述数据清单，不要重新随机人物或着陆点。\n\n<startup-data>\n${JSON.stringify(data, null, 2)}\n</startup-data>\n\n从第1天清晨的 OPEN 节点开始：玩家刚在所选区块安顿下来，一枚严重受损的逃生舱坠毁在殖民地附近。玩家目前只能观察到一名重伤昏迷的成年萌螈女性和一柄造型特殊的弯刃武器，不知道她的姓名、身份、原定目的地或霍拉克斯。\n\n请直接续写当前场景，并按角色卡固定契约输出：叙事正文；存在有效对白时输出1—3条对白；最新状态栏；五个行动选项。不得替玩家决定如何处理幸存者。`;
+    return `[白牡丹边缘世界·首轮初始化]\n\n这是由开局前端生成的首轮数据。请将 <startup-data> 中的内容作为本次游戏唯一初始状态，并以其中的 initial_state 生成最新 <game-state>。不要复述数据清单，不要重新随机人物或着陆点。\n\n<startup-data>\n${JSON.stringify(data, null, 2)}\n</startup-data>\n\n从故事第1天清晨的 OPEN 节点开始：玩家已经在所选区块生活了一段时间，并建成带有炉灶、屠宰台、石块切割台和缝制台等基本设施的简易住所。一枚严重受损的逃生舱坠毁在殖民地附近。玩家目前只能观察到一名重伤昏迷的成年萌螈女性和一柄造型特殊的弯刃武器，不知道她的姓名、身份、原定目的地或霍拉克斯。\n\n请直接续写当前场景，并按角色卡固定契约输出：叙事正文；存在有效对白时输出1—3条对白；最新状态栏；五个行动选项。不得替玩家决定如何处理幸存者。`;
   }
 
   function renderTransfer() {
     const data = buildStartupData();
     const prompt = buildStartupPrompt(data);
     document.getElementById("startupPrompt").value = prompt;
-    document.getElementById("startupSummary").innerHTML = `<h3>开局摘要</h3><dl><dt>剧本</dt><dd>${escapeHtml(data.setup.scenario.title)}</dd><dt>殖民者</dt><dd>${escapeHtml(data.player.name)} · ${escapeHtml(data.player.gender)} · ${data.player.age}岁</dd><dt>背景</dt><dd>${escapeHtml(data.player.childhood)} / ${escapeHtml(data.player.adulthood)}</dd><dt>特性</dt><dd>${escapeHtml(data.player.traits.join("、") || "无")}</dd><dt>叙事者</dt><dd>${escapeHtml(data.setup.storyteller)}</dd><dt>难度 / 存档</dt><dd>${escapeHtml(data.setup.difficulty)} / ${escapeHtml(data.setup.save_mode)}</dd><dt>地块</dt><dd>${escapeHtml(data.landing_site.tile)}</dd><dt>生态</dt><dd>${escapeHtml(data.landing_site.biome)}</dd><dt>地形</dt><dd>${escapeHtml(data.landing_site.terrain)}</dd><dt>道路 / 河流</dt><dd>${escapeHtml(data.landing_site.road)} / ${escapeHtml(data.landing_site.river)}</dd></dl>`;
+    document.getElementById("startupSummary").innerHTML = `<h3>开局摘要</h3><dl><dt>剧本</dt><dd>${escapeHtml(data.setup.scenario.title)}</dd><dt>殖民者</dt><dd>${escapeHtml(data.player.full_name)} · ${escapeHtml(data.player.gender)} · ${data.player.age}岁</dd><dt>外貌</dt><dd>${escapeHtml(data.player.appearance)}</dd><dt>背景</dt><dd>${escapeHtml(data.player.childhood)} / ${escapeHtml(data.player.adulthood)}</dd><dt>特性</dt><dd>${escapeHtml(data.player.traits.join("、") || "无")}</dd><dt>健康 / 装备</dt><dd>${escapeHtml(data.player.health)} / ${escapeHtml(data.player.equipment.join("、") || "无")}</dd><dt>叙事者</dt><dd>${escapeHtml(data.setup.storyteller)}</dd><dt>难度 / 存档</dt><dd>${escapeHtml(data.setup.difficulty)} / ${escapeHtml(data.setup.save_mode)}</dd><dt>地块</dt><dd>${escapeHtml(data.landing_site.tile)}</dd><dt>生态 / 地形</dt><dd>${escapeHtml(data.landing_site.biome)} / ${escapeHtml(data.landing_site.terrain)}</dd><dt>道路 / 河流</dt><dd>${escapeHtml(data.landing_site.road)} / ${escapeHtml(data.landing_site.river)}</dd><dt>气温 / 降雨</dt><dd>${escapeHtml(data.landing_site.temperature)}（${escapeHtml(data.landing_site.range)}）/ ${escapeHtml(data.landing_site.rainfall)}</dd><dt>生长期 / 觅食</dt><dd>${escapeHtml(data.landing_site.growing)} / ${escapeHtml(data.landing_site.forage)}</dd></dl>`;
     return prompt;
   }
 
-  async function copyStartupPrompt({ automatic = false } = {}) {
+  function selectStartupPrompt() {
+    const area = document.getElementById("startupPrompt");
+    area.focus();
+    area.select();
+    area.setSelectionRange(0, area.value.length);
+  }
+
+  async function copyStartupPrompt() {
     const text = document.getElementById("startupPrompt").value;
+    let copied = false;
     try {
-      if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
-      else {
-        const area = document.getElementById("startupPrompt");
-        area.focus();
-        area.select();
-        if (!document.execCommand("copy")) throw new Error("copy failed");
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        copied = true;
       }
-      showToast(automatic ? "开局信息已生成并复制。" : "首轮提示词已复制。现在可以回到 AI风月开始游戏。");
+    } catch (error) {
+      copied = false;
+    }
+    if (!copied) {
+      selectStartupPrompt();
+      try {
+        copied = document.execCommand("copy");
+      } catch (error) {
+        copied = false;
+      }
+    }
+    if (copied) {
+      showToast("开局信息已复制，现在可以回到 AI风月开始游戏。");
       document.getElementById("copyStartupPrompt").textContent = "已复制";
       return true;
-    } catch (error) {
-      showToast("浏览器未允许自动复制，请在文本框中全选后手动复制。");
-      return false;
     }
+    showToast("开局信息已全选，请按 Ctrl+C 手动复制。");
+    return false;
   }
 
   document.querySelectorAll("[data-setup-back]").forEach((button) => {
     button.addEventListener("click", () => showScreen(button.dataset.setupBack));
   });
-  document.getElementById("startColony").addEventListener("click", async () => {
-    renderTransfer();
-    await copyStartupPrompt({ automatic:true });
-    withLoading("正在生成并复制开局信息……", () => {
+  document.getElementById("startColony").addEventListener("click", () => {
+    withLoading("正在整理开局信息……", () => {
       renderTransfer();
       showScreen("screen-transfer");
+      window.setTimeout(selectStartupPrompt, 0);
     });
   });
   document.getElementById("transferBack").addEventListener("click", () => showScreen("screen-colonists"));
   document.getElementById("regeneratePrompt").addEventListener("click", () => {
     renderTransfer();
-    document.getElementById("copyStartupPrompt").textContent = "复制首轮提示词";
+    document.getElementById("copyStartupPrompt").textContent = "复制开局信息";
     showToast("已按当前设置重新生成。");
+  });
+  document.getElementById("selectStartupPrompt").addEventListener("click", () => {
+    selectStartupPrompt();
+    showToast("已全选开局信息。");
   });
   document.getElementById("copyStartupPrompt").addEventListener("click", copyStartupPrompt);
 
   document.addEventListener("keydown", (event) => {
     const mangaActive = document.getElementById("screen-manga").classList.contains("is-active");
     if (mangaActive && event.key === "ArrowRight") nextManga();
-    if (mangaActive && event.key === "ArrowLeft") showMangaPage(currentMangaPage - 1);
-    if (mangaActive && event.key === "Enter" && currentMangaPage === mangaPages.length - 1) continueToScenario();
+    if (mangaActive && event.key === "ArrowLeft") previousManga();
+    if (mangaActive && event.key === "Enter") nextManga();
   });
 
+  startAssetLoading();
   showMangaPage(0);
   renderScenario();
   renderStoryteller();
