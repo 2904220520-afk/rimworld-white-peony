@@ -6,7 +6,6 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#111418">
   <title>RimWorld：白牡丹 · 前端原型</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">
   <link rel="stylesheet" href="rimworld-ui.css">
 </head>
 <body>
@@ -24,27 +23,8 @@
 
   <main id="app" class="app-shell">
     <section id="screen-menu" class="screen menu-screen is-active" aria-label="游戏主菜单">
-      <div class="star-field star-field-a" aria-hidden="true"></div>
-      <div class="star-field star-field-b" aria-hidden="true"></div>
-      <div class="orbit-glow" aria-hidden="true"></div>
-      <div class="rim-planet" aria-hidden="true">
-        <span class="planet-cloud cloud-a"></span>
-        <span class="planet-cloud cloud-b"></span>
-        <span class="planet-night"></span>
-      </div>
-      <div class="menu-ship" aria-hidden="true">
-        <i class="ship-wing wing-left"></i>
-        <i class="ship-wing wing-right"></i>
-        <i class="ship-core"></i>
-        <i class="ship-flare"></i>
-      </div>
-
       <div class="menu-interface">
         <p class="build-label">版本 1.6.4550 · 原型构建 02</p>
-        <div class="menu-keyart" aria-hidden="true">
-          <i class="keyart-hair"></i><i class="keyart-horn horn-a"></i><i class="keyart-horn horn-b"></i>
-          <i class="keyart-face"></i><i class="keyart-body"></i><i class="keyart-blade"></i>
-        </div>
         <div class="game-logo" aria-label="RimWorld 白牡丹">
           <span class="logo-kicker">Ludeon-inspired interface study</span>
           <h1><span>RIM</span>WORLD</h1>
@@ -65,26 +45,50 @@
     </section>
 
     <section id="screen-info" class="screen setup-screen info-screen" aria-label="附加内容">
-      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="setup-stars" aria-hidden="true"></div>
       <div class="rim-page-window info-window">
         <h2 id="infoTitle">附加内容</h2>
         <div class="info-content">
           <article data-info-panel="author" hidden>
             <h3>作者的话</h3>
-            <p>本作以白牡丹为唯一女主角，结合边缘殖民生活、恋爱、毒舌喜剧与三条可选冒险主线。</p>
-            <p>开局前端只负责确定玩家、世界与着陆点；实际故事由角色卡继续推进。后续插图、表情与 CG URL 会在资源完成后统一接入。</p>
+            <p>这张卡是从接触酒馆之初就一直想写的。</p>
+            <p>卡原定是要做<strong>大世界类型</strong>，完全还原 RimWorld 世界，但是写一半发现一个问题：</p>
+            <p>如果是要做还原的话，那用户直接去玩边缘世界不就行了吗，为什么要玩这个傻逼角色卡呢？</p>
+            <p>所以之前的大部分设计推翻了，只保留了部分基础设定和世界观设置，转而更注重<strong>恋爱体验</strong>。</p>
+            <p>故事的女主角<strong>“白牡丹”</strong>，是我非常喜爱的 Mod <strong>Moelotl race 萌螈</strong>中的一位叙事者，她也是设定中<strong>萌螈王朝的长公主</strong>。</p>
+            <p>我几乎将一半的游戏时间都投入了这个 Mod 中，非常推荐大家去 Steam 商店购买游戏并游玩这个 Mod。</p>
+            <p>Mod 制作组在爱发电上也设置了赞助页面，财力有余的朋友们也可以进行一定捐赠。</p>
+
+            <hr class="info-divider">
+
+            <p>另外一点是，我想要去讨论<strong>酒馆类产品的未来</strong>。</p>
+            <p>说实话，本人非常喜欢玩酒馆。我写卡的契机，也是因为觉得某平台氪金太贵。但不得不承认，作为 AIRP 产品的酒馆是有<strong>底层缺陷</strong>的。</p>
+            <p>比如，所谓 AI 的<strong>“记忆”</strong>，归根到底是提示词编排，而非一种状态系统。酒馆产品混合了聊天和状态模拟，因为架构上的问题，不得不使用正则、宏、世界书和自然语言 JSON 维持状态，因而缺少<strong>数据库约束、Schema 校验、原子更新和确定性状态机</strong>。</p>
+            <p>但这只是产品自身的技术缺陷，甚至都不是产品自身，而是产品所依赖的 LLM 本身带来的缺陷。</p>
+            <p><strong>AIRP 其本身，在我看来，代表着一种先进的文化交互理念。</strong></p>
+            <p>传统的 RP 体验，即使分支再多，也不过是一个封闭的树状结构。《博德之门3》内容很丰富吧，可是角色依旧是有限内容：写好的台词，预定的剧情，编排的分支，死板的交互。</p>
+            <p>AIRP 不一样：角色在每一个情境下，会现场推导自己的行为、语词等。</p>
+            <p>这是过去的世界中一种只有名人或大型创作团队才能拥有的体验：<strong>一个持续为你个人创作、并允许你直接进入其中的故事世界。</strong></p>
+            <p>所以，尽管目前地球上绝大部分 AIRP 还没办法真正实现我们所预想的那种效果，但是目前酒馆作为 AIRP 或许是第一次的大型试验，让人类第一次拥有了<strong>能够持续回应自己、围绕自己生长、并与自己共同形成历史的虚构世界</strong>。</p>
+            <p><strong>我比任何人都相信 AIRP 的未来。</strong></p>
+            <p>所以，好希望梁圣在下一个版本优化模型的语言功能。求你了，我什么都愿意做。</p>
+            <p class="info-signature">by 宫口三三三叶</p>
           </article>
           <article data-info-panel="background" hidden>
             <h3>背景讲解</h3>
-            <p>玩家已经在边缘世界生活了一段时间，并在选定区块建成带有基本设施的简易住所。</p>
-            <p>与此同时，机械族袭击白牡丹所在的萌螈舰队。她在卫队掩护下进入逃生舱，却被黑暗超凡智能霍拉克斯改写航线，最终坠落在玩家的领地附近。</p>
+            <p>本卡设定是基于 Steam 上的<strong>《RimWorld》（中译：边缘世界）</strong>。</p>
+            <p><strong>User</strong> 是在边缘世界已经生活了一段时间的殖民者，意外收留了萌螈王朝皇女<strong>白牡丹</strong>，并与其开展冒险。</p>
+            <p><strong>边缘世界</strong>是一个经典的科幻概念：在超光速航行无法实现的情况下，信息的传播速度自然是受限的。因此，文明会出现物理上的分层；在远离人类文明中心的最边缘地带，会出现<strong>科技成果和政治、精神文明不匹配</strong>的现象。</p>
+            <p>简而言之，可以类比《战锤40K》中的<strong>泰拉和农业世界</strong>。</p>
+            <p>边缘世界中有<strong>灵能、超凡智能</strong>等带有些许“怪力乱神”性质的元素，但整体是<strong>低武科幻世界观</strong>。</p>
+            <p><strong>萌螈</strong>是一类类人种族，身体娇弱但是恢复力超强；种族男女比约为<strong>1：9</strong>，他们的文明尚处于<strong>封建时代</strong>。</p>
           </article>
           <article data-info-panel="gallery" hidden>
             <h3>CG画廊</h3>
             <div class="cg-gallery">
-              <div class="cg-placeholder"><span>CG 01</span><small>832 × 1216 插图占位</small></div>
-              <div class="cg-placeholder"><span>CG 02</span><small>832 × 1216 插图占位</small></div>
-              <div class="cg-placeholder"><span>CG 03</span><small>832 × 1216 插图占位</small></div>
+              <figure class="cg-card"><div class="cg-frame"><img class="cg-image" data-gallery-image="1" data-label="CG画廊 01" src="https://miha.wiki/pitlfW.png" alt="白牡丹 CG 01" decoding="async"><span class="cg-image-fallback">CG 01 加载失败</span></div><figcaption>CG 01</figcaption></figure>
+              <figure class="cg-card"><div class="cg-frame"><img class="cg-image" data-gallery-image="2" data-label="CG画廊 02" src="https://miha.wiki/Pg7W2A.png" alt="白牡丹 CG 02" decoding="async"><span class="cg-image-fallback">CG 02 加载失败</span></div><figcaption>CG 02</figcaption></figure>
+              <figure class="cg-card"><div class="cg-frame"><img class="cg-image" data-gallery-image="3" data-label="CG画廊 03" src="https://miha.wiki/tg8X7I.png" alt="白牡丹 CG 03" decoding="async"><span class="cg-image-fallback">CG 03 加载失败</span></div><figcaption>CG 03</figcaption></figure>
             </div>
           </article>
         </div>
@@ -99,41 +103,65 @@
           <strong>错误航线</strong>
         </div>
         <div class="manga-progress" id="mangaProgress" aria-label="漫画进度"></div>
-        <button class="text-button" id="skipManga" type="button">跳过序章</button>
+        <div class="manga-header-actions">
+          <button class="text-button" id="mangaBackTitle" type="button">返回标题</button>
+          <button class="text-button" id="skipManga" type="button">跳过序章</button>
+        </div>
       </header>
 
       <div class="manga-viewport" id="mangaViewport">
-        <article class="manga-page is-current" data-page="0" data-title="舰队遇袭">
-          <div class="comic-sheet two-frames">
-            <section class="story-frame revealable">
-              <div class="comic-panel fleet-panel" aria-hidden="true"><div class="fleet-moon"></div><div class="capital-ship ship-one"><i></i><b></b></div><div class="capital-ship ship-two"><i></i><b></b></div><div class="mech-swarm"><i></i><i></i><i></i><i></i><i></i></div><div class="laser laser-a"></div><div class="laser laser-b"></div><div class="impact-flash"></div></div>
-              <div class="caption-card"><span>01 / 舰队遇袭</span><h2>机械族撕开了萌螈舰队的防线。</h2><p>白牡丹知道，这不是一次普通的伏击。</p></div>
+        <article class="manga-page is-current" data-page="0" data-title="静谧航行">
+          <div class="comic-sheet layout-opening">
+            <section class="story-frame revealable panel-cut-opening-wide">
+              <div class="comic-panel fleet-panel quiet-fleet-panel"><img class="manga-panel-image" data-manga-frame="1" data-label="漫画分镜 01 · 静谧太空" src="https://miha.wiki/2Aygv9.png" alt="静谧太空中的萌螈王朝宇宙战舰" decoding="async"><span class="manga-image-fallback">分镜图片 01 加载失败</span></div>
+              <div class="manga-caption manga-caption--narration caption-safe-01"><p>在边缘世界，萌螈远征舰队，<strong>一座任何探测器也发现不了的母舰内</strong></p></div>
             </section>
-            <section class="story-frame revealable">
-              <div class="comic-panel corridor-panel" aria-hidden="true"><div class="corridor-lines"></div><div class="guard guard-a"><i></i><b></b></div><div class="guard guard-b"><i></i><b></b></div><div class="peony-runner"><i class="runner-hair"></i><i class="runner-horn left"></i><i class="runner-horn right"></i><b></b></div><div class="escape-door"><span>ESCAPE POD 07</span></div><div class="corridor-shot shot-a"></div><div class="corridor-shot shot-b"></div></div>
-              <div class="caption-card"><span>02 / 紧急撤离</span><h2>卫队留下阻击，她被迫进入逃生舱。</h2><p>目标航线已经锁定：萌螈王朝。</p></div>
+            <section class="story-frame revealable panel-cut-opening-portrait">
+              <div class="comic-panel peony-pride-panel"><img class="manga-panel-image" data-manga-frame="2" data-label="漫画分镜 02 · 皇女殿下" src="https://miha.wiki/02GDKU.png" alt="白牡丹骄傲神情的特写" decoding="async"><span class="manga-image-fallback">分镜图片 02 加载失败</span></div>
+              <div class="manga-narration narration-safe-02">快乐的螈们正在进行<strong>战前大动员</strong></div>
+              <div class="manga-caption manga-caption--speech caption-safe-02"><strong class="speaker">白牡丹</strong><p>“机械族？定让她有来无回！”</p></div>
             </section>
           </div>
         </article>
 
-        <article class="manga-page" data-page="1" data-title="黑暗干扰">
-          <div class="comic-sheet one-frame">
+        <article class="manga-page" data-page="1" data-title="机械入侵">
+          <div class="comic-sheet layout-assault">
+            <section class="story-frame revealable panel-cut-assault-left">
+              <div class="comic-panel boarding-panel"><img class="manga-panel-image" data-manga-frame="3" data-label="漫画分镜 03 · 强行登舰" src="https://miha.wiki/Ue5A78.png" alt="机械族登上战舰并触发警报" decoding="async"><span class="manga-image-fallback">分镜图片 03 加载失败</span></div>
+              <div class="manga-narration narration-safe-03">噔噔蹬蹬蹬……<strong>飞船被机械族入侵了！</strong></div>
+              <div class="manga-caption manga-caption--system caption-safe-03"><strong class="speaker">机械飞螳</strong><p><strong>“滴滴……检测到生命体征……”</strong></p></div>
+            </section>
+            <section class="story-frame revealable panel-cut-assault-right">
+              <div class="comic-panel corridor-panel"><img class="manga-panel-image" data-manga-frame="4" data-label="漫画分镜 04 · 卫队掩护" src="https://miha.wiki/3GQjiR.png" alt="白牡丹在卫队掩护下进入逃生舱" decoding="async"><span class="manga-image-fallback">分镜图片 04 加载失败</span></div>
+              <div class="manga-narration narration-safe-04">螈们血拼到底，只为<strong>保障皇女大人周全</strong></div>
+              <div class="manga-caption manga-caption--speech caption-safe-04"><strong class="speaker">众螈 三(OUO)三</strong><p>“皇女殿下，不要停下来口牙！”</p></div>
+            </section>
+          </div>
+        </article>
+
+        <article class="manga-page" data-page="2" data-title="黑暗干扰">
+          <div class="comic-sheet layout-interference">
             <section class="story-frame revealable featured-frame">
-              <div class="comic-panel horax-panel" aria-hidden="true"><div class="horax-rings ring-a"></div><div class="horax-rings ring-b"></div><div class="horax-rings ring-c"></div><div class="horax-eye"><i></i></div><div class="signal-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="pod-vector"><b></b><i></i></div><span class="route-old">萌螈王朝</span><span class="route-new">未知边缘世界</span></div>
-              <div class="caption-card dark-caption"><span>03 / 黑暗干扰</span><h2>霍拉克斯侵入导航，重写了逃生舱航线。</h2><p>一个黑暗超凡智能，正注视着她的坠落。</p></div>
+              <div class="comic-panel horax-panel"><img class="manga-panel-image" data-manga-frame="5" data-label="漫画分镜 05 · 舱外阴影" src="https://miha.wiki/UldGR8.png" alt="黑暗超凡智能霍拉克斯干扰逃生舱航线" decoding="async"><span class="manga-image-fallback">分镜图片 05 加载失败</span></div>
+              <div class="manga-narration narration-safe-05">原来，一切都是<strong>黑暗超凡智能霍拉克斯的阴谋</strong></div>
+              <div class="manga-caption manga-caption--villain caption-safe-05a"><strong class="speaker">黑暗超凡智能</strong><p>“可恶！还是让她逃了，强化过头了吗……”</p></div>
+              <div class="manga-caption manga-caption--speech caption-safe-05b"><strong class="speaker">白牡丹</strong><p>“只要能到达那个地方……？！导航怎么坏了！”</p></div>
             </section>
           </div>
         </article>
 
-        <article class="manga-page" data-page="2" data-title="坠落与相遇">
-          <div class="comic-sheet two-frames">
-            <section class="story-frame revealable">
-              <div class="comic-panel crash-panel" aria-hidden="true"><div class="dawn-sky"></div><div class="distant-hill hill-a"></div><div class="distant-hill hill-b"></div><div class="crash-pod"><i></i><b></b></div><div class="fire-tail"></div><div class="colony-hut"><i></i></div><div class="crash-ground"></div></div>
-              <div class="caption-card"><span>04 / 殖民地边界</span><h2>黎明前，逃生舱坠毁在玩家领地附近。</h2><p>这里没有王朝舰队，只有一位已经在当地生活了一段时间的殖民者。</p></div>
+        <article class="manga-page" data-page="3" data-title="坠落与相遇">
+          <div class="comic-sheet layout-colony">
+            <section class="story-frame revealable panel-cut-colony-wide">
+              <div class="comic-panel farm-panel"><img class="manga-panel-image" data-manga-frame="6" data-label="漫画分镜 06 · 菜地上空" src="https://miha.wiki/6JdEmG.png" alt="主角在菜地劳作时看见逃生舱坠落" decoding="async"><span class="manga-image-fallback">分镜图片 06 加载失败</span></div>
+              <div class="manga-narration narration-safe-06"><strong>逃生舱坠毁</strong>在了边缘世界</div>
+              <div class="manga-caption manga-caption--speech caption-safe-06"><strong class="speaker">一般通过边缘世界居民</strong><p>“啦啦啦啦，好想玩缘神”</p></div>
+              <div class="manga-sfx caption-safe-06-sfx" aria-label="背景声：哐当当">哐当当~</div>
             </section>
-            <section class="story-frame revealable">
-              <div class="comic-panel rescue-panel" aria-hidden="true"><div class="rescue-light"></div><div class="open-pod"><i></i><b></b></div><div class="peony-silhouette"><i class="hair"></i><i class="horn horn-l"></i><i class="horn horn-r"></i><b class="dress"></b><em class="blade"></em></div><div class="colonist-silhouette"><i></i><b></b></div><div class="rescue-grass"></div></div>
-              <div class="caption-card final-caption"><span>05 / 相遇</span><h2>你在残骸中发现了重伤昏迷的白牡丹。</h2><p>她的手边，仍紧握着那柄名为“古锭刀”的武器。</p><button class="enter-colony" id="enterColony" type="button">继续创建殖民地</button></div>
+            <section class="story-frame revealable panel-cut-colony-portrait">
+              <div class="comic-panel rescue-panel"><img class="manga-panel-image" data-manga-frame="7" data-label="漫画分镜 07 · 相遇" src="https://miha.wiki/Op9dtJ.png" alt="主角在逃生舱残骸中发现重伤昏迷的白牡丹" decoding="async"><span class="manga-image-fallback">分镜图片 07 加载失败</span></div>
+              <div class="manga-narration narration-safe-07">而我们的故事也要<strong>从这里开始</strong></div>
+              <div class="manga-caption manga-caption--speech caption-safe-07"><strong class="speaker">一般通过边缘世界居民</strong><p>“我超，螈神？！”</p><button class="enter-colony" id="enterColony" type="button">继续创建殖民地</button></div>
             </section>
           </div>
         </article>
@@ -145,9 +173,10 @@
     </section>
 
     <section id="screen-scenario" class="screen setup-screen" aria-label="选择剧本">
-      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="setup-stars" aria-hidden="true"></div>
       <div class="rim-page-window scenario-window">
         <h2>选择剧本</h2>
+        <button class="setup-title-return" type="button" data-return-title>返回标题</button>
         <div class="scenario-layout">
           <div class="scenario-list" id="scenarioList" role="listbox" aria-label="剧本列表">
             <button class="is-selected" type="button" data-scenario="peony"><b>白牡丹：边缘定居者</b><span>一名已在当地建立简易住所的殖民者，即将遇到一枚错误航行的逃生舱。</span></button>
@@ -163,12 +192,13 @@
     </section>
 
     <section id="screen-storyteller" class="screen setup-screen" aria-label="选择人工智能叙事者">
-      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="setup-stars" aria-hidden="true"></div>
       <div class="rim-page-window storyteller-window">
         <h2>选择人工智能叙事者</h2>
+        <button class="setup-title-return" type="button" data-return-title>返回标题</button>
         <div class="storyteller-layout">
           <div class="storyteller-thumbs" id="storytellerThumbs">
-            <button class="is-selected peony" type="button" data-storyteller="peony"><i class="storyteller-thumb-placeholder">插图</i><span>白牡丹</span></button>
+            <button class="is-selected peony" type="button" data-storyteller="peony"><img class="storyteller-thumbnail-image" src="https://miha.wiki/ekD5Mq.png" alt="白牡丹叙事者缩略图" decoding="async"><span>白牡丹</span></button>
           </div>
           <div class="storyteller-copy">
             <p class="storyteller-help">叙事者负责安排袭击、资源压力、休整与主线事件，并根据当前殖民地状态调整故事节奏。</p>
@@ -191,7 +221,7 @@
               <label><input type="radio" name="saveMode" value="commitment"><i></i>硬核模式</label>
             </fieldset>
           </div>
-          <div class="storyteller-portrait peony-art" id="storytellerPortrait"><div class="storyteller-image-placeholder"><span>白牡丹叙事者插图占位</span><small>建议使用透明背景竖版立绘</small></div></div>
+          <div class="storyteller-portrait peony-art" id="storytellerPortrait"><img class="storyteller-image" src="https://miha.wiki/ekD5Mq.png" alt="白牡丹叙事者立绘" decoding="async"><span class="storyteller-image-fallback">白牡丹叙事者插图加载失败</span></div>
         </div>
         <div class="page-actions">
           <button type="button" data-setup-back="screen-scenario">返回</button>
@@ -202,9 +232,10 @@
     </section>
 
     <section id="screen-world" class="screen setup-screen" aria-label="创建世界">
-      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="setup-stars" aria-hidden="true"></div>
       <div class="rim-page-window world-window">
         <h2>创建世界</h2>
+        <button class="setup-title-return" type="button" data-return-title>返回标题</button>
         <div class="world-creation-layout">
           <form class="world-settings" id="worldSettings">
             <label class="seed-row"><span>种子</span><input id="worldSeed" type="text" value="white peony"></label>
@@ -238,6 +269,7 @@
     <section id="screen-landing" class="screen landing-screen" aria-label="选择着陆点">
       <div class="landing-stars" aria-hidden="true"></div>
       <h2>选择着陆点</h2>
+      <button class="setup-title-return landing-title-return" type="button" data-return-title>返回标题</button>
       <div class="world-globe" id="worldGlobe" aria-label="可选择着陆点的星球">
         <canvas class="world-globe-canvas" id="worldGlobeCanvas" tabindex="0" aria-label="拖拽旋转星球，滚轮或双指缩放，点击五边形或六边形地域单元选择着陆点"></canvas>
         <div class="globe-atmosphere" aria-hidden="true"></div>
@@ -280,9 +312,10 @@
     </section>
 
     <section id="screen-colonists" class="screen setup-screen" aria-label="选择起始殖民者">
-      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="setup-stars" aria-hidden="true"></div>
       <div class="rim-page-window colonist-window">
         <h2>选择你的殖民者</h2>
+        <button class="setup-title-return" type="button" data-return-title>返回标题</button>
         <div class="colonist-creator">
           <article class="candidate-detail">
             <div class="candidate-topline"><div class="name-fields"><label><span>姓</span><input id="candidateSurname" value="林" aria-label="姓"></label><label><span>名</span><input id="candidateGivenName" value="岚" aria-label="名"></label></div><button id="randomizePawn" type="button">随机角色</button></div>
@@ -292,8 +325,8 @@
               <label class="pawn-editor-wide"><span>外貌</span><input id="candidateAppearance" value="由玩家自行填写" placeholder="发色、眼睛、体型、显著特征等"></label>
             </div>
             <div class="pawn-data-grid">
-              <section><h3>背景</h3><div class="backstory-editor"><div class="backstory-row"><label><span>童年经历</span><input id="candidateChildhood" value="轨道贫民"></label><div class="field-actions"><button id="randomizeChildhood" type="button">随机</button><button id="customizeChildhood" type="button">自定义</button></div></div><div class="backstory-row"><label><span>成年经历</span><input id="candidateAdulthood" value="空间站工程师"></label><div class="field-actions"><button id="randomizeAdulthood" type="button">随机</button><button id="customizeAdulthood" type="button">自定义</button></div></div></div><h3>无法从事</h3><input class="single-line-editor" id="incapableData" value="无"><div class="editor-title-row"><h3>特性</h3><button id="randomizeTraits" type="button">随机</button><button id="customizeTraits" type="button">自定义</button></div><textarea id="traitData" rows="3" placeholder="每行或使用逗号分隔一个特性">勤劳&#10;坚韧</textarea></section>
-              <section><div class="editor-title-row"><h3>技能</h3><button id="randomizeSkills" type="button">随机技能</button></div><div class="skills-list" id="skillsData"></div></section>
+              <section class="profile-editor-column"><h3>背景</h3><div class="backstory-editor"><div class="backstory-row"><label><span>童年经历</span><input id="candidateChildhood" value="轨道贫民"></label><div class="field-actions"><button id="randomizeChildhood" type="button">随机</button><button id="customizeChildhood" type="button">自定义</button></div></div><div class="backstory-row"><label><span>成年经历</span><input id="candidateAdulthood" value="空间站工程师"></label><div class="field-actions"><button id="randomizeAdulthood" type="button">随机</button><button id="customizeAdulthood" type="button">自定义</button></div></div></div><div class="editor-title-row"><h3>特性</h3><button id="randomizeTraits" type="button">随机</button><button id="customizeTraits" type="button">自定义</button></div><textarea id="traitData" rows="8" placeholder="每行或使用逗号分隔一个特性">勤劳&#10;坚韧</textarea></section>
+              <section class="skill-editor-column"><div class="editor-title-row"><h3>技能</h3><button id="randomizeSkills" type="button">随机技能</button></div><div class="skills-list" id="skillsData"></div></section>
               <section class="condition-editor"><h3>健康</h3><textarea id="healthData" rows="4" placeholder="填写身体状况、伤病或义体；健康时填写“全身：健康”">全身：健康</textarea><h3>装备</h3><textarea id="gearData" rows="5" placeholder="每行填写一件当前装备">简陋自动手枪&#10;基础衣物</textarea></section>
             </div>
             <div class="team-skills"><h3>团队技能</h3><div id="teamSkills"></div></div>
@@ -308,12 +341,13 @@
     </section>
 
     <section id="screen-transfer" class="screen setup-screen" aria-label="复制开局提示词">
-      <div class="setup-stars" aria-hidden="true"></div><div class="setup-planet" aria-hidden="true"></div>
+      <div class="setup-stars" aria-hidden="true"></div>
       <div class="rim-page-window transfer-window">
         <h2>复制开局信息</h2>
+        <button class="setup-title-return" type="button" data-return-title>返回标题</button>
         <div class="transfer-layout">
           <section class="transfer-copy-panel">
-            <p>下方窗口包含完整着陆点地理信息，以及殖民者生成界面的姓名、性别、年龄、外貌、经历、特性、限制、技能、兴趣、健康和装备。</p>
+            <p>下方窗口会把完整着陆点地理信息和殖民者资料整理为自然语言开局说明，不包含 JSON 或 XML。</p>
             <textarea id="startupPrompt" readonly aria-label="首轮提示词"></textarea>
           </section>
           <aside class="transfer-summary" id="startupSummary" aria-label="开局摘要"></aside>

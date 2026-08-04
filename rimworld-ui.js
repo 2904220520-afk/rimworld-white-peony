@@ -11,8 +11,11 @@
   const assetLoaderList = document.getElementById("assetLoaderList");
   const mangaPages = Array.from(document.querySelectorAll(".manga-page"));
   const mangaProgress = document.getElementById("mangaProgress");
+  const mangaChapterTitle = document.querySelector(".manga-header strong");
   const mangaPrev = document.getElementById("mangaPrev");
   const mangaNext = document.getElementById("mangaNext");
+  const mangaImageElements = Array.from(document.querySelectorAll(".manga-panel-image[data-manga-frame]"));
+  const galleryImageElements = Array.from(document.querySelectorAll(".cg-image[data-gallery-image]"));
   let currentMangaPage = 0;
   let revealedMangaFrames = 0;
   let mangaTurning = false;
@@ -22,9 +25,50 @@
   const assetManifest = [
     { id:"stylesheet", label:"界面样式", url:"rimworld-ui.css" },
     { id:"script", label:"交互脚本", url:"rimworld-ui.js" },
-    { id:"storyteller", label:"白牡丹叙事者插图", url:"" },
-    { id:"comic", label:"漫画分镜插图", url:"" }
+    { id:"menu-background", label:"首页背景", url:"https://miha.wiki/wFUQLF.png", type:"image" },
+    { id:"page-background", label:"其他页面背景", url:"https://miha.wiki/8SgqY4.png", type:"image" },
+    { id:"storyteller", label:"白牡丹叙事者插图", url:"https://miha.wiki/ekD5Mq.png", type:"image" },
+    ...galleryImageElements.map((image) => ({
+      id:`gallery-${image.dataset.galleryImage}`,
+      label:image.dataset.label || `CG画廊 ${image.dataset.galleryImage}`,
+      url:image.getAttribute("src") || "",
+      type:"image"
+    })),
+    ...mangaImageElements.map((image) => ({
+      id:`comic-${image.dataset.mangaFrame}`,
+      label:image.dataset.label || `漫画分镜 ${image.dataset.mangaFrame}`,
+      url:image.getAttribute("src") || "",
+      type:"image"
+    }))
   ];
+
+  mangaImageElements.forEach((image) => {
+    const panel = image.closest(".comic-panel");
+    const markLoaded = () => panel?.classList.add("is-image-loaded");
+    const markFailed = () => panel?.classList.add("is-image-failed");
+    image.addEventListener("load", markLoaded, { once:true });
+    image.addEventListener("error", markFailed, { once:true });
+    if (image.complete) (image.naturalWidth ? markLoaded : markFailed)();
+  });
+
+  galleryImageElements.forEach((image) => {
+    const card = image.closest(".cg-card");
+    const markLoaded = () => card?.classList.add("is-image-loaded");
+    const markFailed = () => card?.classList.add("is-image-failed");
+    image.addEventListener("load", markLoaded, { once:true });
+    image.addEventListener("error", markFailed, { once:true });
+    if (image.complete) (image.naturalWidth ? markLoaded : markFailed)();
+  });
+
+  const storytellerImage = document.querySelector(".storyteller-image");
+  const storytellerPortrait = document.getElementById("storytellerPortrait");
+  if (storytellerImage && storytellerPortrait) {
+    const markStorytellerLoaded = () => storytellerPortrait.classList.add("is-image-loaded");
+    const markStorytellerFailed = () => storytellerPortrait.classList.add("is-image-failed");
+    storytellerImage.addEventListener("load", markStorytellerLoaded, { once:true });
+    storytellerImage.addEventListener("error", markStorytellerFailed, { once:true });
+    if (storytellerImage.complete) (storytellerImage.naturalWidth ? markStorytellerLoaded : markStorytellerFailed)();
+  }
 
   function updateUiScale() {
     if (window.innerWidth <= 600) {
@@ -1004,14 +1048,14 @@
   }
 
   const candidateData = {
-    lin: { name:"林", job:"空间站工程师", gender:"女性", age:27, appearance:"黑色短发，灰色眼睛，体型匀称。", childhood:"轨道贫民", adulthood:"空间站工程师", incapable:"无", traits:["勤劳","坚韧"], health:"全身：健康", relations:"没有关系", skills:[6,3,9,5,4,5,2,6,7,1,4,3], focus:[2,7,11] },
-    mira: { name:"米拉", job:"乡村医生", gender:"女性", age:34, appearance:"棕色长发，神情温和，身形纤细。", childhood:"农场孩子", adulthood:"乡村医生", incapable:"暴力", traits:["乐观","善良"], health:"左眼：视力减弱", relations:"没有关系", skills:[1,1,4,2,6,5,4,2,3,10,7,5], focus:[4,9,10] },
-    grey: { name:"格雷", job:"佣兵", gender:"男性", age:41, appearance:"灰色短发，面部有旧伤，体格结实。", childhood:"街头顽童", adulthood:"佣兵", incapable:"照料", traits:["冷静","好斗"], health:"躯干：旧枪伤", relations:"没有关系", skills:[11,9,3,2,2,1,1,5,6,2,4,1], focus:[0,1,7] },
-    yan: { name:"燕", job:"作物学家", gender:"女性", age:30, appearance:"深棕发，绿色眼睛，常带着田间劳作留下的晒痕。", childhood:"温室学生", adulthood:"作物学家", incapable:"采矿", traits:["神经质","快步"], health:"全身：健康", relations:"没有关系", skills:[4,2,5,1,4,12,6,4,2,3,3,7], focus:[5,6,11] },
-    sol: { name:"索尔", job:"矿工", gender:"男性", age:38, appearance:"深色卷发，肩背宽厚，双手布满老茧。", childhood:"矿镇少年", adulthood:"深层矿工", incapable:"艺术", traits:["地下居民","坚韧"], health:"右腿：旧伤", relations:"没有关系", skills:[4,6,5,12,3,2,1,7,4,2,2,1], focus:[1,3,7] },
-    nora: { name:"诺拉", job:"流浪学者", gender:"女性", age:45, appearance:"银灰长发，戴着旧眼镜，身形清瘦。", childhood:"书库助手", adulthood:"流浪学者", incapable:"搬运", traits:["过目不忘","悲观"], health:"全身：健康", relations:"没有关系", skills:[2,1,2,1,4,3,2,4,6,5,8,13], focus:[8,10,11] },
-    axel: { name:"阿克塞尔", job:"商队护卫", gender:"男性", age:29, appearance:"金色短发，五官端正，习惯观察远处。", childhood:"商队孩子", adulthood:"商队护卫", incapable:"研究", traits:["漂亮","谨慎射手"], health:"全身：健康", relations:"没有关系", skills:[10,5,4,2,2,3,6,5,3,2,9,0], focus:[0,6,10] },
-    mei: { name:"梅", job:"厨师", gender:"女性", age:25, appearance:"黑色长发束在脑后，脸颊略圆，动作利落。", childhood:"餐馆学徒", adulthood:"厨师", incapable:"无", traits:["嗜睡","美食家"], health:"全身：健康", relations:"没有关系", skills:[3,2,3,1,12,5,2,6,4,2,5,3], focus:[4,5,7] }
+    lin: { name:"林", job:"空间站工程师", gender:"女性", age:27, appearance:"黑色短发，灰色眼睛，体型匀称。", childhood:"轨道贫民", adulthood:"空间站工程师", traits:["勤劳","坚韧"], health:"全身：健康", skills:[6,3,9,5,4,5,2,6,7,1,4,3], focus:[2,7,11] },
+    mira: { name:"米拉", job:"乡村医生", gender:"女性", age:34, appearance:"棕色长发，神情温和，身形纤细。", childhood:"农场孩子", adulthood:"乡村医生", traits:["乐观","善良"], health:"左眼：视力减弱", skills:[1,1,4,2,6,5,4,2,3,10,7,5], focus:[4,9,10] },
+    grey: { name:"格雷", job:"佣兵", gender:"男性", age:41, appearance:"灰色短发，面部有旧伤，体格结实。", childhood:"街头顽童", adulthood:"佣兵", traits:["冷静","好斗"], health:"躯干：旧枪伤", skills:[11,9,3,2,2,1,1,5,6,2,4,1], focus:[0,1,7] },
+    yan: { name:"燕", job:"作物学家", gender:"女性", age:30, appearance:"深棕发，绿色眼睛，常带着田间劳作留下的晒痕。", childhood:"温室学生", adulthood:"作物学家", traits:["神经质","快步"], health:"全身：健康", skills:[4,2,5,1,4,12,6,4,2,3,3,7], focus:[5,6,11] },
+    sol: { name:"索尔", job:"矿工", gender:"男性", age:38, appearance:"深色卷发，肩背宽厚，双手布满老茧。", childhood:"矿镇少年", adulthood:"深层矿工", traits:["地下居民","坚韧"], health:"右腿：旧伤", skills:[4,6,5,12,3,2,1,7,4,2,2,1], focus:[1,3,7] },
+    nora: { name:"诺拉", job:"流浪学者", gender:"女性", age:45, appearance:"银灰长发，戴着旧眼镜，身形清瘦。", childhood:"书库助手", adulthood:"流浪学者", traits:["过目不忘","悲观"], health:"全身：健康", skills:[2,1,2,1,4,3,2,4,6,5,8,13], focus:[8,10,11] },
+    axel: { name:"阿克塞尔", job:"商队护卫", gender:"男性", age:29, appearance:"金色短发，五官端正，习惯观察远处。", childhood:"商队孩子", adulthood:"商队护卫", traits:["漂亮","谨慎射手"], health:"全身：健康", skills:[10,5,4,2,2,3,6,5,3,2,9,0], focus:[0,6,10] },
+    mei: { name:"梅", job:"厨师", gender:"女性", age:25, appearance:"黑色长发束在脑后，脸颊略圆，动作利落。", childhood:"餐馆学徒", adulthood:"厨师", traits:["嗜睡","美食家"], health:"全身：健康", skills:[3,2,3,1,12,5,2,6,4,2,5,3], focus:[4,5,7] }
   };
 
   function showToast(message) {
@@ -1035,9 +1079,20 @@
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 8000);
     try {
-      const response = await fetch(item.url, { cache:"force-cache", signal:controller.signal });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      await response.arrayBuffer();
+      if (item.type === "image") {
+        await new Promise((resolve, reject) => {
+          const image = new Image();
+          const fail = () => reject(new Error("IMAGE_LOAD_FAILED"));
+          controller.signal.addEventListener("abort", fail, { once:true });
+          image.addEventListener("load", resolve, { once:true });
+          image.addEventListener("error", fail, { once:true });
+          image.src = item.url;
+        });
+      } else {
+        const response = await fetch(item.url, { cache:"force-cache", signal:controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        await response.arrayBuffer();
+      }
       row.classList.add("is-loaded");
       row.querySelector("span:last-child").textContent = "已加载";
       return "loaded";
@@ -1057,15 +1112,22 @@
     let completed = 0;
     assetLoaderCounter.textContent = `0 / ${loadable.length}`;
     assetProgress.value = 0;
-    for (const item of assetManifest) {
-      const row = assetLoaderList.querySelector(`[data-asset-id="${item.id}"]`);
-      const status = await checkAsset(item, row);
-      if (status !== "placeholder") {
-        completed += 1;
-        assetLoaderCounter.textContent = `${completed} / ${loadable.length}`;
-        assetProgress.value = loadable.length ? completed / loadable.length * 100 : 100;
+    let nextAssetIndex = 0;
+    const loadNextAsset = async () => {
+      while (nextAssetIndex < assetManifest.length) {
+        const item = assetManifest[nextAssetIndex];
+        nextAssetIndex += 1;
+        const row = assetLoaderList.querySelector(`[data-asset-id="${item.id}"]`);
+        const status = await checkAsset(item, row);
+        if (status !== "placeholder") {
+          completed += 1;
+          assetLoaderCounter.textContent = `${completed} / ${loadable.length}`;
+          assetProgress.value = loadable.length ? completed / loadable.length * 100 : 100;
+        }
       }
-    }
+    };
+    const workerCount = Math.min(4, Math.max(1, assetManifest.length));
+    await Promise.all(Array.from({ length:workerCount }, () => loadNextAsset()));
     const failed = assetLoaderList.querySelectorAll(".is-failed").length;
     assetLoaderStatus.textContent = failed ? "基础页面可用，部分资源加载失败" : "基础资源检查完成";
     window.setTimeout(hideAssetLoader, failed ? 1100 : 600);
@@ -1085,8 +1147,17 @@
     }, 720);
   }
 
+  const unfinishedFeatureMessage = "傻逼宫口三三三叶是个懒狗，并没有写这方面功能";
   document.querySelectorAll("[data-demo]").forEach((button) => {
-    button.addEventListener("click", () => showToast(button.dataset.demo));
+    button.addEventListener("click", () => showToast(unfinishedFeatureMessage));
+  });
+  document.querySelectorAll("[data-return-title]").forEach((button) => {
+    button.addEventListener("click", () => showScreen("screen-menu"));
+  });
+  document.querySelector('input[name="difficulty"][value="custom"]')?.addEventListener("change", (event) => {
+    if (!event.target.checked) return;
+    showToast(unfinishedFeatureMessage);
+    document.querySelector('input[name="difficulty"][value="adventure"]').checked = true;
   });
 
   const infoTitles = { author:"作者的话", background:"背景讲解", gallery:"CG画廊" };
@@ -1112,7 +1183,7 @@
   mangaPages.forEach((_, index) => {
     const dot = document.createElement("button");
     dot.type = "button";
-    dot.setAttribute("aria-label", `前往漫画第 ${index + 1} 页`);
+    dot.setAttribute("aria-label", `前往漫画第 ${index + 1} 页：${mangaPages[index].dataset.title || "未命名分镜"}`);
     dot.addEventListener("click", (event) => {
       event.stopPropagation();
       if (index !== currentMangaPage) turnMangaPage(index);
@@ -1133,6 +1204,7 @@
   function updateMangaControls() {
     const frames = framesOf(currentMangaPage);
     const allRevealed = revealedMangaFrames >= frames.length;
+    if (mangaChapterTitle) mangaChapterTitle.textContent = mangaPages[currentMangaPage]?.dataset.title || "错误航线";
     mangaPrev.disabled = mangaTurning || currentMangaPage === 0;
     mangaNext.disabled = mangaTurning;
     if (!allRevealed) mangaNext.textContent = "下一格 ›";
@@ -1213,6 +1285,7 @@
   }
   document.getElementById("enterColony").addEventListener("click", continueToScenario);
   document.getElementById("skipManga").addEventListener("click", continueToScenario);
+  document.getElementById("mangaBackTitle").addEventListener("click", () => showScreen("screen-menu"));
 
   let selectedScenario = "peony";
   function renderScenario() {
@@ -1265,7 +1338,7 @@
   document.getElementById("resetFactions").addEventListener("click", () => {
     document.querySelectorAll("#factionList article").forEach((article) => article.classList.remove("is-disabled"));
   });
-  document.getElementById("addFaction").addEventListener("click", () => showToast("可添加的原版派系已全部列出。"));
+  document.getElementById("addFaction").addEventListener("click", () => showToast(unfinishedFeatureMessage));
   document.getElementById("generateWorld").addEventListener("click", () => {
     withLoading("正在生成世界……", () => showScreen("screen-landing"));
   });
@@ -1501,7 +1574,6 @@
     document.getElementById("candidateAppearance").value = data.appearance;
     document.getElementById("candidateChildhood").value = data.childhood;
     document.getElementById("candidateAdulthood").value = data.adulthood;
-    document.getElementById("incapableData").value = data.incapable;
     setTraitEditor(data.traits);
     document.getElementById("healthData").value = data.health;
     document.getElementById("gearData").value = "简陋自动手枪\n基础衣物";
@@ -1539,7 +1611,6 @@
     randomizeTextField("candidateChildhood", childhoodPool);
     randomizeTextField("candidateAdulthood", adulthoodPool);
     document.getElementById("candidateAppearance").value = randomFrom(appearancePool);
-    document.getElementById("incapableData").value = Math.random() < 0.72 ? "无" : randomFrom(["暴力","照料","采矿","艺术","研究"]);
     document.getElementById("healthData").value = "全身：健康";
     document.getElementById("gearData").value = "简陋自动手枪\n基础衣物";
     setTraitEditor(randomTraitList());
@@ -1613,7 +1684,6 @@
       appearance:document.getElementById("candidateAppearance").value.trim() || "未填写",
       childhood:document.getElementById("candidateChildhood").value.trim() || "未填写",
       adulthood:document.getElementById("candidateAdulthood").value.trim() || "未填写",
-      incapable:document.getElementById("incapableData").value.trim() || "无",
       traits:traitsFromEditor(),
       skills,
       passions,
@@ -1645,7 +1715,6 @@
       active_factions:activeFactions
     };
     return {
-      contract:"white-peony-start-v1",
       setup:{
         scenario:{
           id:"white-peony-settler",
@@ -1673,32 +1742,28 @@
         world:worldSettings
       },
       landing_site:site,
-      player,
-      initial_state:{
-        schema_version:1,
-        turn:0,
-        world:{ day:1, day_basis:"故事开始后的第1天，并非玩家抵达边缘世界的第一天", residency:"玩家已在当地生活一段时间", time_period:"清晨", weather:"晴朗", scene_location:"逃生舱坠毁地点", active_event:"一枚严重受损的逃生舱坠毁在殖民地附近", storyteller:storytellerData[selectedStoryteller].name, difficulty:difficultyNames[difficultyValue] },
-        landing_site:site,
-        player:{ ...player, background:`童年：${player.childhood}；成年：${player.adulthood}` },
-        bai_mudan:{
-          condition:"重伤昏迷", emotion:"昏迷", affection:0, relationship_stage:"戒备", outfit:"常用旗袍", weapon:"古锭刀",
-          skills:{ shooting:7, melee:18, construction:2, mining:4, cooking:1, plants:5, animals:6, crafting:8, artistic:7, medical:2, social:17, intellectual:2 },
-          portrait_key:"default", expression_keys:[]
-        },
-        colony:{ shelter:"简易住所（已建成）", facilities:scenario.facilities.slice(), inventory:{ ...scenario.inventory }, companions:[player.name] },
-        plot:{ route:"NONE", route_locked:false, current_node:"OPEN", node_status:"active", completed_nodes:[], objective:"决定如何处理逃生舱中的幸存者", route_data:{} },
-        scene:{ intimacy:"none", sex_asset_variant:"none", sex_pose_keys:[] },
-        knowledge:{
-          player_knows:["逃生舱坠毁在殖民地附近","舱内有一名重伤昏迷的成年萌螈女性","舱内存在一柄造型特殊的弯刃武器"],
-          bai_mudan_knows:["萌螈王朝舰队遭到机械族入侵","卫队掩护她进入逃生舱","逃生舱原定航向萌螈王朝","霍拉克斯干扰并改写了逃生舱航线"]
-        },
-        continuity:{ last_major_event:"逃生舱坠毁", unresolved_matters:["幸存者尚未苏醒","逃生舱偏航原因不明"], established_facts:[] }
-      }
+      player
     };
   }
 
+  function naturalList(items, emptyValue = "无") {
+    const values = Array.from(items || []).map((item) => String(item).trim()).filter(Boolean);
+    if (!values.length) return emptyValue;
+    if (values.length === 1) return values[0];
+    return `${values.slice(0, -1).join("、")}和${values.at(-1)}`;
+  }
+
   function buildStartupPrompt(data = buildStartupData()) {
-    return `[白牡丹边缘世界·首轮初始化]\n\n这是由开局前端生成的首轮数据。请将 <startup-data> 中的内容作为本次游戏唯一初始状态，并以其中的 initial_state 生成最新 <game-state>。不要复述数据清单，不要重新随机人物或着陆点。\n\n<startup-data>\n${JSON.stringify(data, null, 2)}\n</startup-data>\n\n从故事第1天清晨的 OPEN 节点开始：玩家已经在所选区块生活了一段时间，并建成带有炉灶、屠宰台、石块切割台和缝制台等基本设施的简易住所。一枚严重受损的逃生舱坠毁在殖民地附近。玩家目前只能观察到一名重伤昏迷的成年萌螈女性和一柄造型特殊的弯刃武器，不知道她的姓名、身份、原定目的地或霍拉克斯。\n\n请直接续写当前场景，并按角色卡固定契约输出：叙事正文；存在有效对白时输出1—3条对白；最新状态栏；五个行动选项。不得替玩家决定如何处理幸存者。`;
+    const { setup, landing_site:site, player } = data;
+    const scenario = setup.scenario;
+    player.appearance = `${player.appearance.replace(/[。；;，,\s]+$/, "") || "未填写"}。`;
+    const skillSummary = skillKeys.map((key, index) => `${skillNames[index]}${player.skills[key]}级（${player.passions[key]}）`).join("，");
+    const supplies = Object.entries(scenario.starting_inventory).map(([name, amount]) => `${name}${amount}`).join("、");
+    const region = site.region ? `，它是${site.region}` : "";
+    const movement = site.movement ? `，当地移动耗时约${site.movement}` : "";
+    const disease = site.disease && site.disease !== "—" ? `，疾病频率为${site.disease}` : "";
+
+    return `【白牡丹：边缘世界｜开局说明】\n\n请把下面这段自然语言说明视为本局唯一的开局事实，并据此建立第一份运行状态。不要复述资料，不要重新随机殖民者、世界或着陆点。\n\n本局采用“${scenario.title}”剧本，由${setup.storyteller}担任叙事者，难度为${setup.difficulty}，存档方式为${setup.save_mode}。玩家属于${scenario.faction}，并且是本剧本唯一的起始殖民者。\n\n玩家名叫${player.full_name}，${player.gender}，${player.age}岁。${player.appearance}童年经历是${player.childhood}，成年经历是${player.adulthood}；特性为${naturalList(player.traits)}。\n\n玩家的技能情况是：${skillSummary}。当前健康状况为${player.health}，随身装备为${naturalList(player.equipment)}。\n\n这个世界使用种子“${setup.world.seed}”生成，星球覆盖率为${setup.world.coverage}，总体降雨量${setup.world.rainfall}，总体温度${setup.world.temperature}，人口密度${setup.world.population}。当前活跃派系包括${naturalList(setup.world.active_factions)}。\n\n玩家选择的着陆点是${site.tile}${region}。这里属于${site.biome}生态群落，地形为${site.terrain}，海拔情况是${site.elevation}，可见石材为${site.stone}${movement}。当地道路为${site.road}，河流为${site.river}；${site.temperature}，温度范围${site.range}，年降雨量${site.rainfall}，生长期为${site.growing}，觅食效率为${site.forage}${disease}。\n\n玩家已经在这个区块生活了一段时间，并建成可以居住的简易住所。住所内已有${naturalList(scenario.starting_facilities)}这些基本设施，现有重要物资为${supplies}。玩家不是今天才抵达边缘世界；故事中的“第1天”只表示白牡丹事件开始后的第一天。\n\n黎明前，机械族侵入白牡丹所在的萌螈舰队。白牡丹在卫队掩护下进入原定返回萌螈王朝的逃生舱，却被黑暗超凡智能霍拉克斯干扰航线，最终重伤昏迷并坠落在玩家殖民地附近。古锭刀随她一同落地，她不占用起始殖民者名额。\n\n故事从第1天清晨的序章 OPEN 节点开始。玩家眼下只知道附近坠毁了一枚严重受损的逃生舱，舱内有一名重伤昏迷的成年萌螈女性和一柄造型特殊的弯刃武器；玩家还不知道她的姓名、身份、原定目的地或霍拉克斯。\n\n请直接续写玩家发现她的现场，生成第一份最新状态，并按角色卡约定给出叙事正文、条件允许时的对白、状态栏和五个行动选项。不得替玩家决定如何处理这名幸存者。`;
   }
 
   function renderTransfer() {
