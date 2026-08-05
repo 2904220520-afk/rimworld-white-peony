@@ -1801,7 +1801,7 @@
       }
     }
     if (copied) {
-      showToast("开局信息已复制，现在可以回到 AI风月开始游戏。");
+      showToast("开局信息已复制，现在可以回到当前角色卡对话开始游戏。");
       document.getElementById("copyStartupPrompt").textContent = "已复制";
       return true;
     }
